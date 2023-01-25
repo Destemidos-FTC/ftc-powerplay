@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.controllers.PIDController;
 import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 
 
@@ -31,7 +31,7 @@ public class TestPIDF extends LinearOpMode {
         // (ramalho) é bem provável que isso não funcione, mas ok
         double posição_roda = robot.motorDireitaFrente.getCurrentPosition();
 
-        double nova_posição = controller.update(10, posição_roda);
+        double nova_posição = controller.calculate(10, posição_roda);
 
         robot.motorDireitaFrente.setPower(nova_posição);
     }

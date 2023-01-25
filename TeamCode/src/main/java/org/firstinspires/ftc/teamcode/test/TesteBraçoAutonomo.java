@@ -6,8 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 @Config
@@ -22,42 +21,49 @@ public class TesteBraçoAutonomo extends OpMode {
 
     public static int target = 0;
 
-    private final double ticks_in_degree = 700.0 / 180.0;
-
-    private DcMotorEx motorBraçoA;
-    private DcMotorEx motorBraçoB;
+    private final double ticks_to_degree = 1120.0 / 360.0;
+    private final int    degree_to_ticks = 360 / 1120;
 
     @Override
     public void init() {
-    
+        robo = new DestemidosHardware(hardwareMap);
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        motorBraçoA = hardwareMap.get(DcMotorEx.class, "motorBraçoA");
-        motorBraçoB = hardwareMap.get(DcMotorEx.class, "motorBraçoB");
-        motorBraçoA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBraçoB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        
-        motorBraçoA.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorBraçoB.setDirection(DcMotorSimple.Direction.REVERSE);
-    
     }
        
     @Override
     public void loop(){
-        
-        controller.setPID (p, i, d);
-        int braçoPosi = motorBraçoA.getCurrentPosition();
-        double pid = controller.calculate(braçoPosi, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
-        double power = pid + ff;
+        // recebemos a posição do motor em ticks
+        int motorBraçoACurrentPosition = robo.motorBraçoA.getCurrentPosition();
+        int motorBraçoBCurrentPosition = robo.motorBraçoB.getCurrentPosition();
 
-        motorBraçoA.setPower(power);
-        motorBraçoB.setPower(power);
+        // convertemos ticks em graus
+        double braçoA_in_degree = motorBraçoACurrentPosition;
 
-        telemetry.addData("Pos", braçoPosi);
+        // nosso setpoint e valor medido será em graus
+        double pid = controller.calculate(braçoA_in_degree, target);
+        double ff = Math.cos(Math.toRadians(target * ticks_to_degree)) * f;
+
+        double power = pid; //+ ff;
+
+        int targetA = target * degree_to_ticks;
+        int targetB = target * degree_to_ticks;
+
+        robo.motorBraçoA.setTargetPosition(targetA);
+        robo.motorBraçoB.setTargetPosition(targetB);
+
+        robo.motorBraçoA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.motorBraçoB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robo.motorBraçoA.setPower(power / 2);
+        robo.motorBraçoB.setPower(power / 2);
+
+        telemetry.addData("BraçoA - Pos", motorBraçoACurrentPosition);
+        telemetry.addData("BraçoB - Pos", motorBraçoBCurrentPosition);
         telemetry.addData("Target", target);
+        telemetry.addData("valor do ff: ", ff);
         telemetry.update();
     }
 }

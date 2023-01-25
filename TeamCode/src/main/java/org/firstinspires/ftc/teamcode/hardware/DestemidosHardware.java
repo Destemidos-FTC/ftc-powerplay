@@ -33,7 +33,7 @@ import java.util.List;
  */
 
 // NOTE(ramalho): deixei esse nome, pq já tinha uma classe "robot hardware" nos exemplos
-public class DestemidosHardware {
+public final class DestemidosHardware {
 
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
