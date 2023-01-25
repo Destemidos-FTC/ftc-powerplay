@@ -6,7 +6,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
-import org.firstinspires.ftc.teamcode.hardware.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
 /*
@@ -42,9 +41,9 @@ public final class MovementSystem {
     // extremamente didático do Gavin Ford: https://youtu.be/gnSW2QpkGXQ
     public static void controleOmnidirecionalClassico(Gamepad driver, DestemidosHardware robot)
     {
-        double joystick_y  = -driver.left_stick_y  * RobotConfiguration.usoDasRodas;
-        double joystick_x  = -driver.left_stick_x  * RobotConfiguration.usoDasRodas; //* RobotConstants.kCorretorJoystickX;
-        double giro        = -driver.right_stick_x * RobotConfiguration.usoDasRodas;
+        double joystick_y  = -driver.left_stick_y  * RobotConstants.MAX_SPEED;
+        double joystick_x  = -driver.left_stick_x  * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
+        double giro        = -driver.right_stick_x * RobotConstants.MAX_SPEED;
 
         // o denominador sempre será a maior força (valor absoluto) entre os 4 motores, ou equivalente a 1.
         // isso permite que todos mantenham a mesma taxa, mesmo que um motor ultrapasse os limites [-1, 1]
@@ -64,8 +63,8 @@ public final class MovementSystem {
     // Controle possivelmente mais preciso, baseado no método 2 do youtuber Gavin Ford
     public static void controleMecanumAvançado(double theta, double direction, double turn, DestemidosHardware robot) {
 
-        double seno         = Math.sin(theta - RobotConstants.kMecanumWheelsAngle);
-        double cosseno      = Math.cos(theta - RobotConstants.kMecanumWheelsAngle);
+        double seno         = Math.sin(theta - RobotConstants.MECANUM_WHEELS_ANGLE);
+        double cosseno      = Math.cos(theta - RobotConstants.MECANUM_WHEELS_ANGLE);
 
         // neste caso, o denominador vai "normalizar" os valores de cada eixo
         double denominador  = Math.max( Math.abs(seno), Math.abs(cosseno) );
@@ -106,15 +105,15 @@ public final class MovementSystem {
     // um controle que sempre direciona o robô para onde apontamos no joystick, independente
     // da orentação do robô na arena
     public static void controleFieldOriented(Gamepad driver, DestemidosHardware robot) {
-        double joystick_y  = -driver.left_stick_y  * RobotConfiguration.usoDasRodas;
-        double joystick_x  = -driver.left_stick_x  * RobotConfiguration.usoDasRodas; //* RobotConstants.kCorretorJoystickX;
-        double giro        = -driver.right_stick_x * RobotConfiguration.usoDasRodas;
+        double joystick_y  = -driver.left_stick_y  * RobotConstants.MAX_SPEED;
+        double joystick_x  = -driver.left_stick_x  * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
+        double giro        = -driver.right_stick_x * RobotConstants.MAX_SPEED;
 
         double botHeading = robot.sensorIMU.getRobotOrientation(
                 AxesReference.INTRINSIC,
                 AxesOrder.XYZ,
                 AngleUnit.RADIANS
-        ).firstAngle;
+        ).thirdAngle;
 
         double rotationX = joystick_x * Math.cos(botHeading) - joystick_y * Math.sin(botHeading);
         double rotationY = joystick_x * Math.sin(botHeading) + joystick_y * Math.cos(botHeading);
