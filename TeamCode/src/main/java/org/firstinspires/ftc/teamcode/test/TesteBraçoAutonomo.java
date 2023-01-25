@@ -11,9 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 @Config
-@TeleOp(name = "Test Autonomo", group = "Test")
+@TeleOp(name = "Teste Braço Autonomo", group = "Test")
 
-public class TesteAutonomo extends OpMode {
+public class TesteBraçoAutonomo extends OpMode {
     private DestemidosHardware robo;
     private PIDController controller;
 
@@ -35,6 +35,8 @@ public class TesteAutonomo extends OpMode {
 
         motorBraçoA = hardwareMap.get(DcMotorEx.class, "motorBraçoA");
         motorBraçoB = hardwareMap.get(DcMotorEx.class, "motorBraçoB");
+        motorBraçoA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBraçoB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         
         motorBraçoA.setDirection(DcMotorSimple.Direction.FORWARD);
         motorBraçoB.setDirection(DcMotorSimple.Direction.REVERSE);
