@@ -55,7 +55,7 @@ public class TesteBraçoAutonomo extends OpMode {
 
         motorBraçoA.setPower(power);
         motorBraçoB.setPower(power);
-/
+
         telemetry.addData("Pos", braçoPosi);
         telemetry.addData("Target", target);
         telemetry.update();
