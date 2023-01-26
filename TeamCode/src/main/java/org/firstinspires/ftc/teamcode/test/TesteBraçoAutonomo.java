@@ -19,10 +19,16 @@ public class TesteBraçoAutonomo extends OpMode {
     public static double p = 0, i = 0, d = 0;
     public static double f = 0;
 
-    public static int target = 0;
+    // a posição alvo será medida em graus
+    public static double target = 0;
+    
+    private double ConvertTicksToDegrees(int ticks) {
+        return  (ticks (double) / 360.0);
+    }
 
-    private final double ticks_to_degree = 1120.0 / 360.0;
-    private final int    degree_to_ticks = 360 / 1120;
+    private int ConvertDegreesToTicks(double degrees) {
+        return (int) (1120 / (int) 360.0 * degrees) ;
+    }
 
     @Override
     public void init() {
@@ -40,25 +46,28 @@ public class TesteBraçoAutonomo extends OpMode {
         int motorBraçoBCurrentPosition = robo.motorBraçoB.getCurrentPosition();
 
         // convertemos ticks em graus
-        double braçoA_in_degree = motorBraçoACurrentPosition;
+        double braçoA_in_degree = ConvertTicksToDegrees(motorBraçoACurrentPosition);
 
-        // nosso setpoint e valor medido será em graus
-        double pid = controller.calculate(braçoA_in_degree, target);
-        double ff = Math.cos(Math.toRadians(target * ticks_to_degree)) * f;
+        // convertemos graus em ticks
+        int target_in_ticks = ConvertDegreesToTicks(target);
+
+        // nosso setpoint e o valor medido serão em ticks
+        double pid = controller.calculate(motorBraçoACurrentPosition, target_in_ticks);
+        double ff = Math.cos(Math.toRadians(target)) * f;
 
         double power = pid; //+ ff;
 
-        int targetA = target * degree_to_ticks;
-        int targetB = target * degree_to_ticks;
+        // definimos a posição alvo convertida
+        robo.motorBraçoA.setTargetPosition(target_in_ticks);
+        robo.motorBraçoB.setTargetPosition(target_in_ticks);
 
-        robo.motorBraçoA.setTargetPosition(targetA);
-        robo.motorBraçoB.setTargetPosition(targetB);
-
-        robo.motorBraçoA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robo.motorBraçoB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        // aplicamos a força calculada no PID, e dividimos para ambos motores
         robo.motorBraçoA.setPower(power / 2);
         robo.motorBraçoB.setPower(power / 2);
+
+        // enviamos o comando pra os motores moverem posição
+        robo.motorBraçoA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.motorBraçoB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("BraçoA - Pos", motorBraçoACurrentPosition);
         telemetry.addData("BraçoB - Pos", motorBraçoBCurrentPosition);

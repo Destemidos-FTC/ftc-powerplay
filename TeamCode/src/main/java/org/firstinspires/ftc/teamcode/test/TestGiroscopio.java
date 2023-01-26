@@ -11,33 +11,12 @@ import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 public class TestGiroscopio extends LinearOpMode {
     private DestemidosHardware robot;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        robot = new DestemidosHardware(hardwareMap);
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        waitForStart();
-
-    }
-}
-
-    /*
-final int STAGE = 1;
-        if (STAGE == 1) {
-            turn(90);
-            sleep(3000);
-            turnTo(-90);
-        } else if (STAGE == 2) {
-            turnPID(90);
-        }
-    }
-
-    public void resetAngle() {
+    private void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currAngle = 0;
     }
 
-    public double getAngle() {
+    private double getAngle() {
 
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -56,7 +35,7 @@ final int STAGE = 1;
         return currAngle;
     }
 
-    public void turn(double degrees){
+    private void turn(double degrees){
         resetAngle();
 
         double error = degrees;
@@ -72,7 +51,7 @@ final int STAGE = 1;
         robot.setAllPower(0);
     }
 
-    public void turnTo(double degrees){
+    private void turnTo(double degrees){
 
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -88,17 +67,17 @@ final int STAGE = 1;
         turn(error);
     }
 
-    public double getAbsoluteAngle() {
+    private double getAbsoluteAngle() {
         return robot.imu.getAngularOrientation(
                 AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
         ).firstAngle;
     }
 
-    public void turnPID(double degrees) {
+    private void turnPID(double degrees) {
         turnToPID(degrees + getAbsoluteAngle());
     }
 
-    void turnToPID(double targetAngle) {
+    private void turnToPID(double targetAngle) {
         TurnPIDController pid = new TurnPIDController(targetAngle, 0.01, 0, 0.003);
         telemetry.setMsTransmissionInterval(50);
         
@@ -115,5 +94,20 @@ final int STAGE = 1;
         robot.setAllPower(0);
     }
 
+    @Override
+    public void runOpMode() throws InterruptedException {
+        robot = new DestemidosHardware(hardwareMap);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        waitForStart();
+
+        final int STAGE = 1;
+        if (STAGE == 1) {
+            turn(90);
+            sleep(3000);
+            turnTo(-90);
+        } else if (STAGE == 2) {
+            turnPID(90);
+        }
+    }
 }
-     */
