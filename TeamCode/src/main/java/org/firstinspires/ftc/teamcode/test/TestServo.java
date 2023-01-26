@@ -39,9 +39,6 @@ public class TestServo extends LinearOpMode {
             telemetry.addData("Servo Connection Info: ",
                     servoController.getConnectionInfo()
             );
-
-            //debugServoInfo(robot.servoGarraA, telemetry);
-            //debugServoInfo(robot.servoGarraB, telemetry);
         }
     }
 
