@@ -2,15 +2,16 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 
-@TeleOp(name = "Test Giroscopio", group = "Test")
+@Autonomous(name = "Test Giroscopio", group = "Test")
 public class TestGiroscopio extends LinearOpMode {
     private DestemidosHardware robot;
 
+    /*
     private void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currAngle = 0;
@@ -93,6 +94,7 @@ public class TestGiroscopio extends LinearOpMode {
         }
         robot.setAllPower(0);
     }
+    */
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -101,6 +103,7 @@ public class TestGiroscopio extends LinearOpMode {
 
         waitForStart();
 
+        /*
         final int STAGE = 1;
         if (STAGE == 1) {
             turn(90);
@@ -109,5 +112,6 @@ public class TestGiroscopio extends LinearOpMode {
         } else if (STAGE == 2) {
             turnPID(90);
         }
+         */
     }
 }

@@ -4,26 +4,25 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 @Config
-@TeleOp(name = "Teste Braço Autonomo", group = "Test")
-
+@Autonomous(name = "Teste Braço Autonomo", group = "Test")
 public class TesteBraçoAutonomo extends OpMode {
     private DestemidosHardware robo;
     private PIDController controller;
 
-    public static double p = 0, i = 0, d = 0;
-    public static double f = 0;
+    public static double p = 0.175, i = 0, d = -0.2;
+    public static double f = 0.3;
 
     // a posição alvo será medida em graus
-    public static double target = 0;
+    public static double target = 90;
     
     private double ConvertTicksToDegrees(int ticks) {
-        return  (ticks (double) / 360.0);
+        return (double) ticks / 360.0;
     }
 
     private int ConvertDegreesToTicks(double degrees) {
@@ -33,6 +32,7 @@ public class TesteBraçoAutonomo extends OpMode {
     @Override
     public void init() {
         robo = new DestemidosHardware(hardwareMap);
+        robo.motorBraçoA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -62,8 +62,8 @@ public class TesteBraçoAutonomo extends OpMode {
         robo.motorBraçoB.setTargetPosition(target_in_ticks);
 
         // aplicamos a força calculada no PID, e dividimos para ambos motores
-        robo.motorBraçoA.setPower(power / 2);
-        robo.motorBraçoB.setPower(power / 2);
+        robo.motorBraçoA.setPower(power);
+        robo.motorBraçoB.setPower(power);
 
         // enviamos o comando pra os motores moverem posição
         robo.motorBraçoA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -71,7 +71,9 @@ public class TesteBraçoAutonomo extends OpMode {
 
         telemetry.addData("BraçoA - Pos", motorBraçoACurrentPosition);
         telemetry.addData("BraçoB - Pos", motorBraçoBCurrentPosition);
-        telemetry.addData("Target", target);
+        telemetry.addData("Target", target_in_ticks);
+        telemetry.addData("forca do pid", power);
+        telemetry.addData("forca do motor", robo.motorBraçoA.getPower());
         telemetry.addData("valor do ff: ", ff);
         telemetry.update();
     }
