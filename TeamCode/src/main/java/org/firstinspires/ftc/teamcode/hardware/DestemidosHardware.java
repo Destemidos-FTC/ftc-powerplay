@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -33,7 +34,7 @@ import java.util.List;
  */
 
 // NOTE(ramalho): deixei esse nome, pq já tinha uma classe "robot hardware" nos exemplos
-public final class DestemidosHardware {
+public final class DestemidosHardware<imu> {
 
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
@@ -192,4 +193,10 @@ public final class DestemidosHardware {
             robotHub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
     };
+
+    public void setMotorPower(double v, double motorPower, double v1, double motorPower1) {
+    }
+
+    public void setAllPower(int i) {
+    }
 }
