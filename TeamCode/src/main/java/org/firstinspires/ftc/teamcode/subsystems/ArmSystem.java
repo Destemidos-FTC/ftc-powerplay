@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
 public final class ArmSystem {
 
-    public static void movimentarBraço(Gamepad driver, DestemidosHardware robot)
+    public static void movimentarBraço(Gamepad driver, DestemidosBot robot)
     {
         // Gira a base do robô
         double motorCenterOutput = Range.clip(-driver.right_stick_x, RobotConstants.CENTRO_MIN_POWER, RobotConstants.CENTRO_MAX_POWER);
