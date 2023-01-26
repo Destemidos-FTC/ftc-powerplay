@@ -41,6 +41,8 @@ public class TesteBraçoAutonomo extends OpMode {
     @Override
     public void loop(){
 
+        girarBraço(double angulo)
+
         // recebemos a posição do motor em ticks
         int motorBraçoACurrentPosition = robo.motorBraçoA.getCurrentPosition();
         int motorBraçoBCurrentPosition = robo.motorBraçoB.getCurrentPosition();
@@ -62,17 +64,12 @@ public class TesteBraçoAutonomo extends OpMode {
         robo.motorBraçoB.setTargetPosition(target_in_ticks);
 
         // aplicamos a força calculada no PID, e dividimos para ambos motores
-        // Comentado caso precise adicionar novamente
-        //robo.motorBraçoA.setPower(power);
-        //robo.motorBraçoB.setPower(power);
+        robo.motorBraçoA.setPower(power);
+        robo.motorBraçoB.setPower(power);
 
         // enviamos o comando pra os motores moverem posição
         robo.motorBraçoA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.motorBraçoB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        //Define a velocidade máxima
-        robo.motorBraçoA.setVelocity(power);
-        robo.motorBraçoB.setVelocity(power);
 
         telemetry.addData("BraçoA - Pos", motorBraçoACurrentPosition);
         telemetry.addData("BraçoB - Pos", motorBraçoBCurrentPosition);
