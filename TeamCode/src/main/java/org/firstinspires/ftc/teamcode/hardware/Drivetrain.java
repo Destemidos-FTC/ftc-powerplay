@@ -9,6 +9,20 @@ import com.qualcomm.robotcore.hardware.IMU;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+ * (ramalho): segue abaixo o padrão de input pra qualquer função
+ * que utilize os motores da base:
+ *
+ *      0 - Motor Direita-Frente
+ *      1 - Motor Direita-Trás
+ *      2 - Motor Esquerda-Frente
+ *      3 - Motor Esquerda-Trás
+ *
+ * isso deve reforçar um comportamento padrão em todos os lugares, e reduz
+ * algumas preocupações quando fomos debuggar
+ *
+ * referência: https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html
+ */
 public final class Drivetrain {
     public enum Mode {
         MINIMAL,
@@ -41,7 +55,6 @@ public final class Drivetrain {
         configZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motors = Arrays.asList(motorDireitaFrente, motorDireitaTras, motorEsquerdaFrente, motorEsquerdaTras);
-
 
         this.drivetrainMode = drivetrainMode;
 
@@ -93,6 +106,13 @@ public final class Drivetrain {
         motorDireitaTras.setPower(DireitaTrasPower);
         motorEsquerdaFrente.setPower(EsquerdaFrentePower);
         motorEsquerdaTras.setPower(EsquerdaTrasPower);
+    }
+
+    public void setAllPower(double power) {
+        motorDireitaFrente.setPower(power);
+        motorDireitaTras.setPower(power);
+        motorEsquerdaFrente.setPower(power);
+        motorEsquerdaTras.setPower(power);
     }
 
     public void configEncoders(DcMotor.RunMode runMode) {

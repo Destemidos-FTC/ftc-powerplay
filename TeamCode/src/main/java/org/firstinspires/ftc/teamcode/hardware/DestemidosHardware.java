@@ -14,37 +14,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.List;
 
-/*
- * (ramalho): escolhi usar o array de motores pela
- * praticidade de passar/configurar os motores como parâmetros
- *
- * porém, o custo disso é que todo método que recebrá esses motores
- * deve seguir essa ordem abaixo:
- *
- *      0 - Motor Direita-Frente
- *      1 - Motor Direita-Trás
- *      2 - Motor Esquerda-Frente
- *      3 - Motor Esquerda-Trás
- *
- * isso deve reforçar um comportamento padrão em todos os lugares, e reduz
- * algumas preocupações quando fomos debuggar
- *
- * referência: https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html
- */
-
-// NOTE(ramalho): deixei esse nome, pq já tinha uma classe "robot hardware" nos exemplos
-public final class DestemidosHardware {
+public final class DestemidosBot {
 
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
     private static final int CONTROLHUB_ID = 0;
     private static final int EXPANSIONHUB_ID = 0;
 
-    // Rodas
-    public DcMotorEx motorDireitaFrente;
-    public DcMotorEx motorDireitaTras;
-    public DcMotorEx motorEsquerdaFrente;
-    public DcMotorEx motorEsquerdaTras;
+    // Drivetain
+    public Drivetrain drivetrain;
 
     // Atuadores
     public DcMotorEx motorCentro;
@@ -56,137 +34,62 @@ public final class DestemidosHardware {
     public Servo servoGarraA;
     public Servo servoGarraB;
 
-    // Sensores
-    public IMU sensorIMU;
-    private IMU.Parameters parametrosDoIMU;
-
     // utilitário
-    public DcMotorEx[] motores;
     public DcMotorEx[] atuadores;
 
     public DestemidosHardware(@NonNull HardwareMap hardwareMap){
 
-        // mapeando os motores com seus nomes e sequência correta
+        // listando todos os hubs conectados no robô
         allHubs = hardwareMap.getAll(LynxModule.class);
 
         // uma frescurinha que descobri no dia do intersesi
         allHubs.get(CONTROLHUB_ID).setConstant(Color.CYAN);
         allHubs.get(EXPANSIONHUB_ID).setConstant(Color.CYAN);
 
-        // configurando o sensor IMU
-        parametrosDoIMU = new IMU.Parameters(
-                // NOTE (ramalho): aqui é de acordo com a posição que colocamos o hub no robô
-                // então é mais provável variar a direção das entradas USB nas futuras modificações do robô
-                // referências: https://ftc-docs.firstinspires.org/programming_resources/imu/imu.html
+        // carregando a configuração completa do drivetrain
+        drivetrain = new Drivetrain(Drivetrain.Mode.FULL);
 
-                new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.LEFT
-                )
-        );
-
-        // configurando o resto do hardware
-        sensorIMU = hardwareMap.get(IMU.class, "imu");
-
-        motorDireitaFrente  = hardwareMap.get(DcMotorEx.class,"DF"); // porta 0 - controlHub
-        motorDireitaTras    = hardwareMap.get(DcMotorEx.class,"DT"); // porta 1 - controlHub
-        motorEsquerdaFrente = hardwareMap.get(DcMotorEx.class,"EF"); // porta 3 - expansion
-        motorEsquerdaTras   = hardwareMap.get(DcMotorEx.class,"ET"); // porta 3 - controlHub
-
-        motorCentro = hardwareMap.get(DcMotorEx.class,"centro"); // porta 0 - expansion
+        // configurando os atuadores dos braços
         motorBraçoA = hardwareMap.get(DcMotorEx.class,"braçoA"); // porta 1 - expansion
         motorBraçoB = hardwareMap.get(DcMotorEx.class,"braçoB"); // porta 2 - expansion
+        
+        motorBraçoA.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBraçoB.setDirection(DcMotorSimple.Direction.FORWARD);
+        
+        motorBraçoA.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
+        motorBraçoB.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
 
+        // configurando os servos da garra
         servoMão    = hardwareMap.get(Servo.class, "mão");    // porta 1 - controlhub
         servoGarraA = hardwareMap.get(Servo.class, "garraA"); // porta 3 - controlhub
         servoGarraB = hardwareMap.get(Servo.class, "garraB"); // porta 5 - controlhub
-
-        // precisamos inverter apenas os motores da esquerda
-        motorDireitaFrente.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorDireitaTras.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorEsquerdaFrente.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorEsquerdaTras.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        motorBraçoA.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBraçoB.setDirection(DcMotorSimple.Direction.FORWARD);
-
+        
         servoMão.setDirection(Servo.Direction.REVERSE);
         servoGarraA.setDirection(Servo.Direction.REVERSE);
         servoGarraB.setDirection(Servo.Direction.FORWARD);
 
-        // zerando tudo
-        resetEncoders(
-                motorDireitaFrente,
-                motorDireitaTras,
-                motorEsquerdaFrente,
-                motorEsquerdaTras,
-                motorCentro,
-                motorBraçoA,
-                motorBraçoB
-        );
+        // resetando todos os encoders do braço
+        resetArmsEncoder();
 
-        // ativando por padrão todos os encoders
-        configEncoders(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER,
-                motorDireitaFrente,
-                motorDireitaTras,
-                motorEsquerdaFrente,
-                motorEsquerdaTras,
-                motorCentro,
-                motorBraçoA,
-                motorBraçoB
-        );
-
-        // comportamento dos motores, quando a força for equivalente 0:
-        configZeroPowerBehavior(
-                motorDireitaFrente,
-                motorDireitaTras,
-                motorEsquerdaFrente,
-                motorEsquerdaTras,
-                motorCentro
-        );
-
-        // inicalizando a lista de motores já configurados
-        motores = new DcMotorEx[]{ motorDireitaFrente, motorDireitaTras,
-                motorEsquerdaFrente, motorEsquerdaTras };
-
-        atuadores = new DcMotorEx[] {motorCentro, motorBraçoA, motorBraçoB };
-
-        // carregando as configurações no IMU
-        sensorIMU.initialize(parametrosDoIMU);
+        // inicalizando a lista de atuadores já configurados
+        atuadores = Arrays.asList(motorCentro, motorBraçoA, motorBraçoB);
     }
 
-    public void configEncoders(DcMotor.RunMode runMode, @NonNull DcMotorEx... motores) {
-        for (DcMotorEx motor : motores) {
-            motor.setMode(runMode);
-        }
+    // reinicia a contagem relativa dos encoders do braço
+    public void resetArmsEncoder(){
+        motorBraçoA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBraçoB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void resetEncoders(@NonNull DcMotorEx... motores){
-        for(DcMotorEx motor : motores) {
-            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
-    }
-
-    public void configZeroPowerBehavior(@NonNull DcMotorEx... motores) {
-        for (DcMotorEx motor : motores) {
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        }
-    }
-
-    // reinicia a contagem relativa dos encoders
-    public void resetRodasEncoder(){
-        motorDireitaFrente.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorDireitaTras.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorEsquerdaFrente.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorEsquerdaTras.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
+    // ativa o modo de "caching" automático dos dados recebidos pelos hubs
     public void setBulkReadToAuto() {
         for (LynxModule robotHub : allHubs) {
             robotHub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
     }
 
+    // OBS: fica na resposabilidade do usuário, a limpeza desses dados em cache
+    // se não tiver certeza de como realizar essa ação, recomendo o configurar no automático
     public void setBulkCacheToManual() {
         for (LynxModule robotHub : allHubs) {
             robotHub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
