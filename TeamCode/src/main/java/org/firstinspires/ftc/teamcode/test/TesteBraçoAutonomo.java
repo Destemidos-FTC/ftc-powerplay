@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.test;
 
+import static org.firstinspires.ftc.teamcode.test.TestFunção.girarBraço;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -8,11 +10,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
+
 @Config
 @Autonomous(name = "Teste Braço Autonomo", group = "Test")
 public class TesteBraçoAutonomo extends OpMode {
-    private DestemidosHardware robo;
+    private DestemidosBot robo;
     private PIDController controller;
 
     public static double p = 0.175, i = 0, d = -0.2;
@@ -31,7 +34,7 @@ public class TesteBraçoAutonomo extends OpMode {
 
     @Override
     public void init() {
-        robo = new DestemidosHardware(hardwareMap);
+        robo = new DestemidosBot(hardwareMap);
         robo.motorBraçoA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -40,6 +43,9 @@ public class TesteBraçoAutonomo extends OpMode {
        
     @Override
     public void loop(){
+
+        double angulo = 0; // só pra poder compilar sem erros
+        girarBraço(angulo, robo);
 
         // recebemos a posição do motor em ticks
         int motorBraçoACurrentPosition = robo.motorBraçoA.getCurrentPosition();
@@ -55,7 +61,7 @@ public class TesteBraçoAutonomo extends OpMode {
         double pid = controller.calculate(motorBraçoACurrentPosition, target_in_ticks);
         double ff = Math.cos(Math.toRadians(target)) * f;
 
-        double power = pid; //+ ff;
+        double power = pid + ff;
 
         // definimos a posição alvo convertida
         robo.motorBraçoA.setTargetPosition(target_in_ticks);
@@ -78,4 +84,3 @@ public class TesteBraçoAutonomo extends OpMode {
         telemetry.update();
     }
 }
-

@@ -8,12 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 
 @Config
 @TeleOp(name = "TestPID Tradicional")
 public class TestPIDTradicional extends LinearOpMode {
-    private DestemidosHardware robot;
+    private DestemidosBot robot;
     private PIDController controller;
     private ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
@@ -60,7 +60,7 @@ public class TestPIDTradicional extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new DestemidosHardware(hardwareMap);
+        robot = new DestemidosBot(hardwareMap);
         controller = new PIDController(kP, kI, kD);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 

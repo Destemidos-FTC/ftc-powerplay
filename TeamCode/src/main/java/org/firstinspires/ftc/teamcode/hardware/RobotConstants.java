@@ -13,6 +13,10 @@ public final class RobotConstants {
     public static final double MECANUM_WHEELS_ANGLE = Math.PI / 4;
     public static final int CORE_HEX_TICKS = 288;
     public static final int HD_HEX_TICKS = 1120;
+    public static int MOTOR_DIREITA_FRENTE_ID = 0;
+    public static int MOTOR_DIREITA_TRAS_ID = 1;
+    public static int MOTOR_ESQUERDA_FRENTE_ID = 2;
+    public static int MOTOR_ESQUERDA_TRAS_ID = 3;
 
     // Braço
     public static double ARMS_POWER_SCALE = 0.7;

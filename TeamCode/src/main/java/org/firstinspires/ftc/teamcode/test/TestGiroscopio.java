@@ -99,8 +99,7 @@ public class TestGiroscopio extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new DestemidosHardware(hardwareMap);
-        pidController = new PIDController();
+        robot = new DestemidosBot(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();

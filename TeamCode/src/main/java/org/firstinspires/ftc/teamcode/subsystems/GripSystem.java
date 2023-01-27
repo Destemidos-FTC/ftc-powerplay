@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
 public final class GripSystem {
-    public static void coletarCones(Gamepad player2, DestemidosHardware robot)
+    public static void coletarCones(Gamepad player2, DestemidosBot robot)
     {
         // posição atual de todos os servos
         double current_garra_a_pos;
