@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.utils;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,8 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
-
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 /*
  * RobotLogger - Responsável por transmitir informações dos
  * devidos dispositivos para o Telemetry, como forma de ajudar
@@ -39,30 +37,30 @@ public final class RobotLogger {
     }
 
     // mostra informações úteis sobre as rodas
-    public static void debugRodasInfo(Telemetry telemetry, DestemidosHardware robot) {
+    public static void debugRodasInfo(Telemetry telemetry, DestemidosBot robot) {
         telemetry.addLine("\nMOTORES - Informações:");
         telemetry.addData("Power: ",
                 "DF: %.2f  DT: %.2f \n EF: %.2f  ET: %.2f",
-                robot.motorDireitaFrente.getPower(),
-                robot.motorDireitaTras.getPower(),
-                robot.motorEsquerdaFrente.getPower(),
-                robot.motorEsquerdaTras.getPower()
+                robot.drivetrain.getMotorDireitaFrente().getPower(),
+                robot.drivetrain.getMotorDireitaTras().getPower(),
+                robot.drivetrain.getMotorEsquerdaFrente().getPower(),
+                robot.drivetrain.getMotorEsquerdaTras().getPower()
         );
 
         telemetry.addData("Velocity: ",
                 "DF: %.2f  DT: %.2f \n EF: %.2f  ET: %.2f",
-                robot.motorDireitaFrente.getVelocity(AngleUnit.RADIANS),
-                robot.motorDireitaTras.getVelocity(AngleUnit.RADIANS),
-                robot.motorEsquerdaFrente.getVelocity(AngleUnit.RADIANS),
-                robot.motorEsquerdaTras.getVelocity(AngleUnit.RADIANS)
+                robot.drivetrain.getMotorDireitaFrente().getVelocity(AngleUnit.RADIANS),
+                robot.drivetrain.getMotorDireitaTras().getVelocity(AngleUnit.RADIANS),
+                robot.drivetrain.getMotorEsquerdaFrente().getVelocity(AngleUnit.RADIANS),
+                robot.drivetrain.getMotorEsquerdaTras().getVelocity(AngleUnit.RADIANS)
         );
 
         telemetry.addData("Direction: \n",
                 "- DF: %s \n DT: %s \n EF: %s \n ET: %s",
-                robot.motorDireitaFrente.getDirection(),
-                robot.motorDireitaTras.getDirection(),
-                robot.motorEsquerdaFrente.getDirection(),
-                robot.motorEsquerdaTras.getDirection()
+                robot.drivetrain.getMotorDireitaFrente().getDirection(),
+                robot.drivetrain.getMotorDireitaTras().getDirection(),
+                robot.drivetrain.getMotorEsquerdaFrente().getDirection(),
+                robot.drivetrain.getMotorEsquerdaTras().getDirection()
         );
     }
 

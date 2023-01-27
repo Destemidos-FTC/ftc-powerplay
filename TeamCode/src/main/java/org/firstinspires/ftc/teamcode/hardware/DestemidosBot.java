@@ -4,14 +4,13 @@ import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class DestemidosBot {
@@ -35,9 +34,9 @@ public final class DestemidosBot {
     public Servo servoGarraB;
 
     // utilitário
-    public DcMotorEx[] atuadores;
+    public List<DcMotorEx> atuadores;
 
-    public DestemidosHardware(@NonNull HardwareMap hardwareMap){
+    public DestemidosBot(@NonNull HardwareMap hardwareMap){
 
         // listando todos os hubs conectados no robô
         allHubs = hardwareMap.getAll(LynxModule.class);
@@ -47,7 +46,7 @@ public final class DestemidosBot {
         allHubs.get(EXPANSIONHUB_ID).setConstant(Color.CYAN);
 
         // carregando a configuração completa do drivetrain
-        drivetrain = new Drivetrain(Drivetrain.Mode.FULL);
+        drivetrain = new Drivetrain(hardwareMap, Drivetrain.Mode.FULL);
 
         // configurando os atuadores dos braços
         motorBraçoA = hardwareMap.get(DcMotorEx.class,"braçoA"); // porta 1 - expansion
@@ -56,8 +55,8 @@ public final class DestemidosBot {
         motorBraçoA.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBraçoB.setDirection(DcMotorSimple.Direction.FORWARD);
         
-        motorBraçoA.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-        motorBraçoB.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
+        motorBraçoA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBraçoB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // configurando os servos da garra
         servoMão    = hardwareMap.get(Servo.class, "mão");    // porta 1 - controlhub

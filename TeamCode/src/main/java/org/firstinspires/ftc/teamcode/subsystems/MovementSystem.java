@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
 /*
@@ -105,7 +105,7 @@ public final class MovementSystem {
         double joystick_x  = -driver.left_stick_x  * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
         double giro        = -driver.right_stick_x * RobotConstants.MAX_SPEED;
 
-        double botHeading = robot.sensorIMU.getRobotOrientation(
+        double botHeading = robot.drivetrain.getSensorIMU().getRobotOrientation(
                 AxesReference.INTRINSIC,
                 AxesOrder.XYZ,
                 AngleUnit.RADIANS

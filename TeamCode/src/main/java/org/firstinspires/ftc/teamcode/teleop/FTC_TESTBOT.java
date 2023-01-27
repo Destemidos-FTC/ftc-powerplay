@@ -2,26 +2,24 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
+import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
-import org.firstinspires.ftc.teamcode.subsystems.GripSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
 import org.firstinspires.ftc.teamcode.utils.RobotLogger;
 
 @TeleOp(name="TESTBOT", group = "Test")
 public class FTC_TESTBOT extends LinearOpMode {
+    private DestemidosBot robot;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         // setup the hardware components
-        DestemidosHardware robot = new DestemidosHardware(hardwareMap);
+        robot = new DestemidosBot(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
@@ -37,10 +35,10 @@ public class FTC_TESTBOT extends LinearOpMode {
             //GripSystem.coletarCones(gamepad2, robot);
 
             // Debug de informações
-            RobotLogger.showFulleMotorInfo(telemetry, robot.motorDireitaFrente);
-            RobotLogger.showFulleMotorInfo(telemetry, robot.motorDireitaTras);
-            RobotLogger.showFulleMotorInfo(telemetry, robot.motorEsquerdaFrente);
-            RobotLogger.showFulleMotorInfo(telemetry, robot.motorEsquerdaTras);
+            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_DIREITA_FRENTE_ID));
+            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_DIREITA_TRAS_ID));
+            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_ESQUERDA_FRENTE_ID));
+            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_ESQUERDA_TRAS_ID));
             telemetry.update();
         }
     }

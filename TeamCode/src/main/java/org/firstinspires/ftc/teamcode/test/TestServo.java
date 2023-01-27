@@ -6,23 +6,22 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripSystem;
 
 @Disabled
 @TeleOp(name = "TestServo", group = "Tests")
 public class TestServo extends LinearOpMode {
-    private DestemidosHardware robot;
+    private DestemidosBot robot;
     private ServoControllerEx servoController;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new DestemidosHardware(hardwareMap);
+        robot = new DestemidosBot(hardwareMap);
         servoController = (ServoControllerEx) robot.servoMão.getController();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 

@@ -5,11 +5,10 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
-
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 @Autonomous(name = "Test Giroscopio", group = "Test")
 public class TestGiroscopio extends LinearOpMode {
-    private DestemidosHardware robot;
+    private DestemidosBot robot;
 
     /*
     private void resetAngle() {
@@ -98,7 +97,7 @@ public class TestGiroscopio extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new DestemidosHardware(hardwareMap);
+        robot = new DestemidosBot(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();

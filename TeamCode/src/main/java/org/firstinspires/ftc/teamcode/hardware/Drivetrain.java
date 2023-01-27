@@ -90,6 +90,15 @@ public final class Drivetrain {
         return motors;
     }
 
+    public DcMotorEx getMotor(int ID) {
+        return  motors.get(ID);
+    }
+
+    public DcMotorEx getMotorDireitaFrente() { return motorDireitaFrente; }
+    public DcMotorEx getMotorDireitaTras() { return motorDireitaTras; }
+    public DcMotorEx getMotorEsquerdaFrente() { return motorEsquerdaFrente; }
+    public DcMotorEx getMotorEsquerdaTras() { return motorEsquerdaTras;}
+
     public Mode getDrivetrainMode() {
         if(drivetrainMode != Mode.FULL) {
             throw new RuntimeException("ERRO: O Modo do drivetrain NÃO está configurado como 'FULL' ");
