@@ -26,9 +26,6 @@ public class TestPIDTradicional extends LinearOpMode {
     public static double kI = 0.0;
     public static double kD = 0.0;
 
-    public TestPIDTradicional(double targetAngle, double v, int i, double v1) {
-    }
-
     private double updatePID(double currentAngle) {
         //p
         double error = targetAngle - currentAngle;
@@ -65,13 +62,5 @@ public class TestPIDTradicional extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
-    }
-
-    public double getLastSlope() {
-        return 0;
-    }
-
-    public double update(double absoluteAngle) {
-        return absoluteAngle;
     }
 }
