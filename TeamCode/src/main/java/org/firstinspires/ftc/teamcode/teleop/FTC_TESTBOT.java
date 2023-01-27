@@ -35,10 +35,11 @@ public class FTC_TESTBOT extends LinearOpMode {
             //GripSystem.coletarCones(gamepad2, robot);
 
             // Debug de informações
-            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_DIREITA_FRENTE_ID));
-            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_DIREITA_TRAS_ID));
-            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_ESQUERDA_FRENTE_ID));
-            RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_ESQUERDA_TRAS_ID));
+            RobotLogger.debugControles(telemetry, gamepad1, gamepad2);
+            //RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_DIREITA_FRENTE_ID));
+            //RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_DIREITA_TRAS_ID));
+            //RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_ESQUERDA_FRENTE_ID));
+            //RobotLogger.showFulleMotorInfo(telemetry, robot.drivetrain.getMotor(RobotConstants.MOTOR_ESQUERDA_TRAS_ID));
             telemetry.update();
         }
     }

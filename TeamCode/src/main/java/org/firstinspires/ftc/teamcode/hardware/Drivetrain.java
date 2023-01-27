@@ -48,13 +48,13 @@ public final class Drivetrain {
         motorEsquerdaFrente.setDirection(DcMotor.Direction.REVERSE);
         motorEsquerdaTras.setDirection(DcMotor.Direction.REVERSE);
 
+        motors = Arrays.asList(motorDireitaFrente, motorDireitaTras, motorEsquerdaFrente, motorEsquerdaTras);
+
         resetEncoderWheels();
 
         configEncoders(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         configZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motors = Arrays.asList(motorDireitaFrente, motorDireitaTras, motorEsquerdaFrente, motorEsquerdaTras);
 
         this.drivetrainMode = drivetrainMode;
 

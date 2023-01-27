@@ -15,12 +15,11 @@ public class FTC_4 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        // setup the hardware components
         robot = new DestemidosBot(hardwareMap);
 
         waitForStart();
         while (opModeIsActive()) {
-            if(isStopRequested()) return;
+            robot.setBulkReadToAuto();
 
             // movimentação padrão das partidas
             MovementSystem.controleOmnidirecionalClassico(gamepad1, robot);

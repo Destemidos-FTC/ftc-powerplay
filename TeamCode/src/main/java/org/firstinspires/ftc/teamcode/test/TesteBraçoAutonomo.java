@@ -18,11 +18,11 @@ public class TesteBraçoAutonomo extends OpMode {
     private DestemidosBot robo;
     private PIDController controller;
 
-    public static double p = 0.175, i = 0, d = -0.2;
-    public static double f = 0.3;
+    public static double p = 7, i = 0, d = 5;
+    public static double f = 0;
 
     // a posição alvo será medida em graus
-    public static double target = 90;
+    public static double target = 0;
     
     private double ConvertTicksToDegrees(int ticks) {
         return (double) ticks / 360.0;
@@ -35,10 +35,10 @@ public class TesteBraçoAutonomo extends OpMode {
     @Override
     public void init() {
         robo = new DestemidosBot(hardwareMap);
-        robo.motorBraçoA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robo.resetArmsEncoder();
+
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
     }
        
     @Override
@@ -49,7 +49,7 @@ public class TesteBraçoAutonomo extends OpMode {
 
         // recebemos a posição do motor em ticks
         int motorBraçoACurrentPosition = robo.motorBraçoA.getCurrentPosition();
-        int motorBraçoBCurrentPosition = robo.motorBraçoB.getCurrentPosition();
+        //int motorBraçoBCurrentPosition = robo.motorBraçoB.getCurrentPosition();
 
         // convertemos ticks em graus
         double braçoA_in_degree = ConvertTicksToDegrees(motorBraçoACurrentPosition);
@@ -65,18 +65,18 @@ public class TesteBraçoAutonomo extends OpMode {
 
         // definimos a posição alvo convertida
         robo.motorBraçoA.setTargetPosition(target_in_ticks);
-        robo.motorBraçoB.setTargetPosition(target_in_ticks);
+        //robo.motorBraçoB.setTargetPosition(target_in_ticks);
 
         // aplicamos a força calculada no PID, e dividimos para ambos motores
         robo.motorBraçoA.setPower(power);
-        robo.motorBraçoB.setPower(power);
+        //robo.motorBraçoB.setPower(power);
 
         // enviamos o comando pra os motores moverem posição
         robo.motorBraçoA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robo.motorBraçoB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robo.motorBraçoB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("BraçoA - Pos", motorBraçoACurrentPosition);
-        telemetry.addData("BraçoB - Pos", motorBraçoBCurrentPosition);
+        telemetry.addData("BraçoA - Angulo:", braçoA_in_degree);
         telemetry.addData("Target", target_in_ticks);
         telemetry.addData("forca do pid", power);
         telemetry.addData("forca do motor", robo.motorBraçoA.getPower());

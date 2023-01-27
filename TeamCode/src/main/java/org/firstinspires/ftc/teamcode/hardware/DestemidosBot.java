@@ -24,7 +24,6 @@ public final class DestemidosBot {
     public Drivetrain drivetrain;
 
     // Atuadores
-    public DcMotorEx motorCentro;
     public DcMotorEx motorBraçoA;
     public DcMotorEx motorBraçoB;
 
@@ -68,10 +67,10 @@ public final class DestemidosBot {
         servoGarraB.setDirection(Servo.Direction.FORWARD);
 
         // resetando todos os encoders do braço
-        resetArmsEncoder();
+//        resetArmsEncoder();
 
         // inicalizando a lista de atuadores já configurados
-        atuadores = Arrays.asList(motorCentro, motorBraçoA, motorBraçoB);
+        atuadores = Arrays.asList(motorBraçoA, motorBraçoB);
     }
 
     // reinicia a contagem relativa dos encoders do braço
