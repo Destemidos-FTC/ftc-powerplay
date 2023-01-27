@@ -9,19 +9,18 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosHardware;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 
 @Autonomous(name = "Test Giroscopio", group = "Test")
 public class TestGiroscopio extends LinearOpMode {
-    private DestemidosHardware robot;
+    private DestemidosBot robot;
     private PIDController pidController;
     private double lastAngles;
     private double currAngle;
     public static int STAGE = 1;
 
     private double getAbsoluteAngle() {
-        return robot.sensorIMU.getRobotOrientation(
+        return robot.drivetrain.getSensorIMU().getRobotOrientation(
                 AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
         ).firstAngle;
     }
@@ -62,13 +61,13 @@ public class TestGiroscopio extends LinearOpMode {
             if(error < 0) {
                 motorPower = motorPower * -1;
             }
-            robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
+            robot.drivetrain.setAllPower(motorPower);
 
             error = degrees - getAngle();
             telemetry.addData("error", error);
         }
 
-        robot.setAllPower(0);
+        robot.drivetrain.setAllPower(0);
     }
 
     private void turnTo(double degrees){
@@ -83,18 +82,20 @@ public class TestGiroscopio extends LinearOpMode {
     }
 
     private void turnToPID(double targetAngle) {
-        
-        while (Math.abs(targetAngle - getAbsoluteAngle()) > 0.5 || pid.getLastSlope() > 0.75) {
-            double motorPower = pid.update(getAbsoluteAngle());
-            robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
+
+        // (ramalho): o código original pede o 'ultimo slope" medido
+        // slope é a taxa de variação, então deve ser uma substituição equivalente
+        while (Math.abs(targetAngle - getAbsoluteAngle()) > 0.5 || pidController.getD() > 0.75) {
+            double motorPower = pidController.calculate(getAbsoluteAngle());
+            robot.drivetrain.setAllPower(motorPower);
 
             telemetry.addData("Current Angle", getAbsoluteAngle());
             telemetry.addData("Target Angle", targetAngle);
-            telemetry.addData("Slope", pid.getLastSlope());
+            telemetry.addData("Slope", pidController.getD());
             telemetry.addData("Power", motorPower);
             telemetry.update();
         }
-        robot.setAllPower(0);
+        robot.drivetrain.setAllPower(0);
     }
 
     @Override
