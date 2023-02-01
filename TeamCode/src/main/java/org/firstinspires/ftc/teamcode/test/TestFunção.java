@@ -1,8 +1,14 @@
 package org.firstinspires.ftc.teamcode.test;
 
+import static org.firstinspires.ftc.teamcode.test.TestPIDF.controller;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 
-public final class TestFunção {
+@Autonomous(name = "Teste: Função do Braço", group = "Test")
+public class TestFunção extends LinearOpMode {
 
     double[] braçoPID = {TesteBraçoAutonomo.p, TesteBraçoAutonomo.i, TesteBraçoAutonomo.d, TesteBraçoAutonomo.f};
 
@@ -22,6 +28,11 @@ public final class TestFunção {
 
         robot.motorBraçoA.setPower(0); //TesteBraçoAutonomo.power);
         robot.motorBraçoB.setPower(0); //TesteBraçoAutonomo.power);
+
+    }
+
+    @Override
+    public void runOpMode() throws InterruptedException {
 
     }
 }
