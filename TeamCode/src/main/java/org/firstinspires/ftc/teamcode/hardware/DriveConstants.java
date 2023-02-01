@@ -34,8 +34,7 @@ public class DriveConstants {
      * from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
-      getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, 16.2);
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -46,7 +45,7 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 1.4763; // in
-    public static double GEAR_RATIO = 15.2; // output (wheel) speed / input (motor) speed
+    public static double GEAR_RATIO = 1; //15.2; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 13.38; // in
 
     /*
@@ -99,10 +98,11 @@ public class DriveConstants {
      * https://github.com/acmerobotics/road-runner-quickstart/issues/91
      
      */
-    public static double MAX_VEL = 90;
-    public static double MAX_ACCEL = 90;
-    public static double MAX_ANG_VEL = Math.toRadians(360);
-    public static double MAX_ANG_ACCEL = Math.toRadians(360);
+    // essas constantes são medidas com os testes: MaxVelocityTuner e MAxAngularVeloTuner
+    public static double MAX_VEL = 30;
+    public static double MAX_ACCEL = 30;
+    public static double MAX_ANG_VEL = Math.toRadians(125.65);
+    public static double MAX_ANG_ACCEL = Math.toRadians(125.65);
 
 
     public static double encoderTicksToInches(double ticks) {
