@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.test;
 
-import static org.firstinspires.ftc.teamcode.test.TestFunção.girarBraço;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -43,9 +41,6 @@ public class TesteBraçoAutonomo extends OpMode {
        
     @Override
     public void loop(){
-
-        double angulo = 0; // só pra poder compilar sem erros
-        girarBraço(angulo, robo);
 
         // recebemos a posição do motor em ticks
         int motorBraçoACurrentPosition = robo.motorBraçoA.getCurrentPosition();
