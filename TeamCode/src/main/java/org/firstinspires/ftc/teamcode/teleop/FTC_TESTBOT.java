@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
 import org.firstinspires.ftc.teamcode.utils.RobotLogger;
@@ -32,7 +31,6 @@ public class FTC_TESTBOT extends LinearOpMode {
             // controles do braço e da mão
             ArmSystem.movimentarBraço(gamepad2, robot);
 
-            //GripSystem.coletarCones(gamepad2, robot);
 
             // Debug de informações
             RobotLogger.debugControles(telemetry, gamepad1, gamepad2);
