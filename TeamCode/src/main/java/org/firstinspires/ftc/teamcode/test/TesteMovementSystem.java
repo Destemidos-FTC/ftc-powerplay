@@ -19,6 +19,7 @@ public class TesteMovementSystem extends LinearOpMode {
 
         // setup
         final DestemidosBot robot = new DestemidosBot(hardwareMap);
+        final MovementSystem movementSystem = new MovementSystem(robot);
         final GamepadEx driver = new GamepadEx(gamepad1);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -46,20 +47,20 @@ public class TesteMovementSystem extends LinearOpMode {
             */
 
             if(toggleButtonX.getState()) {
-                MovementSystem.controleMecanumAvançado(theta, direction, turn, robot);
+                //movementSystem.controleMecanumAvançado(theta, direction, turn);
             }
             else if (toggleButtonY.getState()) {
-                MovementSystem.controleMecanumAlternativo(gamepad1, robot);
+                movementSystem.standardMecanumController(gamepad1);
             }
             else if (toggleButtonA.getState()) {
-                MovementSystem.controleFieldOriented(gamepad1, robot);
+                movementSystem.fieldOrientedController(gamepad1);
             }
             else if (toggleButtonB.getState()) {
-                MovementSystem.controleTank(gamepad1, robot);
+                movementSystem.tankController(gamepad1);
             }
             else {
                 // caso algo dê errado:
-                MovementSystem.controleOmnidirecionalClassico(gamepad1, robot);
+                movementSystem.standardMecanumController(gamepad1);
             }
 
 

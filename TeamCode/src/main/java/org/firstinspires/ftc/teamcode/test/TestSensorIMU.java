@@ -31,11 +31,12 @@ public class TestSensorIMU extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot = new DestemidosBot(hardwareMap);
+        MovementSystem movementSystem = new MovementSystem(robot);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         while(opModeIsActive()) {
-            MovementSystem.controleOmnidirecionalClassico(gamepad1, robot);
+            movementSystem.standardMecanumController(gamepad1);
 
             // pegando informações do imu
             Orientation robotOrientation = robot.drivetrain.getSensorIMU().getRobotOrientation(

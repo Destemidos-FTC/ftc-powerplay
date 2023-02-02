@@ -16,13 +16,14 @@ public class FTC_4 extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot = new DestemidosBot(hardwareMap);
+        MovementSystem movementSystem = new MovementSystem(robot);
 
         waitForStart();
         while (opModeIsActive()) {
             robot.setBulkReadToAuto();
 
             // movimentação padrão das partidas
-            MovementSystem.controleOmnidirecionalClassico(gamepad1, robot);
+            movementSystem.standardMecanumController(gamepad1);
 
             // controles do braço e da mão
             ArmSystem.movimentarBraço(gamepad2, robot);

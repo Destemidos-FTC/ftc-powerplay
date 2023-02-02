@@ -19,6 +19,7 @@ public class FTC_TESTBOT extends LinearOpMode {
 
         // setup the hardware components
         robot = new DestemidosBot(hardwareMap);
+        MovementSystem movementSystem = new MovementSystem(robot);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
@@ -26,10 +27,10 @@ public class FTC_TESTBOT extends LinearOpMode {
             robot.setBulkReadToAuto();
 
             // movimentação padrão das partidas
-            MovementSystem.controleOmnidirecionalClassico(gamepad1, robot);
+            movementSystem.standardMecanumController(gamepad1);
 
             // controles do braço e da mão
-            ArmSystem.movimentarBraço(gamepad2, robot);
+            //ArmSystem.movimentarBraço(gamepad2, robot);
 
 
             // Debug de informações

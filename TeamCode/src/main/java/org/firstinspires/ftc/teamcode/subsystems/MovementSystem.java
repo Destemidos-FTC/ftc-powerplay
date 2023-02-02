@@ -9,19 +9,54 @@ import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
 /*
- * MovementSystem - O Módulo mais antigo que temos,
- * que é responsável por agrupar os algoritmos de movimentação
- * mais avançados que temos e alguns usamos desde a temporada
- * ULTIMATE GOAL 2020/2021
- * 
- * TODO (ramalho): estudar mais o uso das funções relacionadas a
- * velocidade do robô própriamente dita, para não ficarmos 
- * dependendo da bateria constantemente
+ * MovementSystem - módulo responsável por agrupar os
+ * diversos modos de movimentação que usamos e experimentamos
  */
 
 public final class MovementSystem {
+    private final DestemidosBot robot;
+    private DRIVE_MODE driveMode;
 
-    public static void controleTank(Gamepad driver, DestemidosBot robot) {
+    enum DRIVE_MODE {
+        STANDARD,
+        PRECISE,
+        FIELD_ORIENTED,
+        TANK
+    }
+
+    public MovementSystem(DestemidosBot robot) {
+        this.robot = robot;
+        this.driveMode = DRIVE_MODE.STANDARD;
+    }
+
+    public void setDriveMode(DRIVE_MODE driveMode) {
+        this.driveMode = driveMode;
+    }
+
+    public DRIVE_MODE getDriveMode() {
+        return driveMode;
+    }
+
+    public void driveRobot(Gamepad driver) {
+        switch (driveMode) {
+            case STANDARD:
+                standardMecanumController(driver);
+
+            case PRECISE:
+                //preciseMecanumController(driver);
+
+            case TANK:
+                tankController(driver);
+
+            case FIELD_ORIENTED:
+                fieldOrientedController(driver);
+
+            default:
+                standardMecanumController(driver);
+        }
+    }
+
+    public void tankController(Gamepad driver) {
         double joystick_y  = -driver.left_stick_y;
         double giro        = -driver.right_stick_x;
 
@@ -40,26 +75,28 @@ public final class MovementSystem {
     }
     // Movimentação padrão e mais refinada do nosso controle, baseada no vídeo
     // extremamente didático do Gavin Ford: https://youtu.be/gnSW2QpkGXQ
-    public static void controleOmnidirecionalClassico(Gamepad driver, DestemidosBot robot)
+    public void standardMecanumController(Gamepad driver)
     {
-        double joystick_y  = -driver.left_stick_y  * RobotConstants.MAX_SPEED;
-        double joystick_x  = -driver.left_stick_x  * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
-        double giro        = -driver.right_stick_x * RobotConstants.MAX_SPEED;
+        double joystick_y  = -driver.left_stick_y;  //* RobotConstants.MAX_SPEED;
+        double joystick_x  = -driver.left_stick_x; // * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
+        double giro        = -driver.right_stick_x; //* RobotConstants.MAX_SPEED;
 
         // o denominador sempre será a maior força (valor absoluto) entre os 4 motores, ou equivalente a 1.
         // isso permite que todos mantenham a mesma taxa, mesmo que um motor ultrapasse os limites [-1, 1]
-        double denominador = Math.max( Math.abs(joystick_y) + Math.abs(joystick_x) + Math.abs(giro), 1);
+        //double denominador = Math.abs(joystick_y) + Math.abs(joystick_x) + Math.abs(giro);
 
-        double direitaFrentePower   = (joystick_y - joystick_x - giro) / denominador;
-        double direitaTrasPower     = (joystick_y + joystick_x - giro) / denominador;
-        double esquerdaFrentePower  = (joystick_y + joystick_x + giro) / denominador;
-        double esquerdaTrasPower    = (joystick_y - joystick_x + giro) / denominador;
+        //if(denominador > 1) {
+            double direitaFrentePower   = (joystick_y - joystick_x - giro); // denominador;
+            double direitaTrasPower     = (joystick_y + joystick_x - giro); // denominador;
+            double esquerdaFrentePower  = (joystick_y + joystick_x + giro); // denominador;
+            double esquerdaTrasPower    = (joystick_y - joystick_x + giro); // denominador;
 
-        robot.drivetrain.setMotorsPower(direitaFrentePower, direitaTrasPower, esquerdaFrentePower, esquerdaTrasPower);
+            robot.drivetrain.setMotorsPower(direitaFrentePower, direitaTrasPower, esquerdaFrentePower, esquerdaTrasPower);
+        //}
     }
 
     // Controle possivelmente mais preciso, baseado no método 2 do youtuber Gavin Ford
-    public static void controleMecanumAvançado(double theta, double direction, double turn, DestemidosBot robot) {
+    public void preciseMecanumController(double theta, double direction, double turn) {
 
         double seno         = Math.sin(theta - RobotConstants.MECANUM_WHEELS_ANGLE);
         double cosseno      = Math.cos(theta - RobotConstants.MECANUM_WHEELS_ANGLE);
@@ -85,7 +122,7 @@ public final class MovementSystem {
             direction * esquerdaFrentePower,
             direction * esquerdaTrasPower);
     }
-    public static void controleMecanumAlternativo(Gamepad driver, DestemidosBot robot) {
+    public void controleMecanumAlternativo(Gamepad driver, DestemidosBot robot) {
         double direction = Math.hypot(driver.left_stick_x, driver.left_stick_y);
         double robotAngle = Math.atan2(driver.left_stick_y, driver.left_stick_x) - Math.PI / 4;
         double rightX = driver.right_stick_x;
@@ -100,7 +137,7 @@ public final class MovementSystem {
 
     // um controle que sempre direciona o robô para onde apontamos no joystick, independente
     // da orentação do robô na arena
-    public static void controleFieldOriented(Gamepad driver, DestemidosBot robot) {
+    public void fieldOrientedController(Gamepad driver) {
         double joystick_y  = -driver.left_stick_y  * RobotConstants.MAX_SPEED;
         double joystick_x  = -driver.left_stick_x  * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
         double giro        = -driver.right_stick_x * RobotConstants.MAX_SPEED;
