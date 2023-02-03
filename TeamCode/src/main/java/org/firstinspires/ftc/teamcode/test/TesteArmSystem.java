@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 
 
-@TeleOp(name = "Test Braço", group = "Test")
+@TeleOp(name = "Teste ArmSystem", group = "Test")
 @Disabled
 public class TesteArmSystem extends LinearOpMode {
     private DestemidosBot robot;

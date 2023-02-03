@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.autonomous.drive.SampleMecanumDrive;
 
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -118,9 +119,14 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
                     double currentVelo = poseVelo.getX();
 
+                    List<Double> vel = drive.getWheelVelocities();
+
                     // update telemetry
                     telemetry.addData("targetVelocity", motionState.getV());
-                    telemetry.addData("measuredVelocity", currentVelo);
+                    telemetry.addData("measuredVelocity0", vel.get(0));
+                    telemetry.addData("measuredVelocity1", vel.get(1));
+                    telemetry.addData("measuredVelocity2", vel.get(2));
+                    telemetry.addData("measuredVelocity3", vel.get(3));
                     telemetry.addData("error", motionState.getV() - currentVelo);
                     break;
                 case DRIVER_MODE:

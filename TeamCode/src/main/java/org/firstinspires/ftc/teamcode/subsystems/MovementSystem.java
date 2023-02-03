@@ -77,7 +77,7 @@ public final class MovementSystem {
     // extremamente didático do Gavin Ford: https://youtu.be/gnSW2QpkGXQ
     public void standardMecanumController(Gamepad driver)
     {
-        double joystick_y  = -driver.left_stick_y;  //* RobotConstants.MAX_SPEED;
+        double joystick_y  = driver.left_stick_y;  //* RobotConstants.MAX_SPEED;
         double joystick_x  = -driver.left_stick_x; // * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
         double giro        = -driver.right_stick_x; //* RobotConstants.MAX_SPEED;
 
