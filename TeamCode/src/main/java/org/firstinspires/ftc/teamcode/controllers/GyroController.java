@@ -10,7 +10,10 @@ import org.firstinspires.ftc.teamcode.utils.MathUtils;
  */
 public class GyroController {
 
-    private final double kP, kI, kD, kF;
+    private double kP;
+    private double kI;
+    private double kD;
+    private double kF;
 
     // P
     private double error;
@@ -26,9 +29,9 @@ public class GyroController {
     private double errorChange = 0;
     private double currentFilterEstimate = 0;
     private double lastFilterEstimate = 0;
-    private double filterGain;
+    public double filterGain;
 
-    private double correctAngle(double angle) {
+    public double correctAngle(double angle) {
         while (angle > Math.PI) {
             angle -= 2 * Math.PI;
         }
@@ -54,20 +57,27 @@ public class GyroController {
         this.kF = coefficients.f;
     }
 
+    public void setPID(double kp, double ki, double kd) {
+        this.kP = kp;
+        this.kI = ki;
+        this.kD = kd;
+    }
+
     public double calculate(double targetAngle, double currentAngle) {
 
         double currentTime = (System.nanoTime() / 1E9);
 
         // corrige a diferença de angulo, tudo em radiano
-        error = Math.toRadians(targetAngle - currentAngle);
-        error = correctAngle(error);
+        error = correctAngle(targetAngle - currentAngle);
 
         // aplicando o filtro na derivada
         errorChange = error - lastError;
 
-        currentFilterEstimate = (filterGain * lastFilterEstimate) + (1 - filterGain) * errorChange;
-        lastFilterEstimate = currentFilterEstimate;
-        double derivative = currentFilterEstimate / currentTime;
+        //currentFilterEstimate = (filterGain * lastFilterEstimate) + (1 - filterGain) * errorChange;
+        //lastFilterEstimate = currentFilterEstimate;
+        //double derivative = currentFilterEstimate / currentTime;
+
+        double derivative = errorChange / currentTime;
 
         // limitando a soma da integral
         integralSum += (error * currentTime);
