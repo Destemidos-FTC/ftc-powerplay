@@ -16,11 +16,13 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity destemidosBot = new DefaultBotBuilder(meepMeep)
                 // We set this bot to be blue
                 .setColorScheme(new ColorSchemeBlueDark())
-                .setConstraints(30, 30, Math.toRadians(46), Math.toRadians(46), 13.38)
+                .setDimensions(15.748, 15.748)
+                .setConstraints(33, 30, Math.toRadians(137), Math.toRadians(137), 13.38)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
-                                .splineTo(new Vector2d(68, 40), 0)
-                                .splineTo(new Vector2d(0, 0), Math.toRadians(180))
+                        drive.trajectorySequenceBuilder(new Pose2d(10, 10, Math.toRadians(0)))
+                                .splineToLinearHeading(new Pose2d(60, 30, Math.toRadians(90)), Math.toRadians(90))
+                                .setReversed(true)
+                                //.splineToLinearHeading(new Pose2d(-34, -7, Math.toRadians(220)), Math.toRadians(90))
                                 .build()
                 );
 

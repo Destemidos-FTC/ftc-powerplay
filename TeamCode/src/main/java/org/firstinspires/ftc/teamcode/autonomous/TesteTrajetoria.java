@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.autonomous.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.autonomous.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "TesteTrajetoria", group = "Test")
 public class TesteTrajetoria extends LinearOpMode {
@@ -19,23 +20,24 @@ public class TesteTrajetoria extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Trajectory curva_s_indo = drive.trajectoryBuilder(new Pose2d())
-                .splineTo(new Vector2d(80, 45), 0)
+        TrajectorySequence ir_para_pilha = drive.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
+                .forward(36)
+                .splineToLinearHeading( new Pose2d(50.0, 36.0, Math.toRadians(90.0)), Math.toRadians(90.0))
                 .build();
 
-        Trajectory curva_s_voltano = drive.trajectoryBuilder(curva_s_indo.end(), true)
-                .splineTo(new Vector2d(0, 0), Math.toRadians(180))
+        Trajectory ir_para_junction = drive.trajectoryBuilder(ir_para_pilha.end(), true)
+                .splineToLinearHeading( new Pose2d(40.0, 36.0, Math.toRadians(220.0)), Math.toRadians(90.0))
                 .build();
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        // se direciona aproximadamente 2 tatames em X e Y
-        drive.followTrajectory(curva_s_indo);
+        // se direciona para a pilha de cones
+        drive.followTrajectorySequence(ir_para_pilha);
 
-        // percorre o caminho voltano, só que de costas
-        drive.followTrajectory(curva_s_voltano);
+        // volta de ré pra a juntion alta mais próxima
+        //drive.followTrajectory(ir_para_junction);
 
         while (!isStopRequested() && opModeIsActive()) ;
     }
