@@ -138,7 +138,7 @@ public final class MovementSystem {
     // um controle que sempre direciona o robô para onde apontamos no joystick, independente
     // da orentação do robô na arena
     public void fieldOrientedController(Gamepad driver) {
-        double joystick_y  = -driver.left_stick_y  * RobotConstants.MAX_SPEED;
+        double joystick_y  = driver.left_stick_y  * RobotConstants.MAX_SPEED;
         double joystick_x  = -driver.left_stick_x  * RobotConstants.MAX_SPEED; //* RobotConstants.kCorretorJoystickX;
         double giro        = -driver.right_stick_x * RobotConstants.MAX_SPEED;
 
