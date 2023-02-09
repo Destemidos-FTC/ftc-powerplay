@@ -21,7 +21,7 @@ public class TestGiroscopio extends LinearOpMode {
     private DestemidosBot robot;
     private GyroController gyroController;
 
-    public static PIDFCoefficients GYRO_COEFFICIENTS= new PIDFCoefficients(1, 0, 0, 0);
+    public static PIDFCoefficients GYRO_COEFFICIENTS= new PIDFCoefficients(2.03, 0, 0, 0);
     public static double targetAngle = 90;
 
     private double getAbsoluteAngle() {
@@ -33,7 +33,7 @@ public class TestGiroscopio extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot = new DestemidosBot(hardwareMap);
-        gyroController = new GyroController(0.01,0,0,0);
+        gyroController = new GyroController(2.03,0,0,0);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // resetando o angulo
@@ -56,7 +56,7 @@ public class TestGiroscopio extends LinearOpMode {
             robot.drivetrain.setMotorsPower(-motorOutput, -motorOutput, motorOutput, motorOutput);
 
             telemetry.addData("target angle", targetAngle);
-            telemetry.addData("robot angle", robotAngle);
+            telemetry.addData("robot angle", Math.toDegrees(robotAngle) );
             telemetry.addData("pid", output);
             telemetry.update();
         }
