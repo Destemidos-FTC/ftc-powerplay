@@ -45,7 +45,7 @@ public final class DestemidosBot {
         allHubs.get(EXPANSIONHUB_ID).setConstant(Color.CYAN);
 
         // carregando a configuração completa do drivetrain
-        drivetrain = new Drivetrain(hardwareMap, Drivetrain.Mode.FULL);
+        drivetrain = new Drivetrain(hardwareMap);
 
         // configurando os atuadores dos braços
         motorBraçoA = hardwareMap.get(DcMotorEx.class,"braçoA"); // porta 1 - expansion
