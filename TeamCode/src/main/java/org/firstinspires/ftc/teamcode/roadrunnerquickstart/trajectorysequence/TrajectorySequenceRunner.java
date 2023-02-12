@@ -15,7 +15,9 @@ import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryMarker;
 import com.acmerobotics.roadrunner.util.NanoClock;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.teamcode.hardware.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunnerquickstart.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.roadrunnerquickstart.trajectorysequence.sequencesegment.TrajectorySegment;
 import org.firstinspires.ftc.teamcode.roadrunnerquickstart.trajectorysequence.sequencesegment.TurnSegment;
@@ -57,11 +59,25 @@ public class TrajectorySequenceRunner {
     private final FtcDashboard dashboard;
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
-    public TrajectorySequenceRunner(TrajectoryFollower follower, PIDCoefficients headingPIDCoefficients) {
+    private VoltageSensor voltageSensor;
+
+    private List<Integer> lastDriveEncPositions, lastDriveEncVels, lastTrackingEncPositions, lastTrackingEncVels;
+
+    public TrajectorySequenceRunner(
+            TrajectoryFollower follower, PIDCoefficients headingPIDCoefficients, VoltageSensor voltageSensor,
+            List<Integer> lastDriveEncPositions, List<Integer> lastDriveEncVels, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels
+    ) {
         this.follower = follower;
 
         turnController = new PIDFController(headingPIDCoefficients);
         turnController.setInputBounds(0, 2 * Math.PI);
+
+        this.voltageSensor = voltageSensor;
+
+        this.lastDriveEncPositions = lastDriveEncPositions;
+        this.lastDriveEncVels = lastDriveEncVels;
+        this.lastTrackingEncPositions = lastTrackingEncPositions;
+        this.lastTrackingEncVels = lastTrackingEncVels;
 
         clock = NanoClock.system();
 
@@ -182,6 +198,25 @@ public class TrajectorySequenceRunner {
 
         if (POSE_HISTORY_LIMIT > -1 && poseHistory.size() > POSE_HISTORY_LIMIT) {
             poseHistory.removeFirst();
+        }
+
+        final double NOMINAL_VOLTAGE = 12.0;
+        double voltage = voltageSensor.getVoltage();
+        if (driveSignal != null && !DriveConstants.RUN_USING_ENCODER) {
+            driveSignal = new DriveSignal(
+                    driveSignal.getVel().times(NOMINAL_VOLTAGE / voltage),
+                    driveSignal.getAccel().times(NOMINAL_VOLTAGE / voltage)
+            );
+        }
+
+        if (targetPose != null) {
+
+            /* (ramalho): preguiça de arrumar esse log
+            LogFiles.record(
+                    targetPose, poseEstimate, voltage,
+                    lastDriveEncPositions, lastDriveEncVels, lastTrackingEncPositions, lastTrackingEncVels
+            );
+             */
         }
 
         packet.put("x", poseEstimate.getX());

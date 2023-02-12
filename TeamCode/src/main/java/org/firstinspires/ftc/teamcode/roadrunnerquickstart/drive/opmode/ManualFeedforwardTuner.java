@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.roadrunnerquickstart.drive.opmode;
 
-
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ACCEL;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.RUN_USING_ENCODER;
@@ -19,12 +18,12 @@ import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadrunnerquickstart.drive.SampleMecanumDrive;
 
-import java.util.List;
 import java.util.Objects;
 
 /*
@@ -75,6 +74,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         drive = new SampleMecanumDrive(hardwareMap);
 
+        final VoltageSensor voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
         mode = Mode.TUNING_MODE;
 
         NanoClock clock = NanoClock.system();
@@ -114,20 +115,17 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     MotionState motionState = activeProfile.get(profileTime);
                     double targetPower = Kinematics.calculateMotorFeedforward(motionState.getV(), motionState.getA(), kV, kA, kStatic);
 
-                    drive.setDrivePower(new Pose2d(targetPower, 0, 0));
+                    final double NOMINAL_VOLTAGE = 12.0;
+                    final double voltage = voltageSensor.getVoltage();
+                    drive.setDrivePower(new Pose2d(NOMINAL_VOLTAGE / voltage * targetPower, 0, 0));
                     drive.updatePoseEstimate();
 
                     Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
                     double currentVelo = poseVelo.getX();
 
-                    List<Double> vel = drive.getWheelVelocities();
-
                     // update telemetry
                     telemetry.addData("targetVelocity", motionState.getV());
-                    telemetry.addData("measuredVelocity0", vel.get(0));
-                    telemetry.addData("measuredVelocity1", vel.get(1));
-                    telemetry.addData("measuredVelocity2", vel.get(2));
-                    telemetry.addData("measuredVelocity3", vel.get(3));
+                    telemetry.addData("measuredVelocity", currentVelo);
                     telemetry.addData("error", motionState.getV() - currentVelo);
                     break;
                 case DRIVER_MODE:
