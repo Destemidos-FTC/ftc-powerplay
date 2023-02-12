@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
+import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
+import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,14 +30,6 @@ public class TesteBraçoAutonomo extends OpMode {
 
     // a posição alvo será medida em graus
     public static double target = 90;
-    
-    private double ConvertTicksToDegrees(int ticks) {
-        return (double) ticks / 360.0;
-    }
-
-    private int ConvertDegreesToTicks(double degrees) {
-        return (int) (1120 / (int) 360.0 * degrees) ;
-    }
 
     @Override
     public void init() {
@@ -56,7 +50,7 @@ public class TesteBraçoAutonomo extends OpMode {
         int motorBraçoBCurrentPosition = robo.motorBraçoB.getCurrentPosition();
 
         // convertemos graus em ticks
-        int target_in_ticks = ConvertDegreesToTicks(target);
+        int target_in_ticks = UnitConversion.degreesToEncoderTicks(target, RobotConstants.HD_HEX_TICKS);
 
         // nosso setpoint e o valor medido serão em ticks
         double pid = controller.calculate(motorBraçoACurrentPosition, target_in_ticks);
