@@ -5,13 +5,12 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripSystem;
+import org.firstinspires.ftc.teamcode.utils.RobotLogger;
 
 @Disabled
 @TeleOp(name = "TestServo", group = "Tests")
@@ -33,7 +32,7 @@ public class TestServo extends LinearOpMode {
 
             GripSystem.coletarCones(gamepad2, robot);
 
-            debugServoInfo(robot.servoMão, telemetry);
+            RobotLogger.debugServoInfo(robot.servoMão, telemetry);
             telemetry.addData("Servo PWM Range: ",
                     servoController.getServoPwmRange(robot.servoMão.getPortNumber())
             );
@@ -41,13 +40,5 @@ public class TestServo extends LinearOpMode {
                     servoController.getConnectionInfo()
             );
         }
-    }
-
-
-    void debugServoInfo(Servo servo, Telemetry telemetry) {
-        telemetry.addData("Servo Name:", servo.getDeviceName());
-        telemetry.addData("Servo Position:", servo.getPosition());
-        telemetry.addData("Servo Direction:", servo.getDirection());
-        telemetry.addData("Servo Port:", servo.getPortNumber());
     }
 }
