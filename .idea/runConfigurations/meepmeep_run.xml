@@ -4,7 +4,6 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.destemidos.meepmeep.MeepMeepTesting" />
     <module name="ftc-powerplay.MeepMeepTesting.main" />
-    <option name="PROGRAM_PARAMETERS" value="-Dsun.java2d.opengl=true" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
