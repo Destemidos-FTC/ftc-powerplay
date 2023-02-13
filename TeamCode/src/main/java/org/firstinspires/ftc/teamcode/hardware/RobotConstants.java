@@ -1,9 +1,27 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import static org.firstinspires.ftc.teamcode.autonomous.drive.SampleMecanumDrive.getAccelerationConstraint;
+import static org.firstinspires.ftc.teamcode.autonomous.drive.SampleMecanumDrive.getVelocityConstraint;
+import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.TRACK_WIDTH;
+
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 
 @Config
 public final class RobotConstants {
+
+    // constraints do autonomo
+    private static double ultra_factor = 3;
+    public static final TrajectoryVelocityConstraint ULTRA_VEL_CONSTRAINT = getVelocityConstraint(
+                    MAX_VEL * ultra_factor,
+                    MAX_ANG_VEL * ultra_factor,
+                    TRACK_WIDTH);
+
+    public static final TrajectoryAccelerationConstraint ULTRA_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL * ultra_factor);
 
     // Controles
     public static double DRIVER_CONTROLLER_X_AXIS_CORRECTION = 1.01;
