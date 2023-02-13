@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
 
 @TeleOp(name = "TesteMovementSystem", group = "Test")
 public class TesteMovementSystem extends LinearOpMode {
@@ -19,7 +18,6 @@ public class TesteMovementSystem extends LinearOpMode {
 
         // setup
         final DestemidosBot robot = new DestemidosBot(hardwareMap);
-        final MovementSystem movementSystem = new MovementSystem(robot);
         final GamepadEx driver = new GamepadEx(gamepad1);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -50,17 +48,17 @@ public class TesteMovementSystem extends LinearOpMode {
                 //movementSystem.controleMecanumAvançado(theta, direction, turn);
             }
             else if (toggleButtonY.getState()) {
-                movementSystem.standardMecanumController(gamepad1);
+                robot.drivetrain.driveAlternativeMecanum(gamepad1);
             }
             else if (toggleButtonA.getState()) {
-                movementSystem.fieldOrientedController(gamepad1);
+                robot.drivetrain.driveFieldOriented(gamepad1);
             }
             else if (toggleButtonB.getState()) {
-                movementSystem.tankController(gamepad1);
+                robot.drivetrain.driveTank(gamepad1);
             }
             else {
                 // caso algo dê errado:
-                movementSystem.standardMecanumController(gamepad1);
+                robot.drivetrain.driveStandardMecanum(gamepad1);
             }
 
 

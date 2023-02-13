@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
 import org.firstinspires.ftc.teamcode.utils.RobotLogger;
 
 @TeleOp(name="TESTBOT", group = "Test")
@@ -18,7 +17,6 @@ public class FTC_TESTBOT extends LinearOpMode {
 
         // setup the hardware components
         robot = new DestemidosBot(hardwareMap);
-        MovementSystem movementSystem = new MovementSystem(robot);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
@@ -26,7 +24,7 @@ public class FTC_TESTBOT extends LinearOpMode {
             robot.setBulkReadToAuto();
 
             // movimentação padrão das partidas
-            movementSystem.standardMecanumController(gamepad1);
+            robot.drivetrain.driveStandardMecanum(gamepad1);
 
             // controles do braço e da mão
             //ArmSystem.movimentarBraço(gamepad2, robot);
