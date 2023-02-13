@@ -17,8 +17,6 @@ public final class DestemidosBot {
 
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
-    private static final int CONTROLHUB_ID = 0;
-    private static final int EXPANSIONHUB_ID = 0;
 
     // Drivetain
     public Drivetrain drivetrain;
@@ -40,9 +38,8 @@ public final class DestemidosBot {
         // listando todos os hubs conectados no robô
         allHubs = hardwareMap.getAll(LynxModule.class);
 
-        // uma frescurinha que descobri no dia do intersesi
-        allHubs.get(CONTROLHUB_ID).setConstant(Color.CYAN);
-        allHubs.get(EXPANSIONHUB_ID).setConstant(Color.CYAN);
+        // definindo a cor do led para todos os hubs conectados
+        allHubs.stream().iterator().next().setConstant(Color.CYAN);
 
         // carregando a configuração completa do drivetrain
         drivetrain = new Drivetrain(hardwareMap);

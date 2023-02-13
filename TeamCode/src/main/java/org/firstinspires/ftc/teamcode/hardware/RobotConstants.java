@@ -5,6 +5,10 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public final class RobotConstants {
 
+    // Hubs
+    public static final int CONTROLHUB_ID = 0;
+    public static final int EXPANSIONHUB_ID = 0;
+
     // Controles
     public static double DRIVER_CONTROLLER_X_AXIS_CORRECTION = 1.01;
 
