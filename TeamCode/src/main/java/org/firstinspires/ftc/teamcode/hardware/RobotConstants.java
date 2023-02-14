@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
-import static org.firstinspires.ftc.teamcode.autonomous.drive.SampleMecanumDrive.getAccelerationConstraint;
-import static org.firstinspires.ftc.teamcode.autonomous.drive.SampleMecanumDrive.getVelocityConstraint;
+import static org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive.getAccelerationConstraint;
+import static org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive.getVelocityConstraint;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ACCEL;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ANG_VEL;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
