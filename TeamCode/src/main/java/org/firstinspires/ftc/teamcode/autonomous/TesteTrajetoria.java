@@ -23,7 +23,7 @@ public class TesteTrajetoria extends LinearOpMode {
         TrajectorySequence ir_para_pilha = drive.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
                 .setVelConstraint(RobotConstants.ULTRA_VEL_CONSTRAINT)
                 .setAccelConstraint(RobotConstants.ULTRA_ACCEL_CONSTRAINT)
-                .forward(54)
+                .forward(60)
                 .turn(Math.toRadians(125.0))
                 .build();
 

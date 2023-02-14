@@ -21,7 +21,7 @@ public final class RobotConstants {
                     MAX_ANG_VEL * ultra_factor,
                     TRACK_WIDTH);
 
-    public static final TrajectoryAccelerationConstraint ULTRA_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL * ultra_factor);
+    public static final TrajectoryAccelerationConstraint ULTRA_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
     // Controles
     public static double DRIVER_CONTROLLER_X_AXIS_CORRECTION = 1.01;
