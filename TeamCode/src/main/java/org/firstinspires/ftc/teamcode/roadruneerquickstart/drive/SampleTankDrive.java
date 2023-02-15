@@ -28,10 +28,12 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.hardware.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceRunner;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.util.LynxModuleUtil;
+import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +45,6 @@ import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MOTOR_VELO_PID;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kV;
@@ -252,10 +253,10 @@ public class SampleTankDrive extends TankDrive {
     public List<Double> getWheelPositions() {
         double leftSum = 0, rightSum = 0;
         for (DcMotorEx leftMotor : leftMotors) {
-            leftSum += encoderTicksToInches(leftMotor.getCurrentPosition());
+            leftSum += UnitConversion.encoderTicksToInches(leftMotor.getCurrentPosition(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH);
         }
         for (DcMotorEx rightMotor : rightMotors) {
-            rightSum += encoderTicksToInches(rightMotor.getCurrentPosition());
+            rightSum += UnitConversion.encoderTicksToInches(rightMotor.getCurrentPosition(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH);
         }
         return Arrays.asList(leftSum / leftMotors.size(), rightSum / rightMotors.size());
     }
@@ -263,10 +264,10 @@ public class SampleTankDrive extends TankDrive {
     public List<Double> getWheelVelocities() {
         double leftSum = 0, rightSum = 0;
         for (DcMotorEx leftMotor : leftMotors) {
-            leftSum += encoderTicksToInches(leftMotor.getVelocity());
+            leftSum += UnitConversion.encoderTicksToInches(leftMotor.getVelocity(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH);
         }
         for (DcMotorEx rightMotor : rightMotors) {
-            rightSum += encoderTicksToInches(rightMotor.getVelocity());
+            rightSum += UnitConversion.encoderTicksToInches(rightMotor.getVelocity(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH);
         }
         return Arrays.asList(leftSum / leftMotors.size(), rightSum / rightMotors.size());
     }

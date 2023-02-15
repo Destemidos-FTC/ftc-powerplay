@@ -29,10 +29,12 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.hardware.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceRunner;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.util.LynxModuleUtil;
+import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,8 +50,6 @@ import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MOTOR_VELO_PID;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.encoderTicksToInches;
-
 /*
  * Simple mecanum drive hardware implementation for REV hardware.
  */
@@ -257,7 +257,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
+            wheelPositions.add(UnitConversion.encoderTicksToInches(motor.getCurrentPosition(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH));
         }
         return wheelPositions;
     }
@@ -266,7 +266,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     public List<Double> getWheelVelocities() {
         List<Double> wheelVelocities = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
+            wheelVelocities.add(UnitConversion.encoderTicksToInches(motor.getVelocity(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH));
         }
         return wheelVelocities;
     }
