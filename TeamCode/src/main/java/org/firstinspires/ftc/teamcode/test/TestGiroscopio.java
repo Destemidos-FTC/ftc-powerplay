@@ -25,15 +25,13 @@ public class TestGiroscopio extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // resetando o angulo
-        robot.drivetrain.getSensorIMU().resetYaw();
+        robot.localizationSystem.resetAngle();
 
         waitForStart();
         while(opModeIsActive()) {
 
             // giro de 90 graus por padrão
-            double robotAngle = robot.drivetrain.getSensorIMU().getRobotOrientation(
-                    AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS
-            ).firstAngle;
+            double robotAngle = robot.localizationSystem.getRobotOrientation().firstAngle;
 
             double output = gyroController.calculate(Math.toRadians(targetAngle), robotAngle);
             double motorOutput = Range.clip(output, -1.0,1.0);

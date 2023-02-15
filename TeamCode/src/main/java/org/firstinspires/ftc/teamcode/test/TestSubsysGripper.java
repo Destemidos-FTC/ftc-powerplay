@@ -10,13 +10,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Gripper;
 
 @TeleOp(name = "TestSubsysGripper")
 public class TestSubsysGripper extends LinearOpMode {
-    private Gripper gripper;
-    private GamepadEx player2;
-
     @Override
     public void runOpMode() throws InterruptedException {
-        gripper = new Gripper(hardwareMap);
-        player2 = new GamepadEx(gamepad2);
+        final Gripper gripper   = new Gripper(hardwareMap);
+        final GamepadEx player2 = new GamepadEx(gamepad2);
 
         waitForStart();
         while (opModeIsActive()) {

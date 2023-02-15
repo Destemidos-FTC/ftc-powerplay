@@ -10,13 +10,19 @@ import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.TRACK_WIDTH
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+/**
+ * Classe responsável por agrupar todas as configurações gerais
+ * do robô em um só lugar, é recomendado o uso do FTC-Dashboard
+ * para modificar e monitorar as mudanças em tempo real
+ */
 @Config
 public final class RobotConstants {
 
-    // constraints do autonomo
-    public static final TrajectoryVelocityConstraint ULTRA_VEL_CONSTRAINT = getVelocityConstraint( MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
-    public static final TrajectoryAccelerationConstraint ULTRA_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
+    // Constraints específicas do Autônomo
+    public static final TrajectoryVelocityConstraint AUTONOMOUS_VEL_CONSTRAINT = getVelocityConstraint( MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
+    public static final TrajectoryAccelerationConstraint AUTONOMOUS_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
     // Controles
     public static double DRIVER_CONTROLLER_X_AXIS_CORRECTION = 1.01;
@@ -27,6 +33,7 @@ public final class RobotConstants {
     public static final int HD_HEX_TICKS = 1120;
 
     // Braço
+    public static PIDFCoefficients ARM_POSITION_PID = new PIDFCoefficients(7, 0,4.3,0.0015);
     public static double ARMS_POWER_SCALE = 0.7;
 
     // Servos
@@ -38,5 +45,4 @@ public final class RobotConstants {
 
     public static double HAND_CLOSED_POSITION = 0.78;
     public static double HAND_MAX_POSITION = 0.4;
-
 }

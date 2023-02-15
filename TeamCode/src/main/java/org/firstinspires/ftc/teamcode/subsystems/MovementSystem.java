@@ -142,7 +142,7 @@ public final class MovementSystem {
         double joystick_x  = -driver.left_stick_x; //* RobotConstants.kCorretorJoystickX;
         double giro        = -driver.right_stick_x;
 
-        double botHeading = robot.drivetrain.getSensorIMU().getRobotOrientation(
+        double botHeading = robot.localizationSystem.getSensorIMU().getRobotOrientation(
                 AxesReference.INTRINSIC,
                 AxesOrder.XYZ,
                 AngleUnit.RADIANS

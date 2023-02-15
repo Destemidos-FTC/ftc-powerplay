@@ -14,15 +14,13 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripSystem;
 
 @Disabled
-@TeleOp(name = "TestServo", group = "Tests")
+@TeleOp(name = "TestServo", group = "Test")
 public class TestServo extends LinearOpMode {
-    private DestemidosBot robot;
-    private ServoControllerEx servoController;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new DestemidosBot(hardwareMap);
-        servoController = (ServoControllerEx) robot.servoMão.getController();
+        final DestemidosBot robot = new DestemidosBot(hardwareMap);
+        final ServoControllerEx servoController = (ServoControllerEx) robot.servoMão.getController();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();

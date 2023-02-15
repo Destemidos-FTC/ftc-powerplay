@@ -20,8 +20,8 @@ public class TesteTrajetoria extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         TrajectorySequence ir_para_pilha = drive.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
-                .setVelConstraint(RobotConstants.ULTRA_VEL_CONSTRAINT)
-                .setAccelConstraint(RobotConstants.ULTRA_ACCEL_CONSTRAINT)
+                .setVelConstraint(RobotConstants.AUTONOMOUS_VEL_CONSTRAINT)
+                .setAccelConstraint(RobotConstants.AUTONOMOUS_ACCEL_CONSTRAINT)
                 .forward(60)
                 .turn(Math.toRadians(125.0))
                 .build();
@@ -32,7 +32,5 @@ public class TesteTrajetoria extends LinearOpMode {
 
         // se direciona para a pilha de cones
         drive.followTrajectorySequence(ir_para_pilha);
-
-        while (!isStopRequested() && opModeIsActive()) ;
     }
 }

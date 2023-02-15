@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
 
@@ -26,7 +25,7 @@ public class FTC_4 extends LinearOpMode {
             movementSystem.standardMecanumController(gamepad1);
 
             // controles do braço e da mão
-            ArmSystem.movimentarBraço(gamepad2, robot);
+            robot.armSystem.moveArms(gamepad2);
 
             GripSystem.coletarCones(gamepad2, robot);
         }

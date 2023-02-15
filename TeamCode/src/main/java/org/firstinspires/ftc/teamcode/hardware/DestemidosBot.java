@@ -4,15 +4,13 @@ import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.LocalizationSystem;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,39 +28,34 @@ public final class DestemidosBot {
     // Sistema do Drivetain
     public final Drivetrain drivetrain;
 
-    // Lista dos Atuadores e seus motores separados
-    public final List<DcMotorEx> atuadores;
-    public final DcMotorEx motorBraçoA;
-    public final DcMotorEx motorBraçoB;
+    // Sistema de localização do IMU
+    public final LocalizationSystem localizationSystem;
+
+    // Sistema de garras (estilo alavanca)
+    public final ArmSystem armSystem;
 
     // Servos
-    public Servo servoMão;
-    public Servo servoGarraA;
-    public Servo servoGarraB;
+    public final Servo servoMão;
+    public final Servo servoGarraA;
+    public final Servo servoGarraB;
 
+    /**
+     * Construtor padrão que recebe um {@link HardwareMap}
+     * e configura todos equipamentos e seus sistemas
+     * @param hardwareMap
+     */
     public DestemidosBot(@NonNull HardwareMap hardwareMap){
 
         // listando todos os hubs conectados no robô
         allHubs = hardwareMap.getAll(LynxModule.class);
 
-        // uma frescurinha que descobri no dia do intersesi
-        allHubs.get(CONTROLHUB_ID).setConstant(Color.CYAN);
-        allHubs.get(EXPANSIONHUB_ID).setConstant(Color.CYAN);
+        // definindo a cor das leds do hubs
+        allHubs.iterator().next().setConstant(Color.CYAN);
 
-        // carregando a configuração completa do drivetrain
+        // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
-
-        // configurando os atuadores dos braços
-        motorBraçoA = hardwareMap.get(DcMotorEx.class,"braçoA"); // porta 1 - expansion
-        motorBraçoB = hardwareMap.get(DcMotorEx.class,"braçoB"); // porta 2 - expansion
-        
-        motorBraçoA.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBraçoB.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        // configurando qual será o comportamento do motor, quando a força for 0
-        // nesse caso, configuramos para que os motores travem na posição em que pararm        
-        motorBraçoA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBraçoB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armSystem = new ArmSystem(hardwareMap);
+        localizationSystem = new LocalizationSystem(hardwareMap, "imu");
 
         // configurando os servos da garra
         servoMão    = hardwareMap.get(Servo.class, "mão");    // porta 1 - controlhub
@@ -73,31 +66,34 @@ public final class DestemidosBot {
         servoGarraA.setDirection(Servo.Direction.REVERSE);
         servoGarraB.setDirection(Servo.Direction.FORWARD);
 
-        // resetando todos os encoders do braço
-        resetArmsEncoder();
-
-        // inicalizando a lista de atuadores já configurados
-        atuadores = Arrays.asList(motorBraçoA, motorBraçoB);
     }
 
-    // reinicia a contagem relativa dos encoders do braço
-    public void resetArmsEncoder(){
-        motorBraçoA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBraçoB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
-    // ativa o modo de "caching" automático dos dados recebidos pelos hubs
+    /**
+     * Ativa o modo de caching automático de ambos os Hubs
+     */
     public void setBulkReadToAuto() {
         for (LynxModule robotHub : allHubs) {
             robotHub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
     }
 
-    // OBS: fica na resposabilidade do usuário, a limpeza desses dados em cache
-    // se não tiver certeza de como realizar essa ação, recomendo o configurar no automático
+    /**
+     * Ativa o modo de caching manual de ambos os Hubs
+     * OBS: fica na resposabilidade do usuário, a limpeza desses dados em cache
+     * se não tiver certeza de como realizar essa ação, recomendo o configurar no automático
+     */
     public void setBulkCacheToManual() {
         for (LynxModule robotHub : allHubs) {
             robotHub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
-    };
+    }
+
+    /**
+     * Limpa o atual cache dos hubs
+     */
+    public void clearManualBulkCache() {
+        for (LynxModule robotHub : allHubs) {
+            robotHub.clearBulkCache();
+        }
+    }
 }

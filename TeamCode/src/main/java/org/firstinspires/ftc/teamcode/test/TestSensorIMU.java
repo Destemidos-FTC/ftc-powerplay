@@ -26,11 +26,10 @@ import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
 @TeleOp(name = "TestSensorIMU", group = "Test")
 @Disabled
 public class TestSensorIMU extends LinearOpMode {
-    private DestemidosBot robot;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new DestemidosBot(hardwareMap);
+        DestemidosBot robot = new DestemidosBot(hardwareMap);
         MovementSystem movementSystem = new MovementSystem(robot);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
