@@ -15,12 +15,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityCons
 public final class RobotConstants {
 
     // constraints do autonomo
-    private static double ultra_factor = 3;
-    public static final TrajectoryVelocityConstraint ULTRA_VEL_CONSTRAINT = getVelocityConstraint(
-                    MAX_VEL * ultra_factor,
-                    MAX_ANG_VEL * ultra_factor,
-                    TRACK_WIDTH);
-
+    public static final TrajectoryVelocityConstraint ULTRA_VEL_CONSTRAINT = getVelocityConstraint( MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
     public static final TrajectoryAccelerationConstraint ULTRA_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
     // Controles
