@@ -24,11 +24,6 @@ import java.util.List;
  * referência: https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html
  */
 public final class Drivetrain {
-    public enum Mode {
-        MINIMAL,
-        FULL
-    }
-
     private final List<DcMotorEx> motors;
     private final DcMotorEx motorDireitaFrente;
     private final DcMotorEx motorDireitaTras;
@@ -56,33 +51,22 @@ public final class Drivetrain {
 
         configZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        this.drivetrainMode = drivetrainMode;
-
-        // OBS: o modo "FULL" do drivetrain
-        if(drivetrainMode == Mode.FULL) {
-
-            ParametrosDoIMU = new IMU.Parameters(
+        ParametrosDoIMU = new IMU.Parameters(
                     // NOTE (ramalho): aqui é de acordo com a posição que colocamos o hub no robô
                     // então é mais provável variar a direção das entradas USB nas futuras modificações do robô
                     // referências: https://ftc-docs.firstinspires.org/programming_resources/imu/imu.html
-
                     new RevHubOrientationOnRobot(
-                            RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                            RevHubOrientationOnRobot.UsbFacingDirection.LEFT
-                    )
-            );
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.LEFT)
+        );
 
-            // configurando e carregando o sensor IMU
-            sensorIMU = hardwareMap.get(IMU.class, "imu");
-            sensorIMU.initialize(ParametrosDoIMU);
+        // configurando e carregando o sensor IMU
+        sensorIMU = hardwareMap.get(IMU.class, "imu");
+        sensorIMU.initialize(ParametrosDoIMU);
         }
     }
 
     public IMU getSensorIMU() {
-        if(drivetrainMode != Mode.FULL) {
-            throw new RuntimeException("ERRO: O Modo do drivetrain NÃO está configurado como 'FULL' ");
-        }
-
         return sensorIMU;
     }
 
@@ -98,13 +82,6 @@ public final class Drivetrain {
     public DcMotorEx getMotorDireitaTras() { return motorDireitaTras; }
     public DcMotorEx getMotorEsquerdaFrente() { return motorEsquerdaFrente; }
     public DcMotorEx getMotorEsquerdaTras() { return motorEsquerdaTras;}
-
-    public Mode getDrivetrainMode() {
-        if(drivetrainMode != Mode.FULL) {
-            throw new RuntimeException("ERRO: O Modo do drivetrain NÃO está configurado como 'FULL' ");
-        }
-        return drivetrainMode;
-    }
 
     public IMU.Parameters getParametrosDoIMU() {
         return ParametrosDoIMU;
