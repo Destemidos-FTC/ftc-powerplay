@@ -15,27 +15,30 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Classe principal que representa o robô por completo, unindo
+ * seus sistemas e configurações em um único objeto, que pode 
+ * (e deve) ser usado em todo e qualquer tipo de OpMode que utilizamos
+ */
 public final class DestemidosBot {
 
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
     private static final int CONTROLHUB_ID = 0;
-    private static final int EXPANSIONHUB_ID = 0;
+    private static final int EXPANSIONHUB_ID = 1;
 
-    // Drivetain
-    public Drivetrain drivetrain;
+    // Sistema do Drivetain
+    public final Drivetrain drivetrain;
 
-    // Atuadores
-    public DcMotorEx motorBraçoA;
-    public DcMotorEx motorBraçoB;
+    // Lista dos Atuadores e seus motores separados
+    public final List<DcMotorEx> atuadores;
+    public final DcMotorEx motorBraçoA;
+    public final DcMotorEx motorBraçoB;
 
     // Servos
     public Servo servoMão;
     public Servo servoGarraA;
     public Servo servoGarraB;
-
-    // utilitário
-    public List<DcMotorEx> atuadores;
 
     public DestemidosBot(@NonNull HardwareMap hardwareMap){
 
@@ -55,7 +58,9 @@ public final class DestemidosBot {
         
         motorBraçoA.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBraçoB.setDirection(DcMotorSimple.Direction.FORWARD);
-        
+
+        // configurando qual será o comportamento do motor, quando a força for 0
+        // nesse caso, configuramos para que os motores travem na posição em que pararm        
         motorBraçoA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBraçoB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
