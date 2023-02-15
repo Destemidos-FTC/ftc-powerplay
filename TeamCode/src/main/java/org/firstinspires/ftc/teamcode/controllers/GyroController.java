@@ -1,30 +1,43 @@
 package org.firstinspires.ftc.teamcode.controllers;
 
 /**
- * Controlador P dedicado a correção angular
+ *  Controlador P dedicado a correção angular
+ *  referências: <a href="https://www.ctrlaltftc.com/practical-examples/controlling-heading">Dealing with Angles</a>
  */
 public class GyroController {
 
-    private double kP;
-
-    public double correctAngle(double angle) {
-        while (angle > Math.PI) {
-            angle -= 2 * Math.PI;
-        }
-        while (angle < -Math.PI) {
-            angle += 2 * Math.PI;
-        }
-
-        // resultado em radiano
-        return angle;
-    }
+    private final double kP;
 
     public GyroController(double kP) {
         this.kP = kP;
     }
 
+    /**
+     * Normalizamos o Ângulo recebido em um alcançe de -180° a +180°
+     * para evitar erros numéricos na conversão e erros de direção em relação ao robô.
+     * @param angleInRadians
+     * @return ângulo normalizado em radianos
+     */
+    public double correctAngle(double angleInRadians) {
+        while (angleInRadians > Math.PI) {
+            angleInRadians -= 2 * Math.PI;
+        }
+        while (angleInRadians < -Math.PI) {
+            angleInRadians += 2 * Math.PI;
+        }
+
+        return angleInRadians;
+    }
+
+    /**
+     * Calcula o valor necessário para que o ângulo atual do robô
+     * alcançe o ângulo desejado
+     * @param targetAngle em radianos
+     * @param currentAngle em radianos
+     * @return valor de correção computado pelo controlador
+     */
     public double calculate(double targetAngle, double currentAngle) {
-        // corrige a diferença de angulo, tudo em radiano
+
         double error = correctAngle(targetAngle - currentAngle);
 
         // TODO: inserir o termo F
