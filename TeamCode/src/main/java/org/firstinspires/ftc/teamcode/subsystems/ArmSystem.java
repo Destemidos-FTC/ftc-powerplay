@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
@@ -16,9 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Subsistema responsável pela
+ * Subsistema responsável pelo controle do braço
+ * seja de forma precisa, utilizando o Controlador PID,
+ * ou de forma manual pelo próprio jogador
  */
 public final class ArmSystem {
+
     // Lista dos Atuadores e seus motores separados
     public final List<DcMotorEx> atuadores;
     public final DcMotorEx motorArmA;
@@ -27,6 +28,10 @@ public final class ArmSystem {
     // Controlador PID pros motores
     private final PIDController armController;
 
+    /**
+     * Construtor padrão para a configuração do hardware
+     * @param hardwareMap presente em todo OpMode
+     */
     public ArmSystem(HardwareMap hardwareMap) {
         // configurando os atuadores dos braços
         motorArmA = hardwareMap.get(DcMotorEx.class,"braçoA"); // porta 1 - expansion
@@ -54,27 +59,37 @@ public final class ArmSystem {
         );
     }
 
+    /**
+     * Movimenta o braço do robô com a força escalonada.
+     * Para alterar o fator, veja o {@link RobotConstants}
+     * @param driver gamepad do jogador
+     */
     public void moveArms(Gamepad driver) {
         double controlPower = driver.left_stick_y * RobotConstants.ARMS_POWER_SCALE;
         motorArmA.setPower(controlPower);
         motorArmB.setPower(controlPower);
     }
 
+    /**
+     * Move o braço para o ângulo desejado utilizando
+     * o controlador PID junto do feedforward. Quando
+     * o ângulo alvo é alcançado, o braço irá se manter
+     * na posição.
+     * @param targetAngle em graus
+     */
     public void moveToAngleWithPID(double targetAngle) {
 
         // recebemos a posição de um dos motores em ticks
         int armACurrentPosition = motorArmA.getCurrentPosition();
-        //int armBCurrentPosition = motorArmB.getCurrentPosition();
 
         // convertemos o ângulo alvo para o equivalente em ticks
-        int target_in_ticks = UnitConversion.degreesToEncoderTicks(targetAngle, RobotConstants.HD_HEX_TICKS);
+        int target_in_ticks = UnitConversion.degreesToEncoderTicks(targetAngle, RobotConstants.HD_HEX_40_TICKS_PER_REV);
 
         // calculamos a ação do pid e o impulso do feedforward
-        // nosso setpoint e o valor medido serão em ticks
-        double pidOutput = armController.calculate(armACurrentPosition, target_in_ticks);
-        double ff = Math.cos(Math.toRadians(targetAngle)) * RobotConstants.ARM_POSITION_PID.f;
+        double pid = armController.calculate(armACurrentPosition, target_in_ticks);
+        double ff  = Math.cos(Math.toRadians(targetAngle)) * RobotConstants.ARM_POSITION_PID.f;
 
-        double commandPower = pidOutput + ff;
+        double commandPower = pid + ff;
 
         // enviamos a posição alvo e a força calculada pelo controlador
         motorArmA.setTargetPosition(target_in_ticks);
@@ -88,7 +103,9 @@ public final class ArmSystem {
         motorArmB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    // reinicia a contagem relativa dos encoders do braço
+    /**
+     * Reinicia a contagem absoluta dos encoders
+     */
     public void resetArmsEncoder(){
         motorArmA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorArmB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

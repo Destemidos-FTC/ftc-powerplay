@@ -31,7 +31,7 @@ public class TestGiroscopio extends LinearOpMode {
         while(opModeIsActive()) {
 
             // giro de 90 graus por padrão
-            double robotAngle = robot.localizationSystem.getRobotOrientation().firstAngle;
+            double robotAngle = robot.localizationSystem.getRobotHeading();
 
             double output = gyroController.calculate(Math.toRadians(targetAngle), robotAngle);
             double motorOutput = Range.clip(output, -1.0,1.0);

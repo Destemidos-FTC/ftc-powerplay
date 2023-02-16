@@ -13,9 +13,9 @@ public class GyroController {
     }
 
     /**
-     * Normalizamos o Ângulo recebido em um alcançe de -180° a +180°
+     * Normalizamos o ângulo recebido em um intervalo de -180° a +180°
      * para evitar erros numéricos na conversão e erros de direção em relação ao robô.
-     * @param angleInRadians
+     * @param angleInRadians ângulo a ser convertido
      * @return ângulo normalizado em radianos
      */
     public double correctAngle(double angleInRadians) {

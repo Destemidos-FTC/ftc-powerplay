@@ -6,30 +6,29 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
-import org.firstinspires.ftc.teamcode.subsystems.MovementSystem;
 import org.firstinspires.ftc.teamcode.utils.RobotLogger;
 
+/**
+ * OpMode focado em experimentação de novas idéias
+ * e de medição das informações do robô
+ */
 @TeleOp(name="TESTBOT", group = "Test")
 public class FTC_TESTBOT extends LinearOpMode {
-    private DestemidosBot robot;
-    private double[] motorVelocities = new double[4];
+    private final double[] motorVelocities = new double[4];
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         // setup the hardware components
-        robot = new DestemidosBot(hardwareMap);
-        MovementSystem movementSystem = new MovementSystem(robot);
+        final DestemidosBot robot = new DestemidosBot(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         while(opModeIsActive()) {
-            //robot.setBulkReadToAuto();
+            robot.setBulkReadToAuto();
 
             // movimentação padrão das partidas
-            movementSystem.standardMecanumController(gamepad1);
+            robot.drivetrain.standardMecanumController(gamepad1);
 
             for (int i = 0; i < robot.drivetrain.getMotors().size(); i++) {
                 motorVelocities[i] = robot.drivetrain.getMotors().get(i).getVelocity();

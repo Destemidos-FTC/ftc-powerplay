@@ -15,10 +15,15 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 /**
  * Classe responsável por agrupar todas as configurações gerais
  * do robô em um só lugar, é recomendado o uso do FTC-Dashboard
- * para modificar e monitorar as mudanças em tempo real
+ * para modificar e monitorar as mudanças destas informações em
+ * tempo real
  */
 @Config
 public final class RobotConstants {
+
+    // Hubs
+    public static final int CONTROLHUB_ID = 0;
+    public static final int EXPANSIONHUB_ID = 1;
 
     // Constraints específicas do Autônomo
     public static final TrajectoryVelocityConstraint AUTONOMOUS_VEL_CONSTRAINT = getVelocityConstraint( MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
@@ -28,9 +33,10 @@ public final class RobotConstants {
     public static double DRIVER_CONTROLLER_X_AXIS_CORRECTION = 1.01;
 
     // Drivetrain
+    public static final double CORE_HEX_TICKS_PER_REV = 288.0;
+    public static final double ULTRAPLANETARY_TICKS_PER_REV = 288.0;
+    public static final double HD_HEX_40_TICKS_PER_REV = 1120.0;
     public static final double MECANUM_WHEELS_ANGLE = Math.PI / 4;
-    public static final int CORE_HEX_TICKS = 288;
-    public static final int HD_HEX_TICKS = 1120;
 
     // Braço
     public static PIDFCoefficients ARM_POSITION_PID = new PIDFCoefficients(7, 0,4.3,0.0015);

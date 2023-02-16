@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -11,6 +11,10 @@ import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDr
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
+/**
+ * Teste focado em montar as trajetórias customizdas no RoadRunner
+ * e testá-las ao vivo por aqui.
+ */
 @Autonomous(name = "TesteTrajetoria", group = "Test")
 public class TesteTrajetoria extends LinearOpMode {
     @Override

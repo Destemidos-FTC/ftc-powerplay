@@ -22,8 +22,6 @@ public final class DestemidosBot {
 
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
-    private static final int CONTROLHUB_ID = 0;
-    private static final int EXPANSIONHUB_ID = 1;
 
     // Sistema do Drivetain
     public final Drivetrain drivetrain;
@@ -42,7 +40,7 @@ public final class DestemidosBot {
     /**
      * Construtor padrão que recebe um {@link HardwareMap}
      * e configura todos equipamentos e seus sistemas
-     * @param hardwareMap
+     * @param hardwareMap presente em todo OpMode
      */
     public DestemidosBot(@NonNull HardwareMap hardwareMap){
 
@@ -89,7 +87,7 @@ public final class DestemidosBot {
     }
 
     /**
-     * Limpa o atual cache dos hubs
+     * Limpa o cache atual dos hubs
      */
     public void clearManualBulkCache() {
         for (LynxModule robotHub : allHubs) {

@@ -8,8 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Gripper;
 
-@TeleOp(name = "TestSubsysGripper")
-public class TestSubsysGripper extends LinearOpMode {
+/**
+ * Teste focado em utilizar o sistema de commandos
+ * junto dos recursos do GamepadEx, providos pela FTCLib
+ */
+@TeleOp(name = "TestGripper", group = "Test")
+public class TestGripper extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         final Gripper gripper   = new Gripper(hardwareMap);
