@@ -17,12 +17,26 @@ public class MeepMeepTesting {
                 // We set this bot to be blue
                 .setColorScheme(new ColorSchemeBlueDark())
                 .setDimensions(15.748, 15.748)
-                .setConstraints(33, 30, Math.toRadians(137), Math.toRadians(137), 13.38)
+                .setConstraints(80, 60, Math.toRadians(360), Math.toRadians(360), 13.38)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(10, 10, Math.toRadians(0)))
-                                .splineToLinearHeading(new Pose2d(60, 30, Math.toRadians(90)), Math.toRadians(90))
+                        drive.trajectorySequenceBuilder(new Pose2d(0, 0, Math.toRadians(0)))
+                                .forward(60)
+                                .turn(Math.toRadians(125.0))
+                                .addDisplacementMarker(() -> {
+                                    // entrega o cone
+                                })
                                 .setReversed(true)
-                                //.splineToLinearHeading(new Pose2d(-34, -7, Math.toRadians(220)), Math.toRadians(90))
+                                .splineToLinearHeading(new Pose2d(55, 5, Math.toRadians(90)),  Math.toRadians(0))
+
+                                // essa etapa se repete 5 vezes
+                                .addDisplacementMarker(() ->{
+                                    // coleta o cone na pilha
+                                })
+                                .setReversed(true)
+                                .splineToLinearHeading(new Pose2d(60, 0, Math.toRadians(90)),  Math.toRadians(0))
+
+                                // finaliza estacionando na localização 2
+                                .strafeLeft(25)
                                 .build()
                 );
 
