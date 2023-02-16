@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.hardware.ServoEx;
+import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
@@ -19,22 +21,22 @@ public class Gripper implements Subsystem {
      * @param hardwareMap presente em todo OpMode
      */
     public Gripper(HardwareMap hardwareMap) {
-        gripper = hardwareMap.get(ServoEx.class, "gripper");
-        rotator = hardwareMap.get(ServoEx.class, "rotator");
+        gripper = new SimpleServo(hardwareMap, "gripper", 0.0, 180.0);
+        rotator = new SimpleServo(hardwareMap, "rotator", 0.0, 720.0);
     }
 
     /**
      * Fecha a garra na posição definida
      */
     public void closeGrip() {
-        gripper.setPosition(RobotConstants.GARRA_A_POSITION_CLOSED);
+        gripper.setPosition(0);
     }
 
     /**
      * Abre a garra
      */
     public void releaseGrip() {
-        gripper.setPosition(RobotConstants.GARRA_A_POSITION_OPEN);
+        gripper.setPosition(1);
     }
 
     /**
@@ -42,13 +44,13 @@ public class Gripper implements Subsystem {
      * para realizar a entrega do cone na base
      */
     public void rotateGripper(){
-        rotator.rotateByAngle(180.0);
+        rotator.turnToAngle(360.0);
     }
 
     /**
      * Retorna a posição original de coleta dos cones
      */
     public void returnToCollectPostion() {
-        rotator.rotateByAngle(0.0);
+        rotator.turnToAngle(0.0);
     }
 }

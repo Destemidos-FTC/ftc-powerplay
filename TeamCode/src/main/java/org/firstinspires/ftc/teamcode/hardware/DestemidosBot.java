@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Gripper;
 import org.firstinspires.ftc.teamcode.subsystems.LocalizationSystem;
 
 import java.util.List;
@@ -32,10 +33,15 @@ public final class DestemidosBot {
     // Sistema de garras (estilo alavanca)
     public final ArmSystem armSystem;
 
+    // Sistema de garra
+    public final Gripper gripperSystem;
+
+    /*
     // Servos
     public final Servo servoMão;
     public final Servo servoGarraA;
     public final Servo servoGarraB;
+     */
 
     /**
      * Construtor padrão que recebe um {@link HardwareMap}
@@ -53,8 +59,10 @@ public final class DestemidosBot {
         // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
         armSystem = new ArmSystem(hardwareMap);
+        gripperSystem = new Gripper(hardwareMap);
         localizationSystem = new LocalizationSystem(hardwareMap, "imu");
 
+        /*
         // configurando os servos da garra
         servoMão    = hardwareMap.get(Servo.class, "mão");    // porta 1 - controlhub
         servoGarraA = hardwareMap.get(Servo.class, "garraA"); // porta 3 - controlhub
@@ -63,7 +71,7 @@ public final class DestemidosBot {
         servoMão.setDirection(Servo.Direction.REVERSE);
         servoGarraA.setDirection(Servo.Direction.REVERSE);
         servoGarraB.setDirection(Servo.Direction.FORWARD);
-
+        */
     }
 
     /**

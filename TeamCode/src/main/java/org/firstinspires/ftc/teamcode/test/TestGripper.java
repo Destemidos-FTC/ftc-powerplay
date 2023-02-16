@@ -21,18 +21,30 @@ public class TestGripper extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+            player2.readButtons();
 
             // quando apertado uma vez, fecha a garra
             // na segunda, ele abre a garra
-            player2.getGamepadButton(GamepadKeys.Button.A)
-                    .toggleWhenActive(new InstantCommand(gripper::closeGrip, gripper))
-                    .whenInactive(new InstantCommand(gripper::releaseGrip, gripper));
+            player2.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
+                    .whenPressed(gripper::rotateGripper);
+
+            player2.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+                    .whenPressed(gripper::releaseGrip);
+
 
             // quando pressioando uma vez, gira a garra em 180 graus (vira pra base)
             // na segunda vez, ela retorna a sua posição incial
             player2.getGamepadButton(GamepadKeys.Button.X)
-                    .toggleWhenActive(new InstantCommand(gripper::rotateGripper, gripper))
-                    .whenInactive(new InstantCommand(gripper::returnToCollectPostion, gripper));
+                    .whenPressed(gripper::rotateGripper);
+
+            player2.getGamepadButton(GamepadKeys.Button.Y)
+                    .whenPressed(gripper::returnToCollectPostion);
+
+            telemetry.addData("gripper position", gripper.gripper.getPosition());
+            telemetry.addData("gripper angle", gripper.gripper.getAngle());
+            telemetry.addData("rotator position", gripper.rotator.getPosition());
+            telemetry.addData("rotator angle", gripper.rotator.getAngle());
+            telemetry.update();
         }
 
     }

@@ -37,6 +37,12 @@ public class TestServo extends LinearOpMode {
             if (gamepad1.left_bumper) {
                 gripperSys.returnToCollectPostion();
             }
+
+            telemetry.addData("gripper position", gripperSys.gripper.getPosition());
+            telemetry.addData("gripper angle", gripperSys.gripper.getAngle());
+            telemetry.addData("rotator position", gripperSys.rotator.getPosition());
+            telemetry.addData("rotator angle", gripperSys.rotator.getAngle());
+            telemetry.update();
         }
     }
 
