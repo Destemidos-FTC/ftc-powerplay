@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
@@ -57,6 +58,14 @@ public final class Drivetrain {
         configRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         configZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // configurando alguns detalhes ai blz
+        for (DcMotorEx motor : motors) {
+            MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
+            motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
+
+            motor.setMotorType(motorConfigurationType);
+        }
     }
 
     /**
@@ -144,10 +153,10 @@ public final class Drivetrain {
     /**
      * Retorna a posição dos motores em lista
      */
-    public List<Integer> getRawWheelsPositions() {
-        List<Integer> positions = new ArrayList<>();
+    public List<Double> getRawWheelsPositions() {
+        List<Double> positions = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            positions.add(motor.getCurrentPosition());
+            positions.add((double) motor.getCurrentPosition());
         }
         return positions;
     }
@@ -199,9 +208,9 @@ public final class Drivetrain {
     public void preciseMecanumController(Gamepad driver) {
 
         // principais inputs do controle
-        double theta = Math.atan2(driver.left_stick_x, driver.left_stick_y); // ângulo do joystick
-        double direction = Math.hypot(driver.left_stick_y, driver.left_stick_x); // direção que o joystick aponta
-        double turn = driver.right_stick_x;                                 // giro
+        double theta = Math.atan2(-driver.left_stick_y, driver.left_stick_x);       // ângulo do joystick
+        double direction = Math.hypot(driver.left_stick_x, -driver.left_stick_y);   // direção que o joystick aponta
+        double turn = -driver.right_stick_x;                                        // giro
 
         // usamos o seno e o cosseno para controlar os pares de rodas nas diagonais
         // para entender melhor o do porquê deste cálculo, veja o vídeo referênciado
@@ -228,9 +237,13 @@ public final class Drivetrain {
         setMotorsPower(direitaFrentePower, direitaTrasPower, esquerdaFrentePower, esquerdaTrasPower);
     }
 
-    public void controleMecanumAlternativo(Gamepad driver) {
-        double direction = Math.hypot(driver.left_stick_x, driver.left_stick_y);
-        double robotAngle = Math.atan2(driver.left_stick_y, driver.left_stick_x) - RobotConstants.MECANUM_WHEELS_ANGLE;
+    /**
+     *
+     * @param driver
+     */
+    public void alternativeMecanumController(Gamepad driver) {
+        double direction = Math.hypot(driver.left_stick_x, -driver.left_stick_y);
+        double robotAngle = Math.atan2(-driver.left_stick_y, driver.left_stick_x) - RobotConstants.MECANUM_WHEELS_ANGLE;
         double rightX = driver.right_stick_x;
 
         final double v1 = direction * Math.cos(robotAngle) + rightX;
@@ -249,8 +262,8 @@ public final class Drivetrain {
      * @param botHeading ângulo atual do robô
      */
     public void fieldOrientedController(Gamepad driver, double botHeading) {
-        double joystick_y = driver.left_stick_y;
-        double joystick_x = -driver.left_stick_x;
+        double joystick_y = -driver.left_stick_y;
+        double joystick_x = driver.left_stick_x;
         double giro = -driver.right_stick_x;
 
         double rotationX = joystick_x * Math.cos(botHeading) - joystick_y * Math.sin(botHeading);

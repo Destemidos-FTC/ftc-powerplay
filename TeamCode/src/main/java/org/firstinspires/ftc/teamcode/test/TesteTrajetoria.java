@@ -7,9 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
+import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
+import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
 /**
  * Teste focado em montar as trajetórias customizdas no RoadRunner
@@ -21,13 +24,14 @@ public class TesteTrajetoria extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        DestemidosBot robot = new DestemidosBot(hardwareMap);
+        AutonomoSystem autoRobot = new AutonomoSystem(robot.drivetrain, robot.localizationSystem);
 
-        TrajectorySequence ir_para_pilha = drive.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
+        TrajectorySequence ir_para_pilha = autoRobot.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
                 .setVelConstraint(RobotConstants.AUTONOMOUS_VEL_CONSTRAINT)
                 .setAccelConstraint(RobotConstants.AUTONOMOUS_ACCEL_CONSTRAINT)
                 .forward(60)
-                .turn(Math.toRadians(125.0))
+                .turn(UnitConversion.degreesToRadians(90.0))
                 .build();
 
         waitForStart();
@@ -35,6 +39,6 @@ public class TesteTrajetoria extends LinearOpMode {
         if (isStopRequested()) return;
 
         // se direciona para a pilha de cones
-        drive.followTrajectorySequence(ir_para_pilha);
+        autoRobot.followTrajectorySequence(ir_para_pilha);
     }
 }

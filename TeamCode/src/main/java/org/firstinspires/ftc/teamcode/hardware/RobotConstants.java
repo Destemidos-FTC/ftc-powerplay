@@ -26,8 +26,8 @@ public final class RobotConstants {
     public static final int EXPANSIONHUB_ID = 1;
 
     // Constraints específicas do Autônomo
-    public static final TrajectoryVelocityConstraint AUTONOMOUS_VEL_CONSTRAINT = getVelocityConstraint( MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
-    public static final TrajectoryAccelerationConstraint AUTONOMOUS_ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
+    public static TrajectoryVelocityConstraint VEL_CONSTRAINT = DriveConstants.setVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
+    public static TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = DriveConstants.setAccelerationConstraint(MAX_ACCEL);
 
     // Controles
     public static double DRIVER_CONTROLLER_X_AXIS_CORRECTION = 1.01;

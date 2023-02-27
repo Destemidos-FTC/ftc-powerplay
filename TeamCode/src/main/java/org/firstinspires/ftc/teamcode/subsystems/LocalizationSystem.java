@@ -1,24 +1,24 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 /**
  * Subsistema dedicado a informar e localizar
  * o robô na arena, utilizando o sensor IMU embutido
  * no ControlHub.
  */
-public class LocalizationSystem {
+public class LocalizationSystem implements Subsystem {
     final private IMU sensorIMU;
     final private IMU.Parameters imuParameters;
-    private Orientation robotOrientation;
+    private YawPitchRollAngles robotAngles;
+    private AngularVelocity robotAngularVelocity;
 
     /**
      * Construtor padrão que configura todo o sistema
@@ -35,7 +35,7 @@ public class LocalizationSystem {
 
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.LEFT)
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
         );
         sensorIMU.initialize(imuParameters);
     }
@@ -63,14 +63,20 @@ public class LocalizationSystem {
         return imuParameters;
     }
 
+
+
     /**
      * Atualiza todo o sistema e as principais
      * informações medidas pelo sensor
      */
-    public void update() {
+    @Override
+    public void periodic() {
 
         // sempre damos preferência aos radianos
-        robotOrientation = getRobotOrientation(AngleUnit.RADIANS);
+        robotAngles = sensorIMU.getRobotYawPitchRollAngles();
+
+        // salvamos a
+        robotAngularVelocity = sensorIMU.getRobotAngularVelocity(AngleUnit.RADIANS);
     }
 
     /**
@@ -85,15 +91,18 @@ public class LocalizationSystem {
      * neste momento, em radianos
      */
     public double getRobotHeading() {
-        return getRobotOrientation(AngleUnit.RADIANS).firstAngle;
+        return sensorIMU.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
     /**
-     * Retorna o conjunto de informações que compôe
-     * a orientação do robô em relação aos ângulos
-     * @param angleUnit unidade de medida: graus ou radianos
+     * Retorna a velocidade angular da rotação do robô,
+     * em radianos.
      */
-    public Orientation getRobotOrientation(AngleUnit angleUnit) {
-        return sensorIMU.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, angleUnit);
+    public double getRobotHeadingVelocity() {
+        return robotAngularVelocity.zRotationRate;
+    }
+
+    public AngularVelocity getAngularVelocity(AngleUnit unit) {
+        return sensorIMU.getRobotAngularVelocity(unit);
     }
 }

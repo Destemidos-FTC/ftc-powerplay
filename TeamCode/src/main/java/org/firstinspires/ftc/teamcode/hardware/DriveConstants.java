@@ -1,7 +1,16 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import java.util.Arrays;
 
 /*
  * Constants shared between multiple drive types.
@@ -33,8 +42,23 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-    public static final boolean RUN_USING_ENCODER = true;
+    public static final boolean RUN_USING_ENCODER = false;
+
+    /*
+     * Multiplicadores
+     */
+    public static double LATERAL_MULTIPLIER = 1;
+    public static double VX_WEIGHT = 1;
+    public static double VY_WEIGHT = 1;
+    public static double OMEGA_WEIGHT = 1;
+
+    /*
+     * Coeficientes de PID
+     */
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 10, 0);
+    public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0,0,0);
+    public static PIDCoefficients LATERAL_PID = new PIDCoefficients(0,0,0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0,0,0);
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -47,6 +71,7 @@ public class DriveConstants {
     public static double WHEEL_RADIUS = 1.4763; // in
     public static double GEAR_RATIO = 1;       // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 12.75; //13.38; // in
+    public static double WHEEL_BASE = 12; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -111,5 +136,16 @@ public class DriveConstants {
     public static double getMotorVelocityF(double ticksPerSecond) {
       // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
       return 32767 / ticksPerSecond;
+    }
+
+    public static TrajectoryVelocityConstraint setVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
+        return new MinVelocityConstraint(Arrays.asList(
+                new AngularVelocityConstraint(maxAngularVel),
+                new MecanumVelocityConstraint(maxVel, trackWidth)
+        ));
+    }
+
+    public static TrajectoryAccelerationConstraint setAccelerationConstraint(double maxAccel) {
+        return new ProfileAccelerationConstraint(maxAccel);
     }
 }
