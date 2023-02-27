@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.controllers;
+package org.firstinspires.ftc.teamcode.math.controllers;
 
 /**
  *  Controlador P dedicado a correção angular
