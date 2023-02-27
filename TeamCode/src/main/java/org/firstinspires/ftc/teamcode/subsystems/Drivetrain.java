@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
 import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 
 import java.util.ArrayList;
@@ -125,6 +120,7 @@ public final class Drivetrain {
 
     /**
      * Define uma força para todos os motores, de forma uniforme
+     *
      * @param power valor da força, de -1.0 a 1.0
      */
     public void setAllPower(double power) {
@@ -159,16 +155,17 @@ public final class Drivetrain {
     /**
      * Estilo de controle extremamente simples, onde só há movimentos frontais
      * e de rotação, ideal para drivetrains que não usam as rodas mecanum
+     *
      * @param driver gamepad do jogador
      */
     public void tankController(Gamepad driver) {
-        double joystick_y   = -driver.left_stick_y;
-        double giro         = -driver.right_stick_x;
+        double joystick_y = -driver.left_stick_y;
+        double giro = -driver.right_stick_x;
 
-        double direitaFrentePower   = (joystick_y - giro);
-        double direitaTrasPower     = (joystick_y - giro);
-        double esquerdaFrentePower  = (joystick_y + giro);
-        double esquerdaTrasPower    = (joystick_y + giro);
+        double direitaFrentePower = (joystick_y - giro);
+        double direitaTrasPower = (joystick_y - giro);
+        double esquerdaFrentePower = (joystick_y + giro);
+        double esquerdaTrasPower = (joystick_y + giro);
 
         setMotorsPower(direitaFrentePower, direitaTrasPower, esquerdaFrentePower, esquerdaTrasPower);
     }
@@ -181,14 +178,14 @@ public final class Drivetrain {
      * @param driver gamepad do jogador
      */
     public void standardMecanumController(Gamepad driver) {
-        double joystick_y   = driver.left_stick_y;
-        double joystick_x   = -driver.left_stick_x;
-        double giro         = -driver.right_stick_x;
+        double joystick_y = driver.left_stick_y;
+        double joystick_x = -driver.left_stick_x;
+        double giro = -driver.right_stick_x;
 
-        double direitaFrentePower   = (joystick_y - joystick_x - giro);
-        double direitaTrasPower     = (joystick_y + joystick_x - giro);
-        double esquerdaFrentePower  = (joystick_y + joystick_x + giro);
-        double esquerdaTrasPower    = (joystick_y - joystick_x + giro);
+        double direitaFrentePower = (joystick_y - joystick_x - giro);
+        double direitaTrasPower = (joystick_y + joystick_x - giro);
+        double esquerdaFrentePower = (joystick_y + joystick_x + giro);
+        double esquerdaTrasPower = (joystick_y - joystick_x + giro);
 
         setMotorsPower(direitaFrentePower, direitaTrasPower, esquerdaFrentePower, esquerdaTrasPower);
     }
@@ -202,9 +199,9 @@ public final class Drivetrain {
     public void preciseMecanumController(Gamepad driver) {
 
         // principais inputs do controle
-        double theta        = Math.atan2(driver.left_stick_x, driver.left_stick_y); // ângulo do joystick
-        double direction    = Math.hypot(driver.left_stick_y, driver.left_stick_x); // direção que o joystick aponta
-        double turn         = driver.right_stick_x;                                 // giro
+        double theta = Math.atan2(driver.left_stick_x, driver.left_stick_y); // ângulo do joystick
+        double direction = Math.hypot(driver.left_stick_y, driver.left_stick_x); // direção que o joystick aponta
+        double turn = driver.right_stick_x;                                 // giro
 
         // usamos o seno e o cosseno para controlar os pares de rodas nas diagonais
         // para entender melhor o do porquê deste cálculo, veja o vídeo referênciado
@@ -216,10 +213,10 @@ public final class Drivetrain {
         double denominador = Math.max(Math.abs(sen), Math.abs(cos));
 
         // aplicamos o movimento final
-        double direitaFrentePower   = direction * (sen / denominador) - turn;
-        double direitaTrasPower     = direction * (cos / denominador) - turn;
-        double esquerdaFrentePower  = direction * (cos / denominador) + turn;
-        double esquerdaTrasPower    = direction * (sen / denominador) + turn;
+        double direitaFrentePower = direction * (sen / denominador) - turn;
+        double direitaTrasPower = direction * (cos / denominador) - turn;
+        double esquerdaFrentePower = direction * (cos / denominador) + turn;
+        double esquerdaTrasPower = direction * (sen / denominador) + turn;
 
         if (direction + Math.abs(turn) > 1) {
             direitaFrentePower /= direction + Math.abs(turn);

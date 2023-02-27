@@ -23,7 +23,6 @@ import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
  */
 
 @TeleOp(name = "TestSensorIMU", group = "Test")
-@Disabled
 public class TestSensorIMU extends LinearOpMode {
 
     @Override
@@ -43,16 +42,17 @@ public class TestSensorIMU extends LinearOpMode {
             YawPitchRollAngles robotAngles = robot.localizationSystem.getSensorIMU().getRobotYawPitchRollAngles();
 
             telemetry.addData("Sensor IMU - Velocidade Angular: ", robotAngVel);
-            telemetry.addData("Sensor IMU - Orientação em Graus: ", "X: %d / Y: %d / Z: %d",
+            telemetry.addData("Sensor IMU - Orientação em Graus: ", "X: %f / Y: %f / Z: %f",
                     robotOrientation.firstAngle,
                     robotOrientation.secondAngle,
                     robotOrientation.thirdAngle
             );
-            telemetry.addData("Sensor IMU - Ângulo das Rotações: ", "Yaw: %d / Pitch: %d / Row: %d",
+            telemetry.addData("Sensor IMU - Ângulo das Rotações: ", "Yaw: %f / Pitch: %f / Row: %f",
                     robotAngles.getYaw(AngleUnit.DEGREES),
                     robotAngles.getPitch(AngleUnit.DEGREES),
                     robotAngles.getRoll(AngleUnit.DEGREES)
             );
+            telemetry.update();
         }
     }
 }
