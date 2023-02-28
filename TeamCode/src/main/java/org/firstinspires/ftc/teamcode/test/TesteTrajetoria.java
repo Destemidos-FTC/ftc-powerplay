@@ -28,8 +28,6 @@ public class TesteTrajetoria extends LinearOpMode {
         AutonomoSystem autoRobot = new AutonomoSystem(robot.drivetrain, robot.localizationSystem);
 
         TrajectorySequence ir_para_pilha = autoRobot.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
-                .setVelConstraint(RobotConstants.AUTONOMOUS_VEL_CONSTRAINT)
-                .setAccelConstraint(RobotConstants.AUTONOMOUS_ACCEL_CONSTRAINT)
                 .forward(60)
                 .turn(UnitConversion.degreesToRadians(90.0))
                 .build();

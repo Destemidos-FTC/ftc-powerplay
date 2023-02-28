@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 
@@ -29,8 +28,6 @@ public class Rota1A extends LinearOpMode {
          * segue em direção a pilha de cones para a coleta
         */
         final TrajectorySequence entrega_do_cone = drive.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
-                .setVelConstraint(RobotConstants.AUTONOMOUS_VEL_CONSTRAINT)
-                .setAccelConstraint(RobotConstants.AUTONOMOUS_ACCEL_CONSTRAINT)
                 .forward(60)
                 .turn(Math.toRadians(125.0))
                 .addDisplacementMarker(() -> {
