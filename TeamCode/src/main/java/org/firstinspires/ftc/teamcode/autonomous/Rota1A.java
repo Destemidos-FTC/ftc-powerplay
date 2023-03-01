@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 
+@Autonomous
 public class Rota1A extends LinearOpMode {
     public static int NUM_COLLECT_CYCLES = 5;
     @Override

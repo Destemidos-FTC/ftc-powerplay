@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 
 @TeleOp(name = "Teste ArmSystem", group = "Test")
 public class TesteArmSystem extends LinearOpMode {
-
     @Override
     public void runOpMode() throws InterruptedException {
         ArmSystem armSystem = new ArmSystem(hardwareMap);
@@ -19,10 +18,6 @@ public class TesteArmSystem extends LinearOpMode {
         while (opModeIsActive()) {
             armSystem.moveArms(gamepad2);
 
-            if(gamepad2.x) {
-                armSystem.moveToAngleWithPID(90.0);
-            }
         }
     }
-
 }
