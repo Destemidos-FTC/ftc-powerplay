@@ -51,4 +51,16 @@ public final class RobotConstants {
 
     public static double HAND_CLOSED_POSITION = 0.78;
     public static double HAND_MAX_POSITION = 0.4;
+
+    // Outtake
+    public static PIDFCoefficients OUTTAKE_PID = new PIDFCoefficients(0.0, 0.0, 0.0, 0.0);
+    public static double Outtake_KV = 0.0;
+    public static double Outtake_KA = 0.0;
+    public static double Outtake_KS = 0.0;
+
+    // Intake
+    public static PIDFCoefficients INTAKE_PID = new PIDFCoefficients(0.0, 0.0, 0.0, 0.0);
+    public static double Intake_KV = 0.0;
+    public static double Intake_KA = 0.0;
+    public static double Intake_KS = 0.0;
 }

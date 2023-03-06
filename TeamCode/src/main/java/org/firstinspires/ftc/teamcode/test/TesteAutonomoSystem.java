@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 public class TesteAutonomoSystem extends LinearOpMode {
 
     DestemidosBot robot = new DestemidosBot(hardwareMap);
-    AutonomoSystem autoRobot = new AutonomoSystem(robot.drivetrain, robot.localizationSystem);
+    //AutonomoSystem autoRobot = new AutonomoSystem(robot.drivetrain, robot.localizationSystem);
 
     @Override
     public void runOpMode() throws InterruptedException {
