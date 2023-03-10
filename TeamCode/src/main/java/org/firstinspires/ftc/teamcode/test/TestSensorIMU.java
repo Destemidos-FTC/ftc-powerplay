@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 /*
  * TestSensorIMU - OpMode dedicado a leitura de informações

@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.hardware.DriveConstants;
+import org.firstinspires.ftc.teamcode.config.DriveConstants;
 
 import java.util.Objects;
 

@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 

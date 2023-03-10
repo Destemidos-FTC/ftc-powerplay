@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.autonomous.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -24,13 +25,13 @@ public class TesteAprilTags extends LinearOpMode
     * porém, testamos "a mão", focando em manter a orientação da câmera
     * independente do ângulo em que estamos vendo.
     */
-    public static double fx = 950;
-    public static double fy = 950;
-    public static double cx = 201;
-    public static double cy = 201;
+    public static double fx = 850;
+    public static double fy = 850;
+    public static double cx = 280;
+    public static double cy = 280;
 
     // UNITS ARE METERS
-    double tagsize = 0.06;
+    double tagsize = 0.05;
 
     // Tag's ID from the 36h11 family
     final int IMAGEM_1 = 16;
@@ -47,12 +48,13 @@ public class TesteAprilTags extends LinearOpMode
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
+        camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                camera.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override

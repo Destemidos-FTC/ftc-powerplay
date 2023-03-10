@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.hardware.DestemidosBot;
-import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 public class TesteAutonomoSystem extends LinearOpMode {
 

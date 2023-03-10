@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardware;
+package org.firstinspires.ftc.teamcode.config;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
@@ -9,6 +9,9 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import org.firstinspires.ftc.teamcode.math.parameters.FeedfowardCoeficients;
+import org.firstinspires.ftc.teamcode.math.parameters.MotorConstraints;
 
 import java.util.Arrays;
 
@@ -29,10 +32,13 @@ import java.util.Arrays;
 public class DriveConstants {
 
     /*
-     * These are motor constants that should be listed online for your motors.
+     * Motor Constraints
      */
-    public static final double TICKS_PER_REV = 537.6;
-    public static final double MAX_RPM = 312.5;
+    public static final double GEARBOX = 15.2;
+    public static final double TICKS_PER_REV = 28.0 * GEARBOX;
+    public static final double MAX_RPM = 6000.0 / GEARBOX;
+
+    public static MotorConstraints motorConstraints = new MotorConstraints(TICKS_PER_REV, MAX_RPM, 19.2);
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -82,6 +88,7 @@ public class DriveConstants {
     public static double kV = 0.024;
     public static double kA = 0.004;
     public static double kStatic = 0;
+    public static FeedfowardCoeficients motorFeedfoward = new FeedfowardCoeficients(kV, kA, kStatic);
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,

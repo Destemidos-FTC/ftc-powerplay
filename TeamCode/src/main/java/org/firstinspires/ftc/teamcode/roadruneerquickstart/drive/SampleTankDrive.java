@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.hardware.DriveConstants;
+import org.firstinspires.ftc.teamcode.config.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceRunner;
@@ -38,16 +38,16 @@ import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kV;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.kV;
 
 /*
  * Simple tank drive hardware implementation for REV hardware.

@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.opmode;
 
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.kV;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.kV;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;

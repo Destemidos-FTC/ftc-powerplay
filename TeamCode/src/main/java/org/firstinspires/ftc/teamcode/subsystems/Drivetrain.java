@@ -2,11 +2,12 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
+import org.firstinspires.ftc.teamcode.config.RobotConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,7 @@ public final class Drivetrain {
     private final DcMotorEx motorDireitaTras;
     private final DcMotorEx motorEsquerdaFrente;
     private final DcMotorEx motorEsquerdaTras;
+    private double batteryVoltage;
 
     /**
      * Construtor padrão que configura o sistema de motores
@@ -48,8 +50,8 @@ public final class Drivetrain {
         motorEsquerdaTras = hardwareMap.get(DcMotorEx.class, "ET"); // porta 3 - controlHub
 
         // precisamos inverter apenas os motores da esquerda
-        motorEsquerdaFrente.setDirection(DcMotor.Direction.REVERSE);
-        motorEsquerdaTras.setDirection(DcMotor.Direction.REVERSE);
+        motorEsquerdaFrente.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorEsquerdaTras.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(motorDireitaFrente, motorDireitaTras, motorEsquerdaFrente, motorEsquerdaTras);
 
@@ -117,14 +119,20 @@ public final class Drivetrain {
         return motors.get(ID);
     }
 
+    public void updateVoltage(double volts) {
+        batteryVoltage = volts;
+    }
+
     /**
      * Define uma força para cada motor de forma independente
      */
     public void setMotorsPower(double DireitaFrentePower, double DireitaTrasPower, double EsquerdaFrentePower, double EsquerdaTrasPower) {
-        motorDireitaFrente.setPower(DireitaFrentePower);
-        motorDireitaTras.setPower(DireitaTrasPower);
-        motorEsquerdaFrente.setPower(EsquerdaFrentePower);
-        motorEsquerdaTras.setPower(EsquerdaTrasPower);
+        double scalar = 12.0 / batteryVoltage;
+
+        motorDireitaFrente.setPower(DireitaFrentePower * scalar);
+        motorDireitaTras.setPower(DireitaTrasPower * scalar);
+        motorEsquerdaFrente.setPower(EsquerdaFrentePower * scalar);
+        motorEsquerdaTras.setPower(EsquerdaTrasPower * scalar);
     }
 
     /**
@@ -133,10 +141,12 @@ public final class Drivetrain {
      * @param power valor da força, de -1.0 a 1.0
      */
     public void setAllPower(double power) {
-        motorDireitaFrente.setPower(power);
-        motorDireitaTras.setPower(power);
-        motorEsquerdaFrente.setPower(power);
-        motorEsquerdaTras.setPower(power);
+        double scalar = 12.0 / batteryVoltage;
+
+        motorDireitaFrente.setPower(power * scalar);
+        motorDireitaTras.setPower(power * scalar);
+        motorEsquerdaFrente.setPower(power * scalar);
+        motorEsquerdaTras.setPower(power * scalar);
     }
 
     /**

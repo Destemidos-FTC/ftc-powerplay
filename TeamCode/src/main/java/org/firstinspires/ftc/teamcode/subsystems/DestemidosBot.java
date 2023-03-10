@@ -1,18 +1,15 @@
-package org.firstinspires.ftc.teamcode.hardware;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
-import org.firstinspires.ftc.teamcode.subsystems.Gripper;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LocalizationSystem;
-import org.firstinspires.ftc.teamcode.subsystems.Outtake;
 
 import java.util.List;
 
@@ -26,21 +23,21 @@ public final class DestemidosBot {
     // lista com todos os hubs e seus IDs para fácil acesso
     private final List<LynxModule> allHubs;
 
+    public final VoltageSensor voltageSensor;
+
     // Sistema do Drivetain
     public final Drivetrain drivetrain;
 
-    //
-    public final Outtake outtake;
-    public final Intake intake;
+    // Sistema do braço
+    public final ArmSystem armSystem;
+
+    public final ForearmSystem forearmSystem;
+
+    // Sistema de garra
+    public final Gripper gripper;
 
     // Sistema de localização do IMU
     public final LocalizationSystem localizationSystem;
-
-    // Sistema de garras (estilo alavanca)
-    //public final ArmSystem armSystem;
-
-    // Sistema de garra
-    //public final Gripper gripperSystem;
 
     /**
      * Construtor padrão que recebe um {@link HardwareMap}
@@ -52,18 +49,20 @@ public final class DestemidosBot {
         // listando todos os hubs conectados no robô
         allHubs = hardwareMap.getAll(LynxModule.class);
 
+        //
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
         // definindo a cor das leds do hubs
-        allHubs.iterator().next().setConstant(Color.CYAN);
+        for (LynxModule hub: allHubs) {
+            hub.setConstant(Color.CYAN);
+        }
 
         // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
-        outtake = new Outtake(hardwareMap);
-        intake =  new Intake(hardwareMap);
+        armSystem = new ArmSystem(hardwareMap);
+        forearmSystem = new ForearmSystem(hardwareMap);
+        gripper = new Gripper(hardwareMap);
         localizationSystem = new LocalizationSystem(hardwareMap, "imu");
-
-        //armSystem = new ArmSystem(hardwareMap);
-        //gripperSystem = new Gripper(hardwareMap);
-
     }
 
     /**

@@ -3,26 +3,45 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
+import org.firstinspires.ftc.teamcode.config.RobotConstants;
 
 /**
  * Subsistema responsável pelo mecanismo de coleta (Intake),
  * inspirado no paradigma de Command-Based Programming, da FRC.
  */
 public class Gripper implements Subsystem {
-    public final ServoEx gripper;
-    public final ServoEx rotator;
+    public final ServoImplEx gripper;
+    public final CRServoImplEx wristServoA;
+    public final CRServoImplEx wristServoB;
+
+    private ElapsedTime wristTimer;
 
     /**
      * Construtor padrão que configura os servos do sistema
      * @param hardwareMap presente em todo OpMode
      */
     public Gripper(HardwareMap hardwareMap) {
-        gripper = new SimpleServo(hardwareMap, "gripper", 0.0, 180.0);
-        rotator = new SimpleServo(hardwareMap, "rotator", 0.0, 720.0);
+        gripper = (ServoImplEx) hardwareMap.get(Servo.class, "gripper");
+        wristServoA = (CRServoImplEx) hardwareMap.get(CRServo.class, "wristServoA");
+        wristServoB = (CRServoImplEx) hardwareMap.get(CRServo.class, "wristServoB");
+
+        gripper.setDirection(Servo.Direction.REVERSE);
+        wristServoB.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        gripper.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
+        wristServoA.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
+        wristServoB.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
+
+        wristTimer = new ElapsedTime();
+        wristTimer.reset();
     }
 
     /**
@@ -39,18 +58,22 @@ public class Gripper implements Subsystem {
         gripper.setPosition(1);
     }
 
-    /**
-     * Rotaciona toda a estrutura da garra em 180°,
-     * para realizar a entrega do cone na base
-     */
-    public void rotateGripper(){
-        rotator.turnToAngle(360.0);
+
+    public void moveWrist(double power) {
+        wristServoA.setPower(power);
+        wristServoB.setPower(power);
+        wristTimer.reset();
     }
 
-    /**
-     * Retorna a posição original de coleta dos cones
-     */
-    public void returnToCollectPostion() {
-        rotator.turnToAngle(0.0);
+    public void turnOffWrist() {
+        wristServoA.setPwmDisable();
+        wristServoB.setPwmDisable();
+    }
+
+    @Override
+    public void periodic() {
+        if(wristTimer.seconds() > 0.01) {
+            wristTimer.reset();
+        }
     }
 }

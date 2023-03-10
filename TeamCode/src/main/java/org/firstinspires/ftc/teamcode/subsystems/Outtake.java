@@ -7,8 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
+import org.firstinspires.ftc.teamcode.config.RobotConstants;
 
+@Deprecated
 public class Outtake extends SubsystemBase {
 
     // Hardware devices
@@ -92,9 +93,6 @@ public class Outtake extends SubsystemBase {
                 targetPos = 3000;
                 break;
         }
-
-        //rightOuttake.setTargetPosition(targetPos);
-        //leftOuttake.setTargetPosition(targetPos);
     }
 
     public ExtensionStage getGoal() {

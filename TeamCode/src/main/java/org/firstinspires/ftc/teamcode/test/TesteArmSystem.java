@@ -16,8 +16,14 @@ public class TesteArmSystem extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            armSystem.moveArms(gamepad2);
+            armSystem.moveArmsManually(gamepad2.left_stick_y);
+            armSystem.moveForearmManually(gamepad2.right_stick_y);
 
+            telemetry.addData("armA - position", armSystem.armA.getCurrentPosition());
+            telemetry.addData("armB - position", armSystem.armB.getCurrentPosition());
+            telemetry.addData("armC - position", armSystem.armC.getCurrentPosition());
+            telemetry.addData("armD - position", armSystem.armD.getCurrentPosition());
+            telemetry.update();
         }
     }
 }

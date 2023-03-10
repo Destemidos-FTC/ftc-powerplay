@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.hardware.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ANG_VEL;
 
 import androidx.annotation.NonNull;
 
@@ -12,10 +12,9 @@ import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.hardware.DriveConstants;
-import org.firstinspires.ftc.teamcode.hardware.RobotConstants;
+import org.firstinspires.ftc.teamcode.config.DriveConstants;
+import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceRunner;
