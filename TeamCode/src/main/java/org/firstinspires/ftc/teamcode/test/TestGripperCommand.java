@@ -33,7 +33,7 @@ public class TestGripperCommand extends CommandOpMode {
         player2.getGamepadButton(GamepadKeys.Button.A)
                 .toggleWhenPressed(
                         new InstantCommand(gripper::closeGrip),
-                        new InstantCommand(gripper::releaseGrip),
+                        new InstantCommand(gripper::openGrip),
                         true
                 );
 

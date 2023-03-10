@@ -5,15 +5,15 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
+import org.firstinspires.ftc.teamcode.commands.ArmToGround;
+import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
-import org.firstinspires.ftc.teamcode.subsystems.ForearmSystem;
-import org.firstinspires.ftc.teamcode.utils.MathUtils;
 
 /**
  * OpMode focado em experimentação de novas idéias
@@ -27,14 +27,13 @@ public class FTC_TESTBOT extends CommandOpMode {
     @Override
     public void initialize() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry.setMsTransmissionInterval(50);
 
         robot = new DestemidosBot(hardwareMap);
         robot.setBulkReadToAuto();
 
         player2 = new GamepadEx(gamepad2);
 
-        CommandScheduler.getInstance().reset();
+        //CommandScheduler.getInstance().reset();
         register(robot.gripper, robot.armSystem, robot.forearmSystem);
 
         player2.getGamepadButton(GamepadKeys.Button.DPAD_UP)
@@ -48,41 +47,21 @@ public class FTC_TESTBOT extends CommandOpMode {
         player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .toggleWhenPressed(
                         new InstantCommand(robot.gripper::closeGrip),
-                        new InstantCommand(robot.gripper::releaseGrip),
+                        new InstantCommand(robot.gripper::openGrip),
                         true
                 );
 
         player2.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(
-                        new SequentialCommandGroup(
-                                //new InstantCommand(() -> robot.forearmSystem.setForearmPosition(ForearmSystem.ForearmStage.CLOSED)),
-                                new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.GROUND))
-                        )
-                );
+                .whenPressed(new ArmToGround(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(
-                        new SequentialCommandGroup(
-                                //new InstantCommand(() -> robot.forearmSystem.setForearmPosition(ForearmSystem.ForearmStage.LOW)),
-                                new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.GROUND))
-                        )
-                );
+                .whenPressed(new ArmToLowJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(
-                        new SequentialCommandGroup(
-                                //new InstantCommand(() -> robot.forearmSystem.setForearmPosition(ForearmSystem.ForearmStage.MEDIUM)),
-                                new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
-                        )
-                );
+                .whenPressed(new ArmToMediumJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(
-                        new SequentialCommandGroup(
-                                //new InstantCommand(() -> robot.forearmSystem.setForearmPosition(ForearmSystem.ForearmStage.MEDIUM)),
-                                new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.MEDIUM))
-                        )
-                );
+                .whenPressed(new ArmToHighJunction(robot));
     }
 
     @Override
@@ -97,7 +76,7 @@ public class FTC_TESTBOT extends CommandOpMode {
         player2.readButtons();
 
         robot.armSystem.setVoltage(energy);
-        robot.forearmSystem.moveForearmManually(gamepad2.right_stick_y);
+        robot.forearmSystem.setVoltage(energy);
 
         robot.drivetrain.updateVoltage(energy);
         robot.drivetrain.standardMecanumController(gamepad1);
@@ -108,11 +87,6 @@ public class FTC_TESTBOT extends CommandOpMode {
         telemetry.addData("arm position", robot.armSystem.armA.getCurrentPosition());
         telemetry.addData("arm feedforward:", robot.armSystem.getArmFeedforwardPower());
         telemetry.addData("arm pid:", robot.armSystem.getArmPidPower());
-        telemetry.addData("forearm C position", robot.forearmSystem.armC.getCurrentPosition());
-        telemetry.addData("forearm D position", robot.forearmSystem.armD.getCurrentPosition());
-        telemetry.addData("forearm feedforward:", robot.forearmSystem.getForearmFeedforwardPower());
-        telemetry.addData("forearm pid:", robot.forearmSystem.getForearmPidPower());
-
         telemetry.addData("tempo de loop (ms)", depois - antes);
         telemetry.update();
     }

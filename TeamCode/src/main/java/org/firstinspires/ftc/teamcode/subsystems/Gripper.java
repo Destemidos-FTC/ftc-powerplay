@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.Subsystem;
-import com.arcrobotics.ftclib.hardware.ServoEx;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -22,7 +20,7 @@ public class Gripper implements Subsystem {
     public final CRServoImplEx wristServoA;
     public final CRServoImplEx wristServoB;
 
-    private ElapsedTime wristTimer;
+    private final ElapsedTime wristTimer;
 
     /**
      * Construtor padrão que configura os servos do sistema
@@ -48,14 +46,14 @@ public class Gripper implements Subsystem {
      * Fecha a garra na posição definida
      */
     public void closeGrip() {
-        gripper.setPosition(0);
+        gripper.setPosition(RobotConstants.GRIPPER_CLOSED_POSITION);
     }
 
     /**
      * Abre a garra
      */
-    public void releaseGrip() {
-        gripper.setPosition(1);
+    public void openGrip() {
+        gripper.setPosition(RobotConstants.GRIPPER_OPEN_POSITION);
     }
 
 
@@ -73,7 +71,7 @@ public class Gripper implements Subsystem {
     @Override
     public void periodic() {
         if(wristTimer.seconds() > 0.01) {
-            wristTimer.reset();
+            turnOffWrist();
         }
     }
 }

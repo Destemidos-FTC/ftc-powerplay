@@ -18,13 +18,11 @@ public class TesteArmSystem extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            arms.moveArmsManually(gamepad2.left_stick_y);
-            forearm.moveForearmManually(gamepad2.right_stick_y);
+            arms.moveArmsManually(gamepad1.left_stick_y);
+            forearm.moveForearmManually(gamepad1.right_stick_y);
 
-            telemetry.addData("armA - position", arms.armA.getCurrentPosition());
-            telemetry.addData("armB - position", arms.armB.getCurrentPosition());
-            telemetry.addData("armC - position", forearm.armC.getCurrentPosition());
-            telemetry.addData("armD - position", forearm.armD.getCurrentPosition());
+            telemetry.addData("arm - position", arms.armA.getCurrentPosition());
+            telemetry.addData("forearm - position", forearm.forearmMotor.getCurrentPosition());
             telemetry.update();
         }
     }

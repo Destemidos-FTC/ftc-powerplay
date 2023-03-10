@@ -4,27 +4,23 @@ import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.controller.PDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
-import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
 public final class ForearmSystem implements Subsystem {
 
-    public final DcMotorEx armC;
-    public final DcMotorEx armD;
+    public final DcMotorEx forearmMotor;
 
-    private final PDController forearmController;
+    private double robotVoltage;
 
     private int forearmTarget;
 
-    private double forearmPidPower;
+    private double forearmPID;
 
     private double forearmFeedforward;
 
-    private double robotVoltage;
+    private PDController forearmController;
 
     public enum ForearmStage {
         CLOSED,
@@ -33,17 +29,13 @@ public final class ForearmSystem implements Subsystem {
     }
 
     public ForearmSystem(HardwareMap hardwareMap) {
-        armC = hardwareMap.get(DcMotorEx.class, "armC"); // porta 2 - expansion
-        armD = hardwareMap.get(DcMotorEx.class, "armD"); // porta 3 - expansion
+        forearmMotor = hardwareMap.get(DcMotorEx.class, "armB"); // porta 1 - expansion
 
-        armC.setDirection(DcMotorSimple.Direction.REVERSE);
-        armD.setDirection(DcMotorSimple.Direction.FORWARD);
+        forearmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        armC.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        armC.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armD.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        forearmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         forearmController = new PDController(
                 RobotConstants.FOREARM_POSITION_PID.p,
@@ -53,39 +45,35 @@ public final class ForearmSystem implements Subsystem {
 
     @Override
     public void periodic() {
-        int positionC = armC.getCurrentPosition();
-        int positionD = armD.getCurrentPosition();
 
-        // controle PID + feedforward do antebraço
-        forearmPidPower = forearmController.calculate(positionC, forearmTarget);
-        forearmFeedforward = Math.cos(UnitConversion.encoderTicksToRadians(
-                forearmTarget, RobotConstants.CORE_HEX_TICKS_PER_REV
-        )) * RobotConstants.FOREARM_POSITION_PID.f;
+        forearmController.setPID(
+                RobotConstants.FOREARM_POSITION_PID.p,
 
-        double forearmCommand = forearmPidPower + forearmFeedforward;
-        double forearmCompensedPower = Range.clip(forearmCommand * (12.0 / robotVoltage), -1, 1);
+                0.0,
+                RobotConstants.FOREARM_POSITION_PID.d
+        );
 
-        armC.setTargetPosition(forearmTarget);
-        armD.setTargetPosition(forearmTarget);
+        int currentPosition = forearmMotor.getCurrentPosition();
 
-        armC.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armD.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        forearmPID = forearmController.calculate(currentPosition, forearmTarget);
+        forearmFeedforward = RobotConstants.FOREARM_POSITION_PID.f;
 
-        armC.setPower(forearmCompensedPower);
-        armD.setPower(forearmCompensedPower);
+        double power = forearmPID + forearmFeedforward;
 
+        double forearmCompensedPower = power * (12 / robotVoltage);
+
+        forearmMotor.setPower(forearmCompensedPower);
     }
 
     public void moveForearmManually(double joystick) {
-        double controlPower = joystick * RobotConstants.FOREARM_POWER_SCALE;
-        armC.setPower(controlPower);
-        armD.setPower(controlPower);
+        double power = joystick * RobotConstants.FOREARM_POWER_SCALE;
+        forearmMotor.setPower(power);
     }
 
     public void setForearmPosition(ForearmStage position) {
         switch (position) {
             case CLOSED:
-                forearmTarget = RobotConstants.FOREARM_CLOSED;
+                forearmTarget = RobotConstants.FOREARM_CLOSED_GOAL;
                 break;
             case LOW:
                 forearmTarget = RobotConstants.FOREARM_LOW_GOAL;
@@ -96,11 +84,7 @@ public final class ForearmSystem implements Subsystem {
         }
     }
 
-    public double getForearmFeedforwardPower() {
-        return forearmFeedforward;
-    }
-
-    public double getForearmPidPower() {
-        return forearmPidPower;
+    public void setVoltage(double voltage) {
+        robotVoltage = voltage;
     }
 }

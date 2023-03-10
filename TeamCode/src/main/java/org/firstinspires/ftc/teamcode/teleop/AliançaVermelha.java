@@ -33,27 +33,27 @@ public class AliançaVermelha extends CommandOpMode {
         player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .toggleWhenPressed(
                         new InstantCommand(robot.gripper::closeGrip),
-                        new InstantCommand(robot.gripper::releaseGrip),
+                        new InstantCommand(robot.gripper::openGrip),
                         true
                 );
 
         player2.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.GROUND))
+                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.CLOSED))
                 );
 
         player2.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.GROUND))
+                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
                 );
 
         player2.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
+                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.MEDIUM))
                 );
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.MEDIUM))
+                .whenPressed(new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.HIGH))
                 );
     }
 

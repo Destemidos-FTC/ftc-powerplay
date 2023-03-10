@@ -8,6 +8,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.ArmToGround;
+import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
@@ -36,28 +40,21 @@ public class AliançaAzul extends CommandOpMode {
         player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .toggleWhenPressed(
                         new InstantCommand(robot.gripper::closeGrip),
-                        new InstantCommand(robot.gripper::releaseGrip),
+                        new InstantCommand(robot.gripper::openGrip),
                         true
                 );
 
         player2.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.GROUND))
-                );
+                .whenPressed(new ArmToGround(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.GROUND))
-                );
+                .whenPressed(new ArmToLowJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
-                );
+                .whenPressed(new ArmToMediumJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.MEDIUM))
-                );
+                .whenPressed(new ArmToHighJunction(robot));
     }
 
 
@@ -70,6 +67,7 @@ public class AliançaAzul extends CommandOpMode {
         player2.readButtons();
 
         robot.armSystem.setVoltage(energy);
+
         robot.forearmSystem.moveForearmManually(gamepad2.right_stick_y);
 
         robot.drivetrain.updateVoltage(energy);
