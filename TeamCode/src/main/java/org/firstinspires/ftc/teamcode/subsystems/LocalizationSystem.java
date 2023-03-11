@@ -34,8 +34,8 @@ public class LocalizationSystem implements Subsystem {
         imuParameters = new IMU.Parameters(
 
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.UP)
         );
         sensorIMU.initialize(imuParameters);
     }
