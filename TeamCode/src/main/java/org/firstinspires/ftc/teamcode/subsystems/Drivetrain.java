@@ -50,8 +50,8 @@ public final class Drivetrain {
         motorEsquerdaTras = hardwareMap.get(DcMotorEx.class, "ET"); // porta 3 - controlHub
 
         // precisamos inverter apenas os motores da esquerda
-        motorEsquerdaFrente.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorEsquerdaTras.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDireitaFrente.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDireitaTras.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(motorDireitaFrente, motorDireitaTras, motorEsquerdaFrente, motorEsquerdaTras);
 
@@ -197,8 +197,8 @@ public final class Drivetrain {
      * @param driver gamepad do jogador
      */
     public void standardMecanumController(Gamepad driver) {
-        double joystick_y = driver.left_stick_y;
-        double joystick_x = -driver.left_stick_x;
+        double joystick_y = -driver.left_stick_y;
+        double joystick_x = driver.left_stick_x;
         double giro = -driver.right_stick_x;
 
         double direitaFrentePower = (joystick_y - joystick_x - giro);
