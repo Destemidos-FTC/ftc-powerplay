@@ -45,12 +45,14 @@ public final class RobotConstants {
 
     public static PIDFCoefficients FOREARM_POSITION_PID = new PIDFCoefficients(0,0,0,0.5);
     public static double FOREARM_POWER_SCALE = 0.5;
-    public static int FOREARM_CLOSED_GOAL = 0;
-    public static int FOREARM_LOW_GOAL = 0;
-    public static int FOREARM_MEDIUM_GOAL = 0;
+    public static int FOREARM_CLOSED_GOAL = -500;
+    public static int FOREARM_COLLECT_GOAL = -40;
+    public static int FOREARM_LOW_GOAL = -320;
+    public static int FOREARM_MEDIUM_GOAL = 20;
+    public static int FOREARM_HIGH_GOAL = 180;
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);
-    public static double GRIPPER_OPEN_POSITION = 0.3;
+    public static double GRIPPER_OPEN_POSITION = 1;
     public static double GRIPPER_CLOSED_POSITION = 0.0;
 }

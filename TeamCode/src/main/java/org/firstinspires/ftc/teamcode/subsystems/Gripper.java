@@ -71,7 +71,7 @@ public class Gripper implements Subsystem {
     @Override
     public void periodic() {
         if(wristTimer.seconds() > 0.01) {
-            turnOffWrist();
+            //turnOffWrist();
         }
     }
 }

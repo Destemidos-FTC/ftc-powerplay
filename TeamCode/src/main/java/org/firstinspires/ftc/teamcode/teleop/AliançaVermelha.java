@@ -20,7 +20,6 @@ public class AliançaVermelha extends CommandOpMode {
 
         player2 = new GamepadEx(gamepad2);
         CommandScheduler.getInstance().reset();
-        register(robot.gripper, robot.armSystem, robot.forearmSystem);
 
         player2.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(1)))
@@ -67,7 +66,6 @@ public class AliançaVermelha extends CommandOpMode {
         player2.readButtons();
 
         robot.armSystem.setVoltage(energy);
-        robot.forearmSystem.moveForearmManually(gamepad2.right_stick_y);
 
         robot.drivetrain.updateVoltage(energy);
         robot.drivetrain.fieldOrientedController(gamepad1, robot.localizationSystem.getRobotHeading());

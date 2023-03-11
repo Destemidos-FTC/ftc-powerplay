@@ -5,14 +5,14 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
-import org.firstinspires.ftc.teamcode.subsystems.ForearmSystem;
 
 public class ArmToLowJunction extends SequentialCommandGroup {
 
     public ArmToLowJunction(DestemidosBot robot) {
         super(
+                new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.CLOSED)),
                 new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW)),
-                new InstantCommand(()->robot.forearmSystem.setForearmPosition(ForearmSystem.ForearmStage.LOW))
+                new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.LOW))
         );
     }
 }

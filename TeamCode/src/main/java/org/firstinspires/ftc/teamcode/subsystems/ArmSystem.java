@@ -17,14 +17,22 @@ import org.firstinspires.ftc.teamcode.config.RobotConstants;
  */
 public final class ArmSystem implements Subsystem {
 
-    //
+    // Motores
     public final DcMotorEx armA;
+    public final DcMotorEx forearmMotor;
+
+    //
+    private double robotVoltage;
 
     //
     private int armTarget;
-    private double armPidPower;
+    private int forearmTarget;
+
+    private double armPID;
+    private double forearmPID;
+
     private double armFeedforward;
-    private double robotVoltage;
+    private double forearmFeedforward;
 
     // Controlador PID pros motores
     private final PDController armController;
@@ -37,47 +45,82 @@ public final class ArmSystem implements Subsystem {
         HIGH
     }
 
+    private final PDController forearmController;
+
+    public enum ForearmStage {
+        CLOSED,
+        COLLECT,
+        LOW,
+        MEDIUM,
+        HIGH
+    }
+
     /**
      * Construtor padrão para a configuração do hardware
      * @param hardwareMap presente em todo OpMode
      */
     public ArmSystem(HardwareMap hardwareMap) {
-        armA = hardwareMap.get(DcMotorEx.class, "armA"); // porta 0 - expansion
+        armA = hardwareMap.get(DcMotorEx.class, "arm"); // porta 0 - expansion
+        forearmMotor = hardwareMap.get(DcMotorEx.class, "forearm"); // porta 1 - expansion
 
         armA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         armA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        forearmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         armA.setDirection(DcMotorSimple.Direction.FORWARD);
+        forearmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         armA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        forearmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armController = new PDController(
                 RobotConstants.ARM_POSITION_PID.p,
                 RobotConstants.ARM_POSITION_PID.d
         );
+
+        forearmController = new PDController(
+                RobotConstants.FOREARM_POSITION_PID.p,
+                RobotConstants.FOREARM_POSITION_PID.d
+        );
     }
 
     @Override
     public void periodic() {
-        armController.setPID(
-                RobotConstants.ARM_POSITION_PID.p,
-                0,
-                RobotConstants.ARM_POSITION_PID.d
-        );
 
         // posição dos motores
-        int positionA = armA.getCurrentPosition();
+        int armPosition = armA.getCurrentPosition();
+        int forearmPosition = forearmMotor.getCurrentPosition();
 
         // controle PID + feedforward do braço
-        armPidPower = armController.calculate(positionA, armTarget);
-        armFeedforward = RobotConstants.ARM_POSITION_PID.f;
+        armPID = armController.calculate(armPosition, armTarget);
+        forearmPID = forearmController.calculate(forearmPosition, forearmTarget);
 
-        double armCommand = armPidPower + armFeedforward;
+        armFeedforward = RobotConstants.ARM_POSITION_PID.f;
+        forearmFeedforward = RobotConstants.FOREARM_POSITION_PID.f;
+
+        double armCommand = armPID + armFeedforward;
+        double forearmCommand = forearmPID + forearmFeedforward;
+
         double armCompensedPower = Range.clip(armCommand * (12.0 / robotVoltage), -1, 1);
+        double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage), -1, 1);
+
+        if(armController.atSetPoint()) {
+            armCompensedPower = 0;
+        }
+
+        if(forearmController.atSetPoint()) {
+            forearmCompensedPower = 0;
+        }
 
         armA.setTargetPosition(armTarget);
         armA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armA.setPower(armCompensedPower);
+
+        forearmMotor.setTargetPosition(forearmTarget);
+        forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        forearmMotor.setPower(forearmCompensedPower);
     }
 
    /**
@@ -88,6 +131,11 @@ public final class ArmSystem implements Subsystem {
     public void moveArmsManually(double joystick) {
         double controlPower = joystick * RobotConstants.ARMS_POWER_SCALE;
         armA.setPower(controlPower);
+    }
+
+    public void moveForearmManually(float left_stick_y) {
+        double controlPower = left_stick_y * RobotConstants.FOREARM_POWER_SCALE;
+        forearmMotor.setPower(controlPower);
     }
 
     public void setArmPosition(ArmStage position) {
@@ -107,6 +155,25 @@ public final class ArmSystem implements Subsystem {
         }
     }
 
+    public void setForearmPosition(ForearmStage position) {
+        switch (position) {
+            case CLOSED:
+                forearmTarget = RobotConstants.FOREARM_CLOSED_GOAL;
+                break;
+            case COLLECT:
+                forearmTarget = RobotConstants.FOREARM_COLLECT_GOAL;
+                break;
+            case LOW:
+                forearmTarget = RobotConstants.FOREARM_LOW_GOAL;
+                break;
+            case MEDIUM:
+                forearmTarget = RobotConstants.FOREARM_MEDIUM_GOAL;
+                break;
+            case HIGH:
+                forearmTarget = RobotConstants.FOREARM_HIGH_GOAL;
+        }
+    }
+
     //
     public void setVoltage(double voltage) {
         robotVoltage = voltage;
@@ -118,7 +185,17 @@ public final class ArmSystem implements Subsystem {
     }
 
     //
-    public double getArmPidPower() {
-        return armPidPower;
+    public double getArmPID() {
+        return armPID;
+    }
+
+    //
+    public double getForearmFeedforwardPower() {
+        return armFeedforward;
+    }
+
+    //
+    public double getForearmPID() {
+        return armPID;
     }
 }

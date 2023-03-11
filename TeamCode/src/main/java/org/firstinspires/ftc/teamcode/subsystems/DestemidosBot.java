@@ -30,9 +30,6 @@ public final class DestemidosBot {
 
     // Sistema do braço
     public final ArmSystem armSystem;
-
-    public final ForearmSystem forearmSystem;
-
     // Sistema de garra
     public final Gripper gripper;
 
@@ -60,7 +57,6 @@ public final class DestemidosBot {
         // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
         armSystem = new ArmSystem(hardwareMap);
-        forearmSystem = new ForearmSystem(hardwareMap);
         gripper = new Gripper(hardwareMap);
         localizationSystem = new LocalizationSystem(hardwareMap, "imu");
     }

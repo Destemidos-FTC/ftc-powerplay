@@ -5,24 +5,22 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
-import org.firstinspires.ftc.teamcode.subsystems.ForearmSystem;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 @TeleOp(name = "Teste ArmSystem", group = "Test")
 public class TesteArmSystem extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        ArmSystem arms = new ArmSystem(hardwareMap);
-        ForearmSystem forearm = new ForearmSystem(hardwareMap);
+        DestemidosBot robot = new DestemidosBot(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         while (opModeIsActive()) {
-            arms.moveArmsManually(gamepad1.left_stick_y);
-            forearm.moveForearmManually(gamepad1.right_stick_y);
+            robot.armSystem.moveArmsManually(gamepad1.right_stick_y);
+            robot.armSystem.moveForearmManually(gamepad1.left_stick_y);
 
-            telemetry.addData("arm - position", arms.armA.getCurrentPosition());
-            telemetry.addData("forearm - position", forearm.forearmMotor.getCurrentPosition());
+            telemetry.addData("arm - position", robot.armSystem.armA.getCurrentPosition());
+            telemetry.addData("forearm - position", robot.armSystem.forearmMotor.getCurrentPosition());
             telemetry.update();
         }
     }
