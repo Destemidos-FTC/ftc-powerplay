@@ -103,8 +103,10 @@ public final class ArmSystem implements Subsystem {
         double armCommand = armPID + armFeedforward;
         double forearmCommand = forearmPID + forearmFeedforward;
 
-        double armCompensedPower = Range.clip(armCommand * (12.0 / robotVoltage), -1, 1);
-        double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage), -1, 1);
+        double armCompensedPower = Range.clip(armCommand * (12.0 / robotVoltage),
+                -RobotConstants.ARM_PID_POWER_LIMIT, RobotConstants.ARM_PID_POWER_LIMIT);
+        double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage),
+                -RobotConstants.FOREARM_PID_POWER_LIMIT, RobotConstants.FOREARM_PID_POWER_LIMIT);
 
         if(armController.atSetPoint()) {
             armCompensedPower = 0;

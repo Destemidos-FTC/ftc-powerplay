@@ -17,6 +17,8 @@ import org.firstinspires.ftc.teamcode.commands.ArmToGround;
 import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
+import org.firstinspires.ftc.teamcode.commands.CloseArm;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 import java.util.function.BooleanSupplier;
@@ -43,11 +45,11 @@ public class FTC_TESTBOT extends CommandOpMode {
 
         register(robot.gripper, robot.armSystem);
 
-        player2.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+        player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(1)))
                 .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
 
-        player2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+        player2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(-1)))
                 .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
 
@@ -62,6 +64,9 @@ public class FTC_TESTBOT extends CommandOpMode {
 
         player2.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new ArmToHighJunction(robot));
+
+        player2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new CloseArm(robot));
 
         garraTrigger = new Trigger(() -> player2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.0)
                 .toggleWhenActive(
