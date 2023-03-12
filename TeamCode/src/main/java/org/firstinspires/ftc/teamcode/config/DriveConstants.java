@@ -76,8 +76,8 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 1.4763; // in
     public static double GEAR_RATIO = 1;       // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 12.75; //13.38; // in
-    public static double WHEEL_BASE = 12; // in
+    public static double TRACK_WIDTH = 11.64653; //in
+    public static double WHEEL_BASE = 10.5; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -131,10 +131,10 @@ public class DriveConstants {
      
      */
     // essas constantes são medidas com os testes: MaxVelocityTuner e MaxAngularVeloTuner
-    public static double MAX_VEL = 33;
+    public static double MAX_VEL = 30;
     public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(137);
-    public static double MAX_ANG_ACCEL = Math.toRadians(137);
+    public static double MAX_ANG_VEL = Math.toRadians(60);
+    public static double MAX_ANG_ACCEL = Math.toRadians(60);
 
     public static double rpmToVelocity(double rpm) {
         return rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS / 60.0;

@@ -36,16 +36,18 @@ public final class RobotConstants {
     public static final double MECANUM_WHEELS_ANGLE = Math.PI / 4;
 
     // Braço
+    public static double ARM_PID_POWER_LIMIT = 0.45;
     public static PIDFCoefficients ARM_POSITION_PID = new PIDFCoefficients(5,0,0,0);
     public static double ARMS_POWER_SCALE = 0.5;
-    public static int ARM_CLOSED_GOAL = 0;
+    public static int ARM_CLOSED_GOAL = -200;
     public static int ARM_LOW_GOAL = 400;
     public static int ARM_MEDIUM_GOAL = 700;
     public static int ARM_HIGH_GOAL = 1000;
 
+    public static double FOREARM_PID_POWER_LIMIT = 0.45;
     public static PIDFCoefficients FOREARM_POSITION_PID = new PIDFCoefficients(0,0,0,0.5);
     public static double FOREARM_POWER_SCALE = 0.5;
-    public static int FOREARM_CLOSED_GOAL = -500;
+    public static int FOREARM_CLOSED_GOAL = -600;
     public static int FOREARM_COLLECT_GOAL = -40;
     public static int FOREARM_LOW_GOAL = -320;
     public static int FOREARM_MEDIUM_GOAL = 20;
