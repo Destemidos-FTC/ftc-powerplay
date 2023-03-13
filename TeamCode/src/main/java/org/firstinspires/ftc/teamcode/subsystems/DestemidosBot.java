@@ -50,9 +50,8 @@ public final class DestemidosBot {
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         // definindo a cor das leds do hubs
-        for (LynxModule hub: allHubs) {
-            hub.setConstant(Color.CYAN);
-        }
+        setHubColor(Color.CYAN);
+
 
         // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
@@ -87,6 +86,12 @@ public final class DestemidosBot {
     public void clearManualBulkCache() {
         for (LynxModule robotHub : allHubs) {
             robotHub.clearBulkCache();
+        }
+    }
+
+    public void setHubColor(int color) {
+        for (LynxModule hub: allHubs) {
+            hub.setConstant(color);
         }
     }
 }

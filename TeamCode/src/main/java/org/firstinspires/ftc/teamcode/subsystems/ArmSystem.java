@@ -22,7 +22,7 @@ public final class ArmSystem implements Subsystem {
     public final DcMotorEx forearmMotor;
 
     //
-    private double robotVoltage;
+    private double robotVoltage = 12.0;
 
     //
     private int armTarget;
@@ -35,7 +35,7 @@ public final class ArmSystem implements Subsystem {
     private double forearmFeedforward;
 
     // Controlador PID pros motores
-    private final PDController armController;
+    public final PDController armController;
 
     //
     public enum ArmStage {
@@ -45,7 +45,7 @@ public final class ArmSystem implements Subsystem {
         HIGH
     }
 
-    private final PDController forearmController;
+    public final PDController forearmController;
 
     public enum ForearmStage {
         CLOSED,
@@ -104,22 +104,16 @@ public final class ArmSystem implements Subsystem {
         double forearmCommand = forearmPID + forearmFeedforward;
 
         double armCompensedPower = Range.clip(armCommand * (12.0 / robotVoltage),
-                -RobotConstants.ARM_PID_POWER_LIMIT, RobotConstants.ARM_PID_POWER_LIMIT);
+                -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.ARM_PID_MAX_POWER_LIMIT);
         double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage),
-                -RobotConstants.FOREARM_PID_POWER_LIMIT, RobotConstants.FOREARM_PID_POWER_LIMIT);
+                -RobotConstants.FOREARM_PID_MIN_POWER_LIMIT, RobotConstants.FOREARM_PID_MAX_POWER_LIMIT);
 
-        if(armController.atSetPoint()) {
-            armCompensedPower = 0;
-        }
-
-        if(forearmController.atSetPoint()) {
-            forearmCompensedPower = 0;
-        }
-
+        armA.setTargetPositionTolerance(RobotConstants.FOREARM_POSITION_TOLERANCE);
         armA.setTargetPosition(armTarget);
         armA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armA.setPower(armCompensedPower);
 
+        forearmMotor.setTargetPositionTolerance(RobotConstants.ARM_POSITION_TOLERANCE);
         forearmMotor.setTargetPosition(forearmTarget);
         forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         forearmMotor.setPower(forearmCompensedPower);

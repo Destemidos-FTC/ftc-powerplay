@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.math.controllers.GyroController;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
-//@Config
 @Autonomous(name = "Test Giroscopio", group = "Test")
 @Disabled
 public class TestGiroscopio extends LinearOpMode {

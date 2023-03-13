@@ -29,43 +29,38 @@ public class Rota1A extends LinearOpMode {
          * entrga o cone precarregado na junction alta
          * segue em direção a pilha de cones para a coleta
         */
-        final TrajectorySequence entrega_do_cone = drive.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
-                .forward(60)
-                .turn(Math.toRadians(125.0))
+        final TrajectorySequence etapa1 = drive.trajectorySequenceBuilder(new Pose2d(35, 65, Math.toRadians(270)))
+
+                // vai até o meio do 3° tatame
+                .forward(45)
+
+                // faz uma curva até a junção alta
+                .splineToLinearHeading(new Pose2d(32, 9, Math.toRadians(220)), Math.toRadians(180))
+
+                // entrega o cone na junção alta
+                .addDisplacementMarker(()->{
+
+                })
+                .build();
+
+        final TrajectorySequence etapa2 = drive.trajectorySequenceBuilder(etapa1.end())
+                // vai pra pilha de cones
+                .splineToLinearHeading(new Pose2d(40, 13.2, Math.toRadians(0)), Math.toRadians(90))
+                .forward(18)
+
+                // coleta o cone
                 .addDisplacementMarker(() -> {
                     // entrega o cone
                 })
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(55, 5, Math.toRadians(90)),  Math.toRadians(0))
-                .build();
 
-        final TrajectorySequence ciclo_de_entregas = drive.trajectorySequenceBuilder(entrega_do_cone.end())
-                .addDisplacementMarker(() ->{
-                    // coleta o cone na pilha
-                })
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(60, 0, Math.toRadians(90)),  Math.toRadians(0))
-                .build();
-
-        /**
-         * (ramalho): nesse caso, a localização vai variar com o que é sorteado no cone
-         * por enquanto, vou deixar na localizção 2
-         */
-        final TrajectorySequence estacionar_local_sorteado = drive.trajectorySequenceBuilder(ciclo_de_entregas.end())
-                .strafeLeft(30)
+                //
+                .back(18)
+                .splineToLinearHeading(new Pose2d(32.5, 11, Math.toRadians(230)), Math.toRadians(180))
                 .build();
 
         waitForStart();
 
         // 1° passo
-        drive.followTrajectorySequence(entrega_do_cone);
-
-        // 2° passo
-        for(int i = 0; i <= NUM_COLLECT_CYCLES; i++) {
-            drive.followTrajectorySequence(ciclo_de_entregas);
-        }
-
-        // 3° passo
-        drive.followTrajectorySequence(estacionar_local_sorteado);
+        drive.followTrajectorySequence(etapa1);
     }
 }

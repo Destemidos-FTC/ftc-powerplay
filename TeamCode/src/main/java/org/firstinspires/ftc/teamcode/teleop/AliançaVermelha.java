@@ -5,10 +5,17 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.ArmToGround;
+import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
+import org.firstinspires.ftc.teamcode.commands.CloseArm;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
+@TeleOp
 public class AliançaVermelha extends CommandOpMode {
     private DestemidosBot robot;
     private GamepadEx player2;
@@ -21,6 +28,8 @@ public class AliançaVermelha extends CommandOpMode {
         player2 = new GamepadEx(gamepad2);
         CommandScheduler.getInstance().reset();
 
+        register(robot.gripper, robot.armSystem);
+
         player2.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(1)))
                 .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
@@ -30,44 +39,40 @@ public class AliançaVermelha extends CommandOpMode {
                 .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
 
         player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .toggleWhenPressed(
-                        new InstantCommand(robot.gripper::closeGrip),
-                        new InstantCommand(robot.gripper::openGrip),
-                        true
-                );
+                .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(1)))
+                .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
+
+        player2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(-1)))
+                .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
 
         player2.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.CLOSED))
-                );
+                .whenPressed(new ArmToGround(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
-                );
+                .whenPressed(new ArmToLowJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(
-                        new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.MEDIUM))
-                );
+                .whenPressed(new ArmToMediumJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new InstantCommand(() -> robot.armSystem.setArmPosition(ArmSystem.ArmStage.HIGH))
-                );
+                .whenPressed(new ArmToHighJunction(robot));
     }
 
 
     @Override
     public void run() {
-        double energy = robot.voltageSensor.getVoltage();
-
         CommandScheduler.getInstance().run();
-
         player2.readButtons();
 
-        robot.armSystem.setVoltage(energy);
+        if(player2.gamepad.right_trigger > 0.0) {
+            robot.gripper.gripper.setPower(player2.gamepad.right_trigger * 0.60);
+        }
 
-        robot.drivetrain.updateVoltage(energy);
-        robot.drivetrain.fieldOrientedController(gamepad1, robot.localizationSystem.getRobotHeading());
+        if(player2.gamepad.left_trigger > 0.0) {
+            robot.gripper.gripper.setPower(-player2.gamepad.left_trigger * 0.60);
+        }
+
+        robot.drivetrain.standardMecanumController(gamepad1);
     }
 }

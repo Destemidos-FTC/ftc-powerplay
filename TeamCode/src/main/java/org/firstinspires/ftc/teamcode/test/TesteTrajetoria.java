@@ -23,7 +23,7 @@ public class TesteTrajetoria extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         DestemidosBot robot = new DestemidosBot(hardwareMap);
-        AutonomoSystem autoRobot = new AutonomoSystem(robot.drivetrain, robot.localizationSystem);
+        AutonomoSystem autoRobot = new AutonomoSystem(robot.drivetrain, robot.localizationSystem, robot.voltageSensor);
 
         TrajectorySequence ir_para_pilha = autoRobot.trajectorySequenceBuilder( new Pose2d(0.0, 0.0, 0.0))
                 .forward(60)

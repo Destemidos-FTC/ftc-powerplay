@@ -10,9 +10,11 @@ import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.commands.ArmToGround;
 import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
@@ -29,10 +31,10 @@ import java.util.function.DoubleSupplier;
  * e de medição das informações do robô
  */
 @TeleOp(name = "TESTBOT", group = "Test")
+@Disabled
 public class FTC_TESTBOT extends CommandOpMode {
     private DestemidosBot robot;
     private GamepadEx player2;
-    private Trigger garraTrigger;
 
     @Override
     public void initialize() {
@@ -67,37 +69,37 @@ public class FTC_TESTBOT extends CommandOpMode {
 
         player2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new CloseArm(robot));
-
-        garraTrigger = new Trigger(() -> player2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.0)
-                .toggleWhenActive(
-                        new InstantCommand(robot.gripper::openGrip),
-                        new InstantCommand(robot.gripper::closeGrip),
-                        true
-                );
     }
 
     @Override
     public void run() {
         double antes = System.currentTimeMillis();
-
         double energy = robot.voltageSensor.getVoltage();
 
         player2.readButtons();
         CommandScheduler.getInstance().run();
 
         robot.armSystem.setVoltage(energy);
-
         robot.drivetrain.updateVoltage(energy);
+
         robot.drivetrain.standardMecanumController(gamepad1);
+
+        if(player2.gamepad.right_trigger > 0.0) {
+            robot.gripper.gripper.setPower(player2.gamepad.right_trigger * 0.60);
+        }
+
+        if(player2.gamepad.left_trigger > 0.0) {
+            robot.gripper.gripper.setPower(-player2.gamepad.left_trigger * 0.60);
+        }
 
         double depois = System.currentTimeMillis();
 
         telemetry.addData("arm position", robot.armSystem.armA.getCurrentPosition());
-        telemetry.addData("arm feedforward:", robot.armSystem.getArmFeedforwardPower());
+        telemetry.addData("arm current:", robot.armSystem.armA.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("arm pid:", robot.armSystem.getArmPID());
 
         telemetry.addData("forearm position", robot.armSystem.forearmMotor.getCurrentPosition());
-        telemetry.addData("forearm feedforward:", robot.armSystem.getForearmFeedforwardPower());
+        telemetry.addData("forearm current:", robot.armSystem.forearmMotor.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("forearm pid:", robot.armSystem.getForearmPID());
 
         telemetry.addData("voltagem do controlhub", robot.voltageSensor.getVoltage());

@@ -34,27 +34,48 @@ public final class RobotConstants {
     public static final double CORE_HEX_TICKS_PER_REV = 288.0;
     public static final double HD_HEX_40_TICKS_PER_REV = 1120.0;
     public static final double MECANUM_WHEELS_ANGLE = Math.PI / 4;
+    public static double MAX_DRIVETRAIN_POWER = 0.8;
 
     // Braço
-    public static double ARM_PID_POWER_LIMIT = 0.45;
-    public static PIDFCoefficients ARM_POSITION_PID = new PIDFCoefficients(5,0,0,0);
+    public static PIDFCoefficients ARM_POSITION_PID = new PIDFCoefficients(0.05,0,0,0);
+    public static int ARM_POSITION_TOLERANCE = 10;
+
+    public static double ARM_PID_MAX_POWER_LIMIT = 0.25;
+    public static double ARM_PID_MIN_POWER_LIMIT = 0.25;
+
     public static double ARMS_POWER_SCALE = 0.5;
+
     public static int ARM_CLOSED_GOAL = -200;
     public static int ARM_LOW_GOAL = 400;
     public static int ARM_MEDIUM_GOAL = 700;
-    public static int ARM_HIGH_GOAL = 1000;
+    public static int ARM_HIGH_GOAL = 1200;
 
-    public static double FOREARM_PID_POWER_LIMIT = 0.45;
-    public static PIDFCoefficients FOREARM_POSITION_PID = new PIDFCoefficients(0,0,0,0.5);
-    public static double FOREARM_POWER_SCALE = 0.5;
-    public static int FOREARM_CLOSED_GOAL = -600;
-    public static int FOREARM_COLLECT_GOAL = -40;
-    public static int FOREARM_LOW_GOAL = -320;
-    public static int FOREARM_MEDIUM_GOAL = 20;
-    public static int FOREARM_HIGH_GOAL = 180;
+    public static PIDFCoefficients FOREARM_POSITION_PID = new PIDFCoefficients(0.07,0,0,0);
+    public static int FOREARM_POSITION_TOLERANCE = 0;
+
+    public static double FOREARM_PID_MAX_POWER_LIMIT = 0.15;
+    public static double FOREARM_PID_MIN_POWER_LIMIT = 0.15;
+
+    public static double FOREARM_POWER_SCALE = 0.3;
+    public static int FOREARM_CLOSED_GOAL = -500;
+    public static int FOREARM_COLLECT_GOAL = -10;
+    public static int FOREARM_LOW_GOAL = -300;
+    public static int FOREARM_MEDIUM_GOAL = -400;
+    public static int FOREARM_HIGH_GOAL = 120;
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);
-    public static double GRIPPER_OPEN_POSITION = 1;
-    public static double GRIPPER_CLOSED_POSITION = 0.0;
+    public static int GRIPPER_OPEN_POSITION = -10;
+    public static int GRIPPER_CLOSED_POSITION = 25;
+
+    // OpenCv
+    public static final int IMAGEM_1 = 16;
+    public static final int IMAGEM_2 = 14;
+    public static final int IMAGEM_3 = 12;
+
+    public static double OPENCV_fx = 850;
+    public static double OPENCV_fy = 850;
+    public static double OPENCV_cx = 280;
+    public static double OPENCV_cy = 280;
+    public static double OPENCV_tagsize = 0.06; // em metros
 }

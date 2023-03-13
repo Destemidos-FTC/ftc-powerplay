@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ANG_ACCEL;
 import static org.firstinspires.ftc.teamcode.config.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.TRACK_WIDTH;
 
 import androidx.annotation.NonNull;
 
@@ -12,13 +15,19 @@ import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.config.DriveConstants;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequenceRunner;
+import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AutonomoSystem extends MecanumDrive {
@@ -26,8 +35,9 @@ public class AutonomoSystem extends MecanumDrive {
     private final TrajectoryFollower follower;
     private final Drivetrain drivetrain;
     private final LocalizationSystem localizationSystem;
+    private final VoltageSensor batteryVoltageSensor;
 
-    public AutonomoSystem(Drivetrain drive, LocalizationSystem localize) {
+    public AutonomoSystem(Drivetrain drive, LocalizationSystem localize, VoltageSensor batteryVoltageSensor) {
         super(DriveConstants.kV,
                 DriveConstants.kA,
                 DriveConstants.kStatic,
@@ -37,6 +47,15 @@ public class AutonomoSystem extends MecanumDrive {
 
         drivetrain = drive;
         localizationSystem = localize;
+        this.batteryVoltageSensor = batteryVoltageSensor;
+
+        if (RUN_USING_ENCODER) {
+            setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+        if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
+            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
+        }
 
         follower = new HolonomicPIDVAFollower(
                 DriveConstants.AXIAL_PID,
@@ -58,6 +77,14 @@ public class AutonomoSystem extends MecanumDrive {
     public List<Double> getWheelPositions() {
         return drivetrain.getRawWheelsPositions();
     }
+    @Override
+    public List<Double> getWheelVelocities() {
+        List<Double> wheelVelocities = new ArrayList<>();
+        for (DcMotorEx motor : drivetrain.getMotors()) {
+            wheelVelocities.add(UnitConversion.encoderTicksToInches(motor.getVelocity(), DriveConstants.TICKS_PER_REV, TRACK_WIDTH));
+        }
+        return wheelVelocities;
+    }
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
@@ -66,6 +93,23 @@ public class AutonomoSystem extends MecanumDrive {
                 v2,  // direita trás
                 v,   // esquerda frente
                 v1); // esquerda trás
+    }
+
+    public void setMode(DcMotor.RunMode runMode) {
+        for (DcMotorEx motor : drivetrain.getMotors()) {
+            motor.setMode(runMode);
+        }
+    }
+
+    public void setPIDFCoefficients(DcMotor.RunMode runMode, PIDFCoefficients coefficients) {
+        PIDFCoefficients compensatedCoefficients = new PIDFCoefficients(
+                coefficients.p, coefficients.i, coefficients.d,
+                coefficients.f * 12 / batteryVoltageSensor.getVoltage()
+        );
+
+        for (DcMotorEx motor : drivetrain.getMotors()) {
+            motor.setPIDFCoefficients(runMode, compensatedCoefficients);
+        }
     }
 
     public Pose2d getLastError() {

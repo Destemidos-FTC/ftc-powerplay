@@ -13,7 +13,6 @@ public class CloseArm extends SequentialCommandGroup {
 
         super(
                 new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.CLOSED)),
-                new WaitCommand(100),
                 new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.CLOSED))
         );
     }

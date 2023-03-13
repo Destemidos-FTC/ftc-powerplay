@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.config.DriveConstants;
+import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 import java.util.Objects;
 
@@ -36,11 +38,13 @@ public class MaxVelocityTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+        DestemidosBot robot = new DestemidosBot(hardwareMap);
+        AutonomoSystem drive = new AutonomoSystem(robot.drivetrain, robot.localizationSystem, batteryVoltageSensor);
+
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 

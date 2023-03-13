@@ -16,7 +16,7 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity destemidosBot = new DefaultBotBuilder(meepMeep)
                 // We set this bot to be blue
                 .setColorScheme(new ColorSchemeBlueDark())
-                .setDimensions(11.64653, 10.5)
+                .setDimensions(13.2, 15.75)
                 .setConstraints(40, 35, Math.toRadians(60), Math.toRadians(60), 11.64653)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(35, 65, Math.toRadians(270)))

@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.config.DriveConstants.TRACK_WIDTH;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.config.DriveConstants;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
+import org.firstinspires.ftc.teamcode.utils.UnitConversion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +40,7 @@ public final class Drivetrain {
     private final DcMotorEx motorDireitaTras;
     private final DcMotorEx motorEsquerdaFrente;
     private final DcMotorEx motorEsquerdaTras;
-    private double batteryVoltage;
+    private double batteryVoltage = 12.0;
 
     /**
      * Construtor padrão que configura o sistema de motores
@@ -129,10 +134,26 @@ public final class Drivetrain {
     public void setMotorsPower(double DireitaFrentePower, double DireitaTrasPower, double EsquerdaFrentePower, double EsquerdaTrasPower) {
         double scalar = 12.0 / batteryVoltage;
 
-        motorDireitaFrente.setPower(DireitaFrentePower * scalar);
-        motorDireitaTras.setPower(DireitaTrasPower * scalar);
-        motorEsquerdaFrente.setPower(EsquerdaFrentePower * scalar);
-        motorEsquerdaTras.setPower(EsquerdaTrasPower * scalar);
+        motorDireitaFrente.setPower(
+                Range.clip(DireitaFrentePower * scalar,
+                        -RobotConstants.MAX_DRIVETRAIN_POWER,
+                        RobotConstants.MAX_DRIVETRAIN_POWER)
+        );
+        motorDireitaTras.setPower(
+                Range.clip(DireitaTrasPower * scalar,
+                        -RobotConstants.MAX_DRIVETRAIN_POWER,
+                        RobotConstants.MAX_DRIVETRAIN_POWER)
+        );
+        motorEsquerdaFrente.setPower(
+                Range.clip(EsquerdaFrentePower * scalar,
+                        -RobotConstants.MAX_DRIVETRAIN_POWER,
+                        RobotConstants.MAX_DRIVETRAIN_POWER)
+        );
+        motorEsquerdaTras.setPower(
+                Range.clip(EsquerdaTrasPower * scalar,
+                        -RobotConstants.MAX_DRIVETRAIN_POWER,
+                        RobotConstants.MAX_DRIVETRAIN_POWER)
+        );
     }
 
     /**
@@ -179,7 +200,7 @@ public final class Drivetrain {
      */
     public void tankController(Gamepad driver) {
         double joystick_y = -driver.left_stick_y;
-        double giro = -driver.right_stick_x;
+        double giro = driver.right_stick_x;
 
         double direitaFrentePower = (joystick_y - giro);
         double direitaTrasPower = (joystick_y - giro);
@@ -199,7 +220,7 @@ public final class Drivetrain {
     public void standardMecanumController(Gamepad driver) {
         double joystick_y = -driver.left_stick_y;
         double joystick_x = driver.left_stick_x;
-        double giro = -driver.right_stick_x;
+        double giro = driver.right_stick_x;
 
         double direitaFrentePower = (joystick_y - joystick_x - giro);
         double direitaTrasPower = (joystick_y + joystick_x - giro);
@@ -274,7 +295,7 @@ public final class Drivetrain {
     public void fieldOrientedController(Gamepad driver, double botHeading) {
         double joystick_y = -driver.left_stick_y;
         double joystick_x = driver.left_stick_x;
-        double giro = -driver.right_stick_x;
+        double giro = driver.right_stick_x;
 
         double rotationX = joystick_x * Math.cos(botHeading) - joystick_y * Math.sin(botHeading);
         double rotationY = joystick_x * Math.sin(botHeading) + joystick_y * Math.cos(botHeading);

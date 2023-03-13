@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 import java.util.Objects;
 
@@ -32,7 +34,10 @@ public class MaxAngularVeloTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        //SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        DestemidosBot robot = new DestemidosBot(hardwareMap);
+        AutonomoSystem drive = new AutonomoSystem(robot.drivetrain, robot.localizationSystem, robot.voltageSensor);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

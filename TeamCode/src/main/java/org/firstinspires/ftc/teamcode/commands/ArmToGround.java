@@ -13,7 +13,6 @@ public class ArmToGround extends SequentialCommandGroup {
     public ArmToGround(DestemidosBot robot){
         super(
                 new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.CLOSED)),
-                new WaitCommand(10),
                 new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.CLOSED)),
                 new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.COLLECT))
         );

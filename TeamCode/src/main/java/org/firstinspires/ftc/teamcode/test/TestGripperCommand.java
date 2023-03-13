@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Gripper;
  * junto dos recursos do GamepadEx, providos pela FTCLib
  */
 @TeleOp(name = "TestGripperCommand", group = "Test")
+@Disabled
 public class TestGripperCommand extends CommandOpMode {
     private Gripper gripper;
     private GamepadEx player2;
@@ -53,12 +55,12 @@ public class TestGripperCommand extends CommandOpMode {
 
         CommandScheduler.getInstance().run();
 
-        telemetry.addData("gripper position", gripper.gripper.getPosition());
+        telemetry.addData("gripper position", gripper.gripper.getCurrentPosition());
         telemetry.addData("wrist A power", gripper.wristServoA.getPower());
         telemetry.addData("wrist B power", gripper.wristServoB.getPower());
         telemetry.addData("is wristA enabled?: ", gripper.wristServoA.isPwmEnabled());
         telemetry.addData("is wristB enabled?: ", gripper.wristServoB.isPwmEnabled());
-        telemetry.addData("is gripper enabled?: ", gripper.gripper.isPwmEnabled());
+        telemetry.addData("is gripper enabled?: ", gripper.gripper.isMotorEnabled());
         telemetry.update();
     }
 }

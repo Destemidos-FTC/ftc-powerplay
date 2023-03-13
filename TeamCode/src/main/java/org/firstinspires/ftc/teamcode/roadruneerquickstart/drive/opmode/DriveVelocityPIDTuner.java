@@ -21,8 +21,11 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
+import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 import java.util.List;
+import java.util.Objects;
 
 /*
  * This routine is designed to tune the PID coefficients used by the REV Expansion Hubs for closed-
@@ -51,7 +54,7 @@ import java.util.List;
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 39; // in
+    public static double DISTANCE = 72; // in
 
     enum Mode {
         DRIVER_MODE,
@@ -73,7 +76,9 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        //SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        DestemidosBot robot = new DestemidosBot(hardwareMap);
+        AutonomoSystem drive = new AutonomoSystem(robot.drivetrain, robot.localizationSystem, robot.voltageSensor);
 
         Mode mode = Mode.TUNING_MODE;
 
@@ -127,7 +132,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
                     // update telemetry
                     telemetry.addData("targetVelocity", motionState.getV());
-                    for (int i = 0; i < velocities.size(); i++) {
+                    for (int i = 0; i < Objects.requireNonNull(velocities).size(); i++) {
                         telemetry.addData("measuredVelocity" + i, velocities.get(i));
                         telemetry.addData(
                                 "error" + i,
@@ -145,13 +150,13 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
                         profileStart = clock.seconds();
                     }
 
-                    drive.setWeightedDrivePower(
-                            new Pose2d(
-                                    -gamepad1.left_stick_y,
-                                    -gamepad1.left_stick_x,
-                                    -gamepad1.right_stick_x
-                            )
-                    );
+//                    drive.setWeightedDrivePower(
+//                            new Pose2d(
+//                                    -gamepad1.left_stick_y,
+//                                    -gamepad1.left_stick_x,
+//                                    -gamepad1.right_stick_x
+//                            )
+//                    );
                     break;
             }
 
