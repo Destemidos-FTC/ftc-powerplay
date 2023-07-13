@@ -58,7 +58,13 @@ public class EstacionaCone extends LinearOpMode {
             {
 
             }
-        });
+        }
+
+        final TrajectorySequence frente = driveAuto.trajectorySequenceBuilder(new Pose2d())
+            .forward(20)
+            .build();
+
+        waitForStart();
 
         // loop de init
         // aqui garantimos que pelo menos a imagem foi reconhecida
