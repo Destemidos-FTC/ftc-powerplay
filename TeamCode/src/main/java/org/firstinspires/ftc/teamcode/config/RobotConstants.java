@@ -56,7 +56,7 @@ public final class RobotConstants {
     public static double FOREARM_PID_MAX_POWER_LIMIT = 0.15;
     public static double FOREARM_PID_MIN_POWER_LIMIT = 0.15;
 
-    public static double FOREARM_POWER_SCALE = 0.3;
+    public static double FOREARM_POWER_SCALE = -0.3;
     public static int FOREARM_CLOSED_GOAL = -500;
     public static int FOREARM_COLLECT_GOAL = -10;
     public static int FOREARM_LOW_GOAL = -300;
