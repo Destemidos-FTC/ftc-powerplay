@@ -25,7 +25,7 @@ public class MeepMeepTesting {
                                 .forward(50)
 
                                 // faz uma curva até a junção alta
-                                .splineToLinearHeading(new Pose2d(29, 6, Math.toRadians(220)), Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(29, 6, Math.toRadians(180)), 0)
 
                                 // entrega o cone na junção alta
                                 .addDisplacementMarker(()->{

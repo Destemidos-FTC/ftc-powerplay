@@ -58,13 +58,29 @@ public class EstacionaCone extends LinearOpMode {
             {
 
             }
-        }
+        });
 
         final TrajectorySequence frente = driveAuto.trajectorySequenceBuilder(new Pose2d())
             .forward(20)
             .build();
 
+        final TrajectorySequence regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .strafeRight(42)
+                .forward(42)
+                .build();
+
+        final TrajectorySequence regiao2 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .forward(42)
+                .build();
+
+        final TrajectorySequence regiao3 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .strafeLeft(42)
+                .forward(42)
+                .build();
+
         waitForStart();
+        driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
+        driveAuto.followTrajectorySequence(frente);
 
         // loop de init
         // aqui garantimos que pelo menos a imagem foi reconhecida
@@ -106,23 +122,12 @@ public class EstacionaCone extends LinearOpMode {
             telemetry.update();
         }
 
-        final TrajectorySequence regiao1 = driveAuto.trajectorySequenceBuilder(new Pose2d())
-                .strafeRight(42)
-                .forward(42)
-                .build();
-
-        final TrajectorySequence regiao2 = driveAuto.trajectorySequenceBuilder(new Pose2d())
-                .forward(42)
-                .build();
-
-        final TrajectorySequence regiao3 = driveAuto.trajectorySequenceBuilder(new Pose2d())
-                .strafeLeft(42)
-                .forward(42)
-                .build();
-
-        waitForStart();
         camera.stopStreaming();
         camera.closeCameraDevice();
+
+        if(tagOfInterest == null){
+            //driveAuto.followTrajectorySequence();
+        }
 
         // movemos para a região sorteada
         switch (tagOfInterest.id) {

@@ -17,10 +17,8 @@ public class TesteArmSystem extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.armSystem.moveArmsManually(gamepad1.right_stick_y);
-            robot.armSystem.moveForearmManually(gamepad1.left_stick_y);
 
             telemetry.addData("arm - position", robot.armSystem.armA.getCurrentPosition());
-            telemetry.addData("forearm - position", robot.armSystem.forearmMotor.getCurrentPosition());
             telemetry.update();
         }
     }

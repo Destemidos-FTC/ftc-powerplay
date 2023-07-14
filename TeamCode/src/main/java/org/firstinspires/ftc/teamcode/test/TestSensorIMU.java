@@ -13,14 +13,13 @@ import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 
 /*
  * TestSensorIMU - OpMode dedicado a leitura de informações
- * detalhadas como: Posição, Aceleração, Velocidade Angular, Orientação 
+ * detalhadas como: Posição, Aceleração, Velocidade Angular, Ori9entação
  * e etc.. todas providas pelo sensor embutido no próprio controlhub
  * 
  * para outros exemplos: https://stemrobotics.cs.pdx.edu/node/7265.html 
  */
 
 @TeleOp(name = "TestSensorIMU", group = "Test")
-@Disabled
 public class TestSensorIMU extends LinearOpMode {
 
     @Override

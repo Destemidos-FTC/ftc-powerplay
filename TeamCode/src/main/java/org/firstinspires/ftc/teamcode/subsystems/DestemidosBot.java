@@ -31,7 +31,7 @@ public final class DestemidosBot {
     // Sistema do braço
     public final ArmSystem armSystem;
     // Sistema de garra
-    public final Gripper gripper;
+    //public final Gripper gripper;
 
     // Sistema de localização do IMU
     public final LocalizationSystem localizationSystem;
@@ -56,8 +56,8 @@ public final class DestemidosBot {
         // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
         armSystem = new ArmSystem(hardwareMap);
-        gripper = new Gripper(hardwareMap);
-        localizationSystem = new LocalizationSystem(hardwareMap, "imu");
+        //gripper = new Gripper(hardwareMap);
+        localizationSystem = new LocalizationSystem(hardwareMap, "sensorIMU");
     }
 
     /**
