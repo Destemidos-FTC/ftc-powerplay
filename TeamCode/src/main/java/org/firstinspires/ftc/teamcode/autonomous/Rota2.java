@@ -26,31 +26,45 @@ public class Rota2 extends OpMode {
     private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     // configurando o hardware
-    private final DestemidosBot robot = new DestemidosBot(hardwareMap);
-    private final AutonomoSystem driveAuto = new AutonomoSystem(
-            robot.drivetrain,
-            robot.localizationSystem,
-            robot.voltageSensor);
-    final TrajectorySequence frente = driveAuto.trajectorySequenceBuilder(new Pose2d())
-            .forward(20)
-            .build();
+    private DestemidosBot robot;
+    private AutonomoSystem driveAuto;
+    TrajectorySequence frente;
 
-    final TrajectorySequence regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
-            .strafeRight(42)
-            .forward(42)
-            .build();
+    TrajectorySequence regiao1;
 
-    final TrajectorySequence regiao2 = driveAuto.trajectorySequenceBuilder(frente.end())
-            .forward(42)
-            .build();
+    TrajectorySequence regiao2;
 
-    final TrajectorySequence regiao3 = driveAuto.trajectorySequenceBuilder(frente.end())
-            .strafeLeft(42)
-            .forward(42)
-            .build();
+    TrajectorySequence regiao3;
 
     @Override
     public void init() {
+
+        // inicializa os sistemas
+        robot = new DestemidosBot(hardwareMap);
+        driveAuto = new AutonomoSystem(
+                robot.drivetrain,
+                robot.localizationSystem,
+                robot.voltageSensor);
+
+        // criando as trajetórias
+        frente = driveAuto.trajectorySequenceBuilder(new Pose2d(0,0,0))
+                .forward(20)
+                .build();
+
+        regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .strafeRight(42)
+                .forward(42)
+                .build();
+
+        regiao2 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .forward(42)
+                .build();
+
+        regiao3 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .strafeLeft(42)
+                .forward(42)
+                .build();
+
         // configurando camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "camera"), cameraMonitorViewId);
@@ -128,29 +142,34 @@ public class Rota2 extends OpMode {
     @Override
     public void start() {
 
+<<<<<<< Updated upstream
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
         driveAuto.followTrajectorySequence(frente);
         
         camera.closeCameraDevice();
 
+=======
+>>>>>>> Stashed changes
         camera.closeCameraDevice();
 
-        if(tagOfInterest == null){
-            //driveAuto.followTrajectorySequence();
+        if(tagOfInterest != null) {
+            // movemos para a região sorteada
+            switch (tagOfInterest.id) {
+                case RobotConstants.IMAGEM_1:
+                    driveAuto.followTrajectorySequence(regiao1);
+                    break;
+                case RobotConstants.IMAGEM_2:
+                    driveAuto.followTrajectorySequence(regiao2);
+                    break;
+                case RobotConstants.IMAGEM_3:
+                    driveAuto.followTrajectorySequence(regiao3);
+                    break;
+            }
+        }
+        else{
+            driveAuto.followTrajectorySequence(frente);
         }
 
-        // movemos para a região sorteada
-        switch (tagOfInterest.id) {
-            case RobotConstants.IMAGEM_1:
-                driveAuto.followTrajectorySequence(regiao1);
-                break;
-            case RobotConstants.IMAGEM_2:
-                driveAuto.followTrajectorySequence(regiao2);
-                break;
-            case RobotConstants.IMAGEM_3:
-                driveAuto.followTrajectorySequence(regiao3);
-                break;
-        }
 
         terminateOpModeNow();
     }
