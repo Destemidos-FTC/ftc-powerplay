@@ -8,9 +8,6 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
-import org.firstinspires.ftc.teamcode.subsystems.LocalizationSystem;
-
 import java.util.List;
 
 /**
@@ -31,7 +28,7 @@ public final class DestemidosBot {
     // Sistema do braço
     public final ArmSystem armSystem;
     // Sistema de garra
-    //public final Gripper gripper;
+    public final Gripper gripper;
 
     // Sistema de localização do IMU
     public final LocalizationSystem localizationSystem;
@@ -56,7 +53,7 @@ public final class DestemidosBot {
         // inicializando os sistemas do robô
         drivetrain = new Drivetrain(hardwareMap);
         armSystem = new ArmSystem(hardwareMap);
-        //gripper = new Gripper(hardwareMap);
+        gripper = new Gripper(hardwareMap);
         localizationSystem = new LocalizationSystem(hardwareMap, "sensorIMU");
     }
 

@@ -130,6 +130,8 @@ public class Rota2 extends OpMode {
 
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
         driveAuto.followTrajectorySequence(frente);
+        
+        camera.closeCameraDevice();
 
         camera.closeCameraDevice();
 

@@ -12,8 +12,6 @@ import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
-import org.firstinspires.ftc.teamcode.math.parameters.FeedfowardCoeficients;
-
 /**
  * Classe responsável por agrupar todas as configurações gerais
  * do robô em um só lugar, é recomendado o uso do FTC-Dashboard
@@ -44,7 +42,7 @@ public final class RobotConstants {
     public static double ARM_PID_MAX_POWER_LIMIT = 0.25;
     public static double ARM_PID_MIN_POWER_LIMIT = 0.25;
 
-    public static double ARMS_POWER_SCALE = 0.5;
+    public static double ARMS_POWER_SCALE = 0.3;
 
     public static int ARM_CLOSED_GOAL = -200;
     public static int ARM_LOW_GOAL = 400;
@@ -58,11 +56,11 @@ public final class RobotConstants {
     public static double FOREARM_PID_MIN_POWER_LIMIT = 0.15;
 
     public static double FOREARM_POWER_SCALE = -0.3;
-    public static int FOREARM_CLOSED_GOAL = -500;
+    public static int FOREARM_CLOSED_GOAL = 200;
     public static int FOREARM_COLLECT_GOAL = -10;
-    public static int FOREARM_LOW_GOAL = -300;
-    public static int FOREARM_MEDIUM_GOAL = -400;
-    public static int FOREARM_HIGH_GOAL = 120;
+    public static int FOREARM_LOW_GOAL = -400;
+    public static int FOREARM_MEDIUM_GOAL = -700;
+    public static int FOREARM_HIGH_GOAL = -1200;
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);

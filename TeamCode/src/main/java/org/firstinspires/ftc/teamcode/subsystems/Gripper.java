@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.Subsystem;
-import com.arcrobotics.ftclib.controller.PController;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
@@ -32,8 +29,8 @@ public class Gripper implements Subsystem {
      */
     public Gripper(HardwareMap hardwareMap) {
         gripper = hardwareMap.get(DcMotorEx.class, "gripper");
-        wristServoA = (CRServoImplEx) hardwareMap.get(CRServo.class, "wristServoA");
-        wristServoB = (CRServoImplEx) hardwareMap.get(CRServo.class, "wristServoB");
+        wristServoA = (CRServoImplEx) hardwareMap.get(CRServo.class, "servo_d");
+        wristServoB = (CRServoImplEx) hardwareMap.get(CRServo.class, "servo_e");
 
         gripper.setDirection(DcMotorEx.Direction.REVERSE);
         wristServoB.setDirection(DcMotorSimple.Direction.REVERSE);
