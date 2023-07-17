@@ -122,12 +122,12 @@ public final class ArmSystem implements Subsystem {
    /**
      * Movimenta o braço do robô com a força escalonada.
      * Para alterar o fator, veja o {@link RobotConstants}
-     * @param left_bumper joystick do gamepad do jogador
+     * @param joystick do gamepad do jogador
      */
-    public void moveArmsManually(double left_bumper) {
+    public void moveArmsManually(double joystick) {
 
-        double controlPower2 = left_bumper * RobotConstants.FOREARM_POWER_SCALE;
-        double controlPower = left_bumper * (RobotConstants.ARMS_POWER_SCALE);
+        double controlPower2 = joystick * RobotConstants.FOREARM_POWER_SCALE;
+        double controlPower = joystick * (RobotConstants.ARMS_POWER_SCALE);
         forearmMotor.setPower(controlPower2);
         armA.setPower(controlPower);
     }
