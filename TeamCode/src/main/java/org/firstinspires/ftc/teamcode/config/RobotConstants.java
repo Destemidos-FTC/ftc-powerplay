@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.config.DriveConstants.TRACK_WIDTH;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
@@ -73,7 +74,9 @@ public final class RobotConstants {
 
     public static double OPENCV_fx = 850;
     public static double OPENCV_fy = 850;
-    public static double OPENCV_cx = 280;
-    public static double OPENCV_cy = 280;
+    public static double OPENCV_cx = (double) RobotConstants.resolutionWidth / 2;
+    public static double OPENCV_cy = (double) RobotConstants.resolutionHeight / 2;
     public static double OPENCV_tagsize = 0.06; // em metros
+    public static int resolutionWidth = 640;
+    public static int resolutionHeight = 480;
 }

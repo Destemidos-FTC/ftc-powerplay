@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import android.graphics.Color;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
@@ -20,26 +19,44 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous
-@Config
-public class EstacionaCone extends LinearOpMode {
+@Autonomous(name = "Rota2")
+public class Rota2 extends OpMode {
     private OpenCvCamera camera;
     private AprilTagDetection tagOfInterest = null;
+    private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
+    // configurando o hardware
+    private final DestemidosBot robot = new DestemidosBot(hardwareMap);
+    private final AutonomoSystem driveAuto = new AutonomoSystem(
+            robot.drivetrain,
+            robot.localizationSystem,
+            robot.voltageSensor);
+    final TrajectorySequence frente = driveAuto.trajectorySequenceBuilder(new Pose2d())
+            .forward(20)
+            .build();
+
+    final TrajectorySequence regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
+            .strafeRight(42)
+            .forward(42)
+            .build();
+
+    final TrajectorySequence regiao2 = driveAuto.trajectorySequenceBuilder(frente.end())
+            .forward(42)
+            .build();
+
+    final TrajectorySequence regiao3 = driveAuto.trajectorySequenceBuilder(frente.end())
+            .strafeLeft(42)
+            .forward(42)
+            .build();
 
     @Override
-    public void runOpMode() throws InterruptedException {
-
-        // configurando o hardware
-        DestemidosBot robot = new DestemidosBot(hardwareMap);
-        AutonomoSystem driveAuto = new AutonomoSystem(robot.drivetrain, robot.localizationSystem, robot.voltageSensor);
-
+    public void init() {
         // configurando camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "camera"), cameraMonitorViewId);
 
         // configurando a pipeline
-        AprilTagDetectionPipeline aprilTagDetectionPipeline = new AprilTagDetectionPipeline(
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(
                 RobotConstants.OPENCV_tagsize,
                 RobotConstants.OPENCV_fx,
                 RobotConstants.OPENCV_fy,
@@ -49,8 +66,8 @@ public class EstacionaCone extends LinearOpMode {
         // começa a stream da câmera pro ftc-dashboard
         FtcDashboard.getInstance().startCameraStream(camera, 60);
 
+        // define o pipeline e inicia a câmera
         camera.setPipeline(aprilTagDetectionPipeline);
-        //camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -68,71 +85,52 @@ public class EstacionaCone extends LinearOpMode {
 
             }
         });
+    }
 
-        final TrajectorySequence frente = driveAuto.trajectorySequenceBuilder(new Pose2d())
-            .forward(20)
-            .build();
+    @Override
+    public void init_loop() {
+        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-        final TrajectorySequence regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
-                .strafeRight(42)
-                .forward(42)
-                .build();
+        if(currentDetections.size() != 0)
+        {
+            boolean tagFound = false;
 
-        final TrajectorySequence regiao2 = driveAuto.trajectorySequenceBuilder(frente.end())
-                .forward(42)
-                .build();
-
-        final TrajectorySequence regiao3 = driveAuto.trajectorySequenceBuilder(frente.end())
-                .strafeLeft(42)
-                .forward(42)
-                .build();
-
-        // loop de init
-        // aqui garantimos que pelo menos a imagem foi reconhecida
-        while (!isStarted() && !isStopRequested()) {
-
-            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
-
-            if(currentDetections.size() != 0)
+            for(AprilTagDetection tag : currentDetections)
             {
-                boolean tagFound = false;
-
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    switch (tag.id) {
-                        case RobotConstants.IMAGEM_1:
-                        case RobotConstants.IMAGEM_2:
-                        case RobotConstants.IMAGEM_3:
-                            tagOfInterest = tag;
-                            tagFound = true;
-                            break;
-                    }
+                switch (tag.id) {
+                    case RobotConstants.IMAGEM_1:
+                    case RobotConstants.IMAGEM_2:
+                    case RobotConstants.IMAGEM_3:
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
                 }
-                if(tagFound)
-                {
-                    robot.setHubColor(Color.RED);
-                    telemetry.addData("TAG FOUND!:", tagOfInterest.id);
-                }
-                else
-                {
-                    telemetry.addLine("Tag não encontrada");
-
-                    if(tagOfInterest != null)
-                    {
-                        telemetry.addLine("\n A Tag já foi vista anteriormente!");
-                    }
-                }
-
             }
-            telemetry.update();
-        }
+            if(tagFound)
+            {
+                robot.setHubColor(Color.RED);
+                telemetry.addData("TAG FOUND!:", tagOfInterest.id);
+            }
+            else
+            {
+                telemetry.addLine("Tag não encontrada");
 
-        waitForStart();
+                if(tagOfInterest != null)
+                {
+                    telemetry.addLine("\n A Tag já foi vista anteriormente!");
+                }
+            }
+
+        }
+        telemetry.update();
+    }
+
+    @Override
+    public void start() {
 
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
         driveAuto.followTrajectorySequence(frente);
-
-        //camera.stopStreaming();
+        
         camera.closeCameraDevice();
 
         if(tagOfInterest == null){
@@ -151,6 +149,12 @@ public class EstacionaCone extends LinearOpMode {
                 driveAuto.followTrajectorySequence(regiao3);
                 break;
         }
-        //terminateOpModeNow();
+
+        terminateOpModeNow();
+    }
+
+    @Override
+    public void loop() {
+
     }
 }

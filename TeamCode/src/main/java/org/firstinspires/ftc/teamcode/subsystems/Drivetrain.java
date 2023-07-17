@@ -55,8 +55,8 @@ public final class Drivetrain {
         motorEsquerdaTras = hardwareMap.get(DcMotorEx.class, "ET"); // porta 3 - controlHub
 
         // precisamos inverter apenas os motores da esquerda
-        motorDireitaFrente.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorDireitaTras.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorEsquerdaFrente.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorEsquerdaTras.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(motorDireitaFrente, motorDireitaTras, motorEsquerdaFrente, motorEsquerdaTras);
 
