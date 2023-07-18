@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import android.graphics.Color;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
@@ -38,6 +40,10 @@ public class Rota2 extends OpMode {
 
     @Override
     public void init() {
+
+        // habilita a telemetria no ftc-dashboard
+        telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry.setMsTransmissionInterval(50);
 
         // inicializa os sistemas
         robot = new DestemidosBot(hardwareMap);
@@ -99,6 +105,9 @@ public class Rota2 extends OpMode {
 
             }
         });
+
+        // definindo a posição inicial como (0,0,0) pro roadrunner
+        driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }
 
     @Override
@@ -141,15 +150,6 @@ public class Rota2 extends OpMode {
 
     @Override
     public void start() {
-
-<<<<<<< Updated upstream
-        driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
-        driveAuto.followTrajectorySequence(frente);
-        
-        camera.closeCameraDevice();
-
-=======
->>>>>>> Stashed changes
         camera.closeCameraDevice();
 
         if(tagOfInterest != null) {
