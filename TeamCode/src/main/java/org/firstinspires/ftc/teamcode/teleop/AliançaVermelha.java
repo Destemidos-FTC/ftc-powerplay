@@ -8,7 +8,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmToGround;
-import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
@@ -52,8 +51,8 @@ public class AliançaVermelha extends CommandOpMode {
         player2.getGamepadButton(GamepadKeys.Button.Y)
                 .whenActive(new ArmToMediumJunction(robot));
 
-        player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenActive(new ArmToHighJunction(robot));
+        //player2.getGamepadButton(GamepadKeys.Button.B)
+                //.whenActive(new ArmToHighJunction(robot));
 
     }
 

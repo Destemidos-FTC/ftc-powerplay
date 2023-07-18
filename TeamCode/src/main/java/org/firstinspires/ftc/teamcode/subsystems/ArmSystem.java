@@ -144,9 +144,9 @@ public final class ArmSystem implements Subsystem {
             case MEDIUM:
                 armTarget = RobotConstants.ARM_MEDIUM_GOAL;
                 break;
-            case HIGH:
-                armTarget = RobotConstants.ARM_HIGH_GOAL;
-                break;
+            //case HIGH:
+                //armTarget = RobotConstants.ARM_HIGH_GOAL;
+                //break;
         }
     }
 
@@ -161,8 +161,8 @@ public final class ArmSystem implements Subsystem {
             case MEDIUM:
                 forearmTarget = RobotConstants.FOREARM_MEDIUM_GOAL;
                 break;
-            case HIGH:
-                forearmTarget = RobotConstants.FOREARM_HIGH_GOAL;
+            //case HIGH:
+                //forearmTarget = RobotConstants.FOREARM_HIGH_GOAL;
         }
     }
 
