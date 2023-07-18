@@ -150,26 +150,37 @@ public class Rota2 extends OpMode {
 
     @Override
     public void start() {
+<<<<<<< Updated upstream
         camera.closeCameraDevice();
+=======
 
-        if(tagOfInterest != null) {
-            // movemos para a região sorteada
-            switch (tagOfInterest.id) {
-                case RobotConstants.IMAGEM_1:
-                    driveAuto.followTrajectorySequence(regiao1);
-                    break;
-                case RobotConstants.IMAGEM_2:
-                    driveAuto.followTrajectorySequence(regiao2);
-                    break;
-                case RobotConstants.IMAGEM_3:
-                    driveAuto.followTrajectorySequence(regiao3);
-                    break;
+        if(tagOfInterest == null){
+            driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
+            driveAuto.followTrajectorySequence(frente);
+
+            camera.closeCameraDevice();
+        }
+>>>>>>> Stashed changes
+
+        else {
+            if(tagOfInterest != null){
+                // movemos para a região sorteada
+                switch (tagOfInterest.id) {
+                    case RobotConstants.IMAGEM_1:
+                        driveAuto.followTrajectorySequence(regiao1);
+                        break;
+                    case RobotConstants.IMAGEM_2:
+                        driveAuto.followTrajectorySequence(regiao2);
+                        break;
+                    case RobotConstants.IMAGEM_3:
+                        driveAuto.followTrajectorySequence(regiao3);
+                        break;
+                }
+            }
+            else{
+                driveAuto.followTrajectorySequence(frente);
             }
         }
-        else{
-            driveAuto.followTrajectorySequence(frente);
-        }
-
 
         terminateOpModeNow();
     }
