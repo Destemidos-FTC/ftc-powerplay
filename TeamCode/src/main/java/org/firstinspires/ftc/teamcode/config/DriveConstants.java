@@ -10,9 +10,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.teamcode.math.parameters.FeedfowardCoeficients;
-import org.firstinspires.ftc.teamcode.math.parameters.MotorConstraints;
-
 import java.util.Arrays;
 
 /*
