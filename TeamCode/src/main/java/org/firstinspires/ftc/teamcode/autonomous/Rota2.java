@@ -150,9 +150,6 @@ public class Rota2 extends OpMode {
 
     @Override
     public void start() {
-<<<<<<< Updated upstream
-        camera.closeCameraDevice();
-=======
 
         if(tagOfInterest == null){
             driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
@@ -160,10 +157,12 @@ public class Rota2 extends OpMode {
 
             camera.closeCameraDevice();
         }
->>>>>>> Stashed changes
 
         else {
             if(tagOfInterest != null){
+
+                camera.closeCameraDevice();
+
                 // movemos para a região sorteada
                 switch (tagOfInterest.id) {
                     case RobotConstants.IMAGEM_1:
