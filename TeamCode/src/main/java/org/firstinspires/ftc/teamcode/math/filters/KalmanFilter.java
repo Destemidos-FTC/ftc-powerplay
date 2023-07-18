@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode.math.filters;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.simple.SimpleMatrix;
 
+/**
+ * TODO: transformar esse filtro, na sua versão unidimensional
+ * referências: https://www.ctrlaltftc.com/advanced/the-kalman-filter
+ */
 public class KalmanFilter {
     // kinematics description
     private SimpleMatrix F, Q, H;

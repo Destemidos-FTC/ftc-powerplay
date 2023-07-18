@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.utils.UnitConversion;
  * e testá-las ao vivo por aqui.
  */
 @Autonomous(name = "TesteTrajetoria", group = "Test")
+@Disabled
 public class TesteTrajetoria extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
