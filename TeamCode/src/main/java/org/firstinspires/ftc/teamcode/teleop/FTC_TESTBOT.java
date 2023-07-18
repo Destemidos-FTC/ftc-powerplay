@@ -4,22 +4,12 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.button.Button;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
-
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 /**
  * OpMode focado em experimentação de novas idéias
@@ -81,7 +71,9 @@ public class FTC_TESTBOT extends CommandOpMode {
         telemetry.addData("arm position", robot.armSystem.armA.getCurrentPosition());
         telemetry.addData("arm current:", robot.armSystem.armA.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("arm pid:", robot.armSystem.getArmPID());
-
+        telemetry.addData("forearm position", robot.armSystem.forearmMotor.getCurrentPosition());
+        telemetry.addData("forearm current:", robot.armSystem.forearmMotor.getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("forearm pid:", robot.armSystem.getForearmPID());
 
         telemetry.addData("voltagem do controlhub", robot.voltageSensor.getVoltage());
         telemetry.addData("tempo de loop (ms)", depois - antes);

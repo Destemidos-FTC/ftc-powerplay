@@ -44,16 +44,16 @@ public class AliançaVermelha extends CommandOpMode {
                 .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
 
         player2.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new ArmToGround(robot));
+                .whenActive(new ArmToGround(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new ArmToLowJunction(robot));
+                .whenActive(new ArmToLowJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new ArmToMediumJunction(robot));
+                .whenActive(new ArmToMediumJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new ArmToHighJunction(robot));
+                .whenActive(new ArmToHighJunction(robot));
 
     }
 
@@ -75,4 +75,5 @@ public class AliançaVermelha extends CommandOpMode {
 
         robot.drivetrain.standardMecanumController(gamepad1);
     }
+
 }

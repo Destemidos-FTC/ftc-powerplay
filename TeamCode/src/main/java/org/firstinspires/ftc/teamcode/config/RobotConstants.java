@@ -8,7 +8,6 @@ import static org.firstinspires.ftc.teamcode.config.DriveConstants.TRACK_WIDTH;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
-import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
@@ -37,30 +36,30 @@ public final class RobotConstants {
 
     // Braço
     public static PIDFCoefficients ARM_POSITION_PID = new PIDFCoefficients(0.05,0,0,0);
-    public static int ARM_POSITION_TOLERANCE = 10;
+    public static int ARM_POSITION_TOLERANCE = 0;
 
-    public static double ARM_PID_MAX_POWER_LIMIT = 0.25;
-    public static double ARM_PID_MIN_POWER_LIMIT = 0.25;
+    public static double ARM_PID_MAX_POWER_LIMIT = 0.2;
+    public static double ARM_PID_MIN_POWER_LIMIT = 0.2;
 
     public static double ARMS_POWER_SCALE = 0.3;
 
-    public static int ARM_CLOSED_GOAL = -200;
-    public static int ARM_LOW_GOAL = 400;
-    public static int ARM_MEDIUM_GOAL = 700;
-    public static int ARM_HIGH_GOAL = 1200;
+    public static int ARM_CLOSED_GOAL = 0;
+    public static int ARM_LOW_GOAL = 100;
+    public static int ARM_MEDIUM_GOAL = 190;
+    public static int ARM_HIGH_GOAL = 210;
 
     public static PIDFCoefficients FOREARM_POSITION_PID = new PIDFCoefficients(0.07,0,0,0);
-    public static int FOREARM_POSITION_TOLERANCE = 0;
+    public static int FOREARM_POSITION_TOLERANCE = 10 ;
 
-    public static double FOREARM_PID_MAX_POWER_LIMIT = 0.15;
-    public static double FOREARM_PID_MIN_POWER_LIMIT = 0.15;
+    public static double FOREARM_PID_MAX_POWER_LIMIT = 0.2;
+    public static double FOREARM_PID_MIN_POWER_LIMIT = 0.2;
 
-    public static double FOREARM_POWER_SCALE = -0.3;
-    public static int FOREARM_CLOSED_GOAL = 200;
+    public static double FOREARM_POWER_SCALE = 0.3;
+    public static int FOREARM_CLOSED_GOAL = 0;
     public static int FOREARM_COLLECT_GOAL = -10;
-    public static int FOREARM_LOW_GOAL = -400;
-    public static int FOREARM_MEDIUM_GOAL = -700;
-    public static int FOREARM_HIGH_GOAL = -1200;
+    public static int FOREARM_LOW_GOAL = -100;
+    public static int FOREARM_MEDIUM_GOAL = -190;
+    public static int FOREARM_HIGH_GOAL = -210;
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);

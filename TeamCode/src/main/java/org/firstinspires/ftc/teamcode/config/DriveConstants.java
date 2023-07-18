@@ -10,9 +10,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.teamcode.math.parameters.FeedfowardCoeficients;
-import org.firstinspires.ftc.teamcode.math.parameters.MotorConstraints;
-
 import java.util.Arrays;
 
 /*
@@ -55,7 +52,7 @@ public class DriveConstants {
     /*
      * Coeficientes de PID
      */
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, 2.228);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 10, 2.228);
     public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0,0,0);
     public static PIDCoefficients LATERAL_PID = new PIDCoefficients(0,0,0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0,0,0);

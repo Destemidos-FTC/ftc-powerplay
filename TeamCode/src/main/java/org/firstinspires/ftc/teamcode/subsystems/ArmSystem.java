@@ -28,11 +28,11 @@ public final class ArmSystem implements Subsystem {
     private int armTarget;
     private int forearmTarget;
 
+    public double forearmPID;
     private double armPID;
-    private double forearmPID;
 
     private double armFeedforward;
-    private double forearmFeedforward;
+    public double forearmFeedforward;
 
     // Controlador PID pros motores
     public final PDController armController;
@@ -49,7 +49,6 @@ public final class ArmSystem implements Subsystem {
 
     public enum ForearmStage {
         CLOSED,
-        COLLECT,
         LOW,
         MEDIUM,
         HIGH
@@ -103,7 +102,7 @@ public final class ArmSystem implements Subsystem {
         double armCommand = armPID + armFeedforward;
         double forearmCommand = forearmPID + forearmFeedforward;
 
-        double armCompensedPower = Range.clip(armCommand * (12.0 / robotVoltage),
+        double armCompensedPower = Range.clip(armCommand * (12 / robotVoltage),
                 -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.ARM_PID_MAX_POWER_LIMIT);
         double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage),
                 -RobotConstants.FOREARM_PID_MIN_POWER_LIMIT, RobotConstants.FOREARM_PID_MAX_POWER_LIMIT);
@@ -156,9 +155,6 @@ public final class ArmSystem implements Subsystem {
             case CLOSED:
                 forearmTarget = RobotConstants.FOREARM_CLOSED_GOAL;
                 break;
-            case COLLECT:
-                forearmTarget = RobotConstants.FOREARM_COLLECT_GOAL;
-                break;
             case LOW:
                 forearmTarget = RobotConstants.FOREARM_LOW_GOAL;
                 break;
@@ -188,7 +184,7 @@ public final class ArmSystem implements Subsystem {
     }
 
     //
-    public double getForearmFeedforwardPower() {
+    public double getForearmFeedforward() {
         return armFeedforward;
     }
 
@@ -196,4 +192,5 @@ public final class ArmSystem implements Subsystem {
     public double getForearmPID() {
         return armPID;
     }
+
 }
