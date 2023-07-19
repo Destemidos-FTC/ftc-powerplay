@@ -37,13 +37,10 @@ public class Rota2 extends OpMode {
 
     TrajectorySequence ajuste;
 
-<<<<<<< Updated upstream
     TrajectorySequence ajuste2;
 
     TrajectorySequence cone1;
 
-=======
->>>>>>> Stashed changes
     TrajectorySequence regiao1;
 
     TrajectorySequence regiao2;
@@ -71,7 +68,6 @@ public class Rota2 extends OpMode {
                 .build();
 
         ajuste = driveAuto.trajectorySequenceBuilder(frente.end())
-<<<<<<< Updated upstream
                 .forward(15)
                 .strafeLeft(20)
                 .build();
@@ -86,12 +82,6 @@ public class Rota2 extends OpMode {
                 .splineToLinearHeading(new Pose2d(20, 0, Math.toRadians(-45)), 0)
                 .build();
 
-=======
-                .forward(10)
-                .strafeLeft(20)
-                .build();
-
->>>>>>> Stashed changes
         regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
                 .strafeRight(42)
                 .forward(42)
@@ -184,8 +174,6 @@ public class Rota2 extends OpMode {
     @Override
     public void start() {
 
-<<<<<<< Updated upstream
-
         if(tagOfInterest == null){
             driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
             driveAuto.followTrajectorySequence(ajuste);
@@ -228,40 +216,6 @@ public class Rota2 extends OpMode {
                 break;
         }
          */
-
-=======
-        driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
-
-        if(tagOfInterest == null){
-
-            driveAuto.followTrajectorySequence(ajuste);
-            camera.closeCameraDevice();
-        }
-
-        if(tagOfInterest != null) {
-
-            camera.closeCameraDevice();
-
-            // movemos para a região sorteada
-            switch (tagOfInterest.id) {
-                case RobotConstants.IMAGEM_1:
-                    driveAuto.followTrajectorySequence(regiao1);
-                    break;
-                case RobotConstants.IMAGEM_2:
-                    driveAuto.followTrajectorySequence(regiao2);
-                    break;
-                case RobotConstants.IMAGEM_3:
-                    driveAuto.followTrajectorySequence(regiao3);
-                    break;
-            }
-        }
-       else {
-           driveAuto.followTrajectorySequence(frente);
-       }
->>>>>>> Stashed changes
-
-
-
             terminateOpModeNow();
     }
 
