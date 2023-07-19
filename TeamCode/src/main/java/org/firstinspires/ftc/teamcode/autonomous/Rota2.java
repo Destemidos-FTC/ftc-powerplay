@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
@@ -150,9 +149,9 @@ public class Rota2 extends OpMode {
 
     @Override
     public void start() {
-<<<<<<< Updated upstream
+
         camera.closeCameraDevice();
-=======
+
 
         if(tagOfInterest == null){
             driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
@@ -160,7 +159,7 @@ public class Rota2 extends OpMode {
 
             camera.closeCameraDevice();
         }
->>>>>>> Stashed changes
+
 
         else {
             if(tagOfInterest != null){
