@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.commands.ArmToGround;
 import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
 import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
-import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 @TeleOp
 public class AliançaVermelha extends CommandOpMode {
