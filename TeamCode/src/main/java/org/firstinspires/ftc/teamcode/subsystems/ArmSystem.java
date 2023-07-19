@@ -107,12 +107,12 @@ public final class ArmSystem implements Subsystem {
         double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage),
                 -RobotConstants.FOREARM_PID_MIN_POWER_LIMIT, RobotConstants.FOREARM_PID_MAX_POWER_LIMIT);
 
-        armA.setTargetPositionTolerance(RobotConstants.FOREARM_POSITION_TOLERANCE);
+        //armA.setTargetPositionTolerance(RobotConstants.FOREARM_POSITION_TOLERANCE);
         armA.setTargetPosition(armTarget);
         armA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armA.setPower(armCompensedPower);
 
-        forearmMotor.setTargetPositionTolerance(RobotConstants.ARM_POSITION_TOLERANCE);
+        //forearmMotor.setTargetPositionTolerance(RobotConstants.ARM_POSITION_TOLERANCE);
         forearmMotor.setTargetPosition(forearmTarget);
         forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         forearmMotor.setPower(forearmCompensedPower);
@@ -125,9 +125,8 @@ public final class ArmSystem implements Subsystem {
      */
     public void moveArmsManually(double joystick) {
 
-        double controlPower2 = joystick * RobotConstants.FOREARM_POWER_SCALE;
-        double controlPower = joystick * (RobotConstants.ARMS_POWER_SCALE);
-        forearmMotor.setPower(controlPower2);
+        double controlPower = joystick * RobotConstants.FOREARM_POWER_SCALE;
+        forearmMotor.setPower(controlPower);
         armA.setPower(controlPower);
     }
 

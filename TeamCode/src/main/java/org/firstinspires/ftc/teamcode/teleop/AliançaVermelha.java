@@ -44,16 +44,16 @@ public class AliançaVermelha extends CommandOpMode {
                 .whenInactive(new InstantCommand(() -> robot.gripper.moveWrist(0)));
 
         player2.getGamepadButton(GamepadKeys.Button.A)
-                .whenActive(new ArmToGround(robot));
+                .whenPressed(new ArmToGround(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.X)
-                .whenActive(new ArmToLowJunction(robot));
+                .whenPressed(new ArmToLowJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.Y)
-                .whenActive(new ArmToMediumJunction(robot));
+                .whenPressed(new ArmToMediumJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenActive(new ArmToHighJunction(robot));
+                .whenPressed(new ArmToHighJunction(robot));
 
     }
 

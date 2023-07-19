@@ -57,7 +57,7 @@ public final class RobotConstants {
 
     public static double FOREARM_POWER_SCALE = 0.5;
     public static int FOREARM_CLOSED_GOAL = 0;
-    public static int FOREARM_COLLECT_GOAL = -10;
+    //public static int FOREARM_COLLECT_GOAL = -10;
     public static int FOREARM_LOW_GOAL = -90;
     public static int FOREARM_MEDIUM_GOAL = -170;
     public static int FOREARM_HIGH_GOAL = -230;
