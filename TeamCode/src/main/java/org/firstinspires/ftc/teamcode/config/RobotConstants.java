@@ -46,9 +46,13 @@ public final class RobotConstants {
     public static int ARM_CLOSED_GOAL = 0;
     public static int ARM_LOW_GOAL = 90;
     public static int ARM_MEDIUM_GOAL = 180;
+<<<<<<< Updated upstream
 
 
     public static int ARM_HIGH_GOAL = 210;
+=======
+    public static int ARM_HIGH_GOAL = 0;
+>>>>>>> Stashed changes
 
     public static PIDFCoefficients FOREARM_POSITION_PID = new PIDFCoefficients(0.08,0,0,0);
     public static int FOREARM_POSITION_TOLERANCE = 0 ;
@@ -61,8 +65,12 @@ public final class RobotConstants {
     public static int FOREARM_COLLECT_GOAL = -10;
     public static int FOREARM_LOW_GOAL = -90;
     public static int FOREARM_MEDIUM_GOAL = -180;
+<<<<<<< Updated upstream
 
     public static int FOREARM_HIGH_GOAL = -210;
+=======
+    public static int FOREARM_HIGH_GOAL = 0;
+>>>>>>> Stashed changes
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);
