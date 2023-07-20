@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
@@ -26,10 +27,19 @@ public class Rota2 extends OpMode {
     private AprilTagDetection tagOfInterest = null;
     private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
-    // configurando o hardware
     private DestemidosBot robot;
+
+    boolean tagFound = false;
+
+    // configurando o hardware
     private AutonomoSystem driveAuto;
     TrajectorySequence frente;
+
+    TrajectorySequence ajuste;
+
+    TrajectorySequence ajuste2;
+
+    TrajectorySequence cone1;
 
     TrajectorySequence regiao1;
 
@@ -54,6 +64,21 @@ public class Rota2 extends OpMode {
         // criando as trajetórias
         frente = driveAuto.trajectorySequenceBuilder(new Pose2d(0,0,0))
                 .forward(20)
+                .build();
+
+        ajuste = driveAuto.trajectorySequenceBuilder(frente.end())
+                .forward(15)
+                .strafeLeft(20)
+                .build();
+
+        ajuste2 = driveAuto.trajectorySequenceBuilder(frente.end())
+                .back(15)
+                .strafeRight(20)
+                .build();
+
+        cone1 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+                .forward(110)
+                .splineToLinearHeading(new Pose2d(20, 0, Math.toRadians(-45)), 0)
                 .build();
 
         regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
@@ -115,8 +140,6 @@ public class Rota2 extends OpMode {
 
         if(currentDetections.size() != 0)
         {
-            boolean tagFound = false;
-
             for(AprilTagDetection tag : currentDetections)
             {
                 switch (tag.id) {
@@ -150,36 +173,50 @@ public class Rota2 extends OpMode {
     @Override
     public void start() {
 
-        camera.closeCameraDevice();
-
 
         if(tagOfInterest == null){
             driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
-            driveAuto.followTrajectorySequence(frente);
+            driveAuto.followTrajectorySequence(ajuste);
 
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+
+            if(currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections) {
+                    switch (tag.id) {
+                        case RobotConstants.IMAGEM_1:
+                        case RobotConstants.IMAGEM_2:
+                        case RobotConstants.IMAGEM_3:
+                            tagOfInterest = tag;
+                            tagFound = true;
+                            break;
+                    }
+                }
+            }
+            driveAuto.followTrajectorySequence(ajuste2);
+        }
+        else{
             camera.closeCameraDevice();
         }
 
+        camera.closeCameraDevice();
+        driveAuto.followTrajectorySequence(cone1);
 
-        else {
-            if(tagOfInterest != null){
-                // movemos para a região sorteada
-                switch (tagOfInterest.id) {
-                    case RobotConstants.IMAGEM_1:
-                        driveAuto.followTrajectorySequence(regiao1);
-                        break;
-                    case RobotConstants.IMAGEM_2:
-                        driveAuto.followTrajectorySequence(regiao2);
-                        break;
-                    case RobotConstants.IMAGEM_3:
-                        driveAuto.followTrajectorySequence(regiao3);
-                        break;
-                }
-            }
-            else{
-                driveAuto.followTrajectorySequence(frente);
-            }
+
+
+        /*Estacionar
+        switch (tagOfInterest.id){
+            case RobotConstants.IMAGEM_1:
+                driveAuto.followTrajectorySequence(regiao1);
+                break;
+            case RobotConstants.IMAGEM_2:
+                driveAuto.followTrajectorySequence(regiao2);
+                break;
+            case RobotConstants.IMAGEM_3:
+                driveAuto.followTrajectorySequence(regiao3);
+                break;
         }
+         */
+
 
         terminateOpModeNow();
     }

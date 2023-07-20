@@ -69,7 +69,7 @@ public final class ArmSystem implements Subsystem {
         forearmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         armA.setDirection(DcMotorSimple.Direction.FORWARD);
-        forearmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        forearmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         armA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         forearmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -162,6 +162,7 @@ public final class ArmSystem implements Subsystem {
                 break;
             case HIGH:
                 forearmTarget = RobotConstants.FOREARM_HIGH_GOAL;
+                break;
         }
     }
 
