@@ -173,10 +173,6 @@ public final class ArmSystem implements Subsystem {
         robotVoltage = voltage;
     }
 
-    //
-    public double getArmFeedforwardPower() {
-        return armFeedforward;
-    }
 
     //
     public double getArmPID() {
