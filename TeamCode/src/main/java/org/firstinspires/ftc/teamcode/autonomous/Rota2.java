@@ -5,13 +5,16 @@ import android.graphics.Color;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.openftc.apriltag.AprilTagDetection;
@@ -33,13 +36,16 @@ public class Rota2 extends OpMode {
 
     // configurando o hardware
     private AutonomoSystem driveAuto;
-    TrajectorySequence frente;
+
+    Command ArmToHighJunction;
 
     TrajectorySequence ajuste;
 
     TrajectorySequence ajuste2;
 
     TrajectorySequence cone1;
+
+    TrajectorySequence cone2;
 
     TrajectorySequence regiao1;
 
@@ -62,38 +68,44 @@ public class Rota2 extends OpMode {
                 robot.voltageSensor);
 
         // criando as trajetórias
-        frente = driveAuto.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .forward(20)
+        ajuste = driveAuto.trajectorySequenceBuilder(new Pose2d(0,0,0))
+                .strafeLeft(18)
                 .build();
 
-        ajuste = driveAuto.trajectorySequenceBuilder(frente.end())
-                .forward(15)
-                .strafeLeft(20)
+        ajuste2 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+                .strafeRight(18)
                 .build();
 
-        ajuste2 = driveAuto.trajectorySequenceBuilder(frente.end())
-                .back(15)
-                .strafeRight(20)
+        cone1 = driveAuto.trajectorySequenceBuilder(ajuste2.end())
+                .forward(62)
+                .splineToLinearHeading(new Pose2d(68, 0, Math.toRadians(40)), 0)
+                .addDisplacementMarker(() -> {
+                    new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
+                    new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
+                    CommandScheduler.getInstance().run();
+                })
                 .build();
 
-        cone1 = driveAuto.trajectorySequenceBuilder(ajuste.end())
-                .forward(110)
-                .splineToLinearHeading(new Pose2d(20, 0, Math.toRadians(-45)), 0)
+        cone2 = driveAuto.trajectorySequenceBuilder(cone1.end())
+                .strafeRight(55)
                 .build();
 
-        regiao1 = driveAuto.trajectorySequenceBuilder(frente.end())
-                .strafeRight(42)
+        regiao1 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+                .strafeRight(55)
                 .forward(42)
                 .build();
 
-        regiao2 = driveAuto.trajectorySequenceBuilder(frente.end())
+        regiao2 = driveAuto.trajectorySequenceBuilder(ajuste.end())
                 .forward(42)
                 .build();
 
-        regiao3 = driveAuto.trajectorySequenceBuilder(frente.end())
-                .strafeLeft(42)
+        regiao3 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+                .strafeLeft(55)
                 .forward(42)
                 .build();
+
+        CommandScheduler.getInstance().reset();
+        CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.gripper);
 
         // configurando camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -188,6 +200,7 @@ public class Rota2 extends OpMode {
                         case RobotConstants.IMAGEM_3:
                             tagOfInterest = tag;
                             tagFound = true;
+                            robot.setHubColor(Color.RED);
                             break;
                     }
                 }
@@ -200,6 +213,8 @@ public class Rota2 extends OpMode {
 
         camera.closeCameraDevice();
         driveAuto.followTrajectorySequence(cone1);
+        //driveAuto.followTrajectorySequence(cone2);
+
 
 
 
@@ -215,7 +230,11 @@ public class Rota2 extends OpMode {
                 driveAuto.followTrajectorySequence(regiao3);
                 break;
         }
+
          */
+
+
+
 
 
         terminateOpModeNow();

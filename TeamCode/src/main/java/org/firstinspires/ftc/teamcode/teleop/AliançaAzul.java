@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -23,6 +21,8 @@ public class AliançaAzul extends CommandOpMode {
 
         player2 = new GamepadEx(gamepad2);
         CommandScheduler.getInstance().reset();
+
+        schedule();
         /*register(robot.gripper, robot.armSystem);
 
         player2.getGamepadButton(GamepadKeys.Button.DPAD_UP)
