@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.commands.ArmToGround;
+import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
+import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
@@ -37,12 +40,6 @@ public class Rota2 extends OpMode {
     // configurando o hardware
     private AutonomoSystem driveAuto;
 
-    Command ArmToHighJunction;
-
-    TrajectorySequence ajuste;
-
-    TrajectorySequence ajuste2;
-
     TrajectorySequence cone1;
 
     TrajectorySequence cone2;
@@ -67,45 +64,65 @@ public class Rota2 extends OpMode {
                 robot.localizationSystem,
                 robot.voltageSensor);
 
-        // criando as trajetórias
-        ajuste = driveAuto.trajectorySequenceBuilder(new Pose2d(0,0,0))
-                .strafeLeft(18)
-                .build();
+        // reseta o agendador de comandos
+        CommandScheduler.getInstance().reset();
+        CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.gripper);
 
-        ajuste2 = driveAuto.trajectorySequenceBuilder(ajuste.end())
-                .strafeRight(18)
-                .build();
+        /*
+        CommandScheduler.getInstance().schedule(
+                new ArmToHighJunction(robot),
 
-        cone1 = driveAuto.trajectorySequenceBuilder(ajuste2.end())
+                // desce o punho
+                new InstantCommand(
+                        ()->robot.gripper.moveWrist(-0.5)
+                ).withTimeout(200),
+                new InstantCommand(
+                        ()->robot.gripper.moveWrist(0)
+                ),
+
+                //abre a agrra
+                new InstantCommand(
+                        ()->robot.gripper.gripper.setPower(-0.5)
+                ).withTimeout(200),
+
+                // guarda a garra e desce o braço (com cuidado)
+                new InstantCommand(
+                        ()->robot.gripper.moveWrist(1)
+                ).withTimeout(2000)
+                        .andThen(new ArmToLowJunction(robot))
+                        .andThen(new ArmToGround(robot))
+        );
+
+         */
+
+        driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
+
+        cone1 = driveAuto.trajectorySequenceBuilder(new Pose2d())
                 .forward(62)
-                .splineToLinearHeading(new Pose2d(68, 0, Math.toRadians(40)), 0)
+                .turn(45)
                 .addDisplacementMarker(() -> {
-                    new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
-                    new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
-                    CommandScheduler.getInstance().run();
-                })
-                .build();
+
+                    // levanta o braço
+
+                }).build();
 
         cone2 = driveAuto.trajectorySequenceBuilder(cone1.end())
                 .strafeRight(55)
                 .build();
 
-        regiao1 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+        regiao1 = driveAuto.trajectorySequenceBuilder(cone2.end())
                 .strafeRight(55)
                 .forward(42)
                 .build();
 
-        regiao2 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+        regiao2 = driveAuto.trajectorySequenceBuilder(cone2.end())
                 .forward(42)
                 .build();
 
-        regiao3 = driveAuto.trajectorySequenceBuilder(ajuste.end())
+        regiao3 = driveAuto.trajectorySequenceBuilder(cone2.end())
                 .strafeLeft(55)
                 .forward(42)
                 .build();
-
-        CommandScheduler.getInstance().reset();
-        CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.gripper);
 
         // configurando camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -185,9 +202,8 @@ public class Rota2 extends OpMode {
     @Override
     public void start() {
 
-
+        /*
         if(tagOfInterest == null){
-            driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
             driveAuto.followTrajectorySequence(ajuste);
 
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -217,7 +233,8 @@ public class Rota2 extends OpMode {
 
 
 
-        /*Estacionar
+        // Estaciona no final
+
         switch (tagOfInterest.id){
             case RobotConstants.IMAGEM_1:
                 driveAuto.followTrajectorySequence(regiao1);
@@ -230,11 +247,15 @@ public class Rota2 extends OpMode {
                 break;
         }
 
-         */
+        */
 
+        //driveAuto.followTrajectorySequence(cone1);
 
-
-
+        CommandScheduler.getInstance().schedule(
+                new ArmToHighJunction(robot)
+                        .withTimeout(5000)
+        );
+        CommandScheduler.getInstance().run();
 
         terminateOpModeNow();
     }

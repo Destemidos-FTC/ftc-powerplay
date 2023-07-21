@@ -20,30 +20,8 @@ public class MeepMeepTesting {
                 .setConstraints(40, 35, Math.toRadians(60), Math.toRadians(60), 11.64653)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(35, 65, Math.toRadians(270)))
-
-                                // vai até o meio do 3° tatame
-                                .forward(50)
-
-                                // faz uma curva até a junção alta
-                                .splineToLinearHeading(new Pose2d(29, 6, Math.toRadians(180)), 0)
-
-                                // entrega o cone na junção alta
-                                .addDisplacementMarker(()->{
-
-                                })
-
-                                // vai pra pilha de cones
-                                .splineToLinearHeading(new Pose2d(43, 13.2, Math.toRadians(0)), Math.toRadians(90))
-                                .forward(19.2)
-
-                                // coleta o cone
-                                .addDisplacementMarker(() -> {
-                                    // entrega o cone
-                                })
-
-                                //
-                                .back(19.2)
-                                .splineToLinearHeading(new Pose2d(29, 4, Math.toRadians(220)), Math.toRadians(180))
+                                .strafeRight(18)
+                                .forward(42)
                                 .build()
                 );
 
