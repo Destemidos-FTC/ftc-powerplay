@@ -213,7 +213,6 @@ public class Rota2 extends OpMode {
 
         camera.closeCameraDevice();
         driveAuto.followTrajectorySequence(cone1);
-        //driveAuto.followTrajectorySequence(cone2);
 
 
 
