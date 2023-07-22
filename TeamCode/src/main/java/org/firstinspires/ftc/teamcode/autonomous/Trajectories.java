@@ -21,25 +21,31 @@ public final class Trajectories {
         );
     }
 
-    /** NOTE(ramalho) Essa é a primeira trajetória a ser chamada
+    /**
+     * NOTE(ramalho) Essa é a primeira trajetória a ser chamada
      * o objetivo dela é marcar o cone pré-instalado na junção alta mais próxima
      * que fica a 3 tatâmes à frente.
      */
-    public static final TrajectorySequence Cone1 = buildTrajectory(new Pose2d())
+    public static final TrajectorySequence Etapa1 = buildTrajectory(new Pose2d())
             .forward(62)
             .turn(Math.toRadians(48))
             .build();
 
-    public final TrajectorySequence regiao1 = buildTrajectory(new Pose2d())
+    /**
+     * NOTE(ramalho) Essas são as rotas finais, elas marcam os locais de estacionamento
+     * sorteados pelo cone com as AprilTags, a idéia é somente executar essas rotas se for
+     * pra finalizar o autônomo no local sorteado
+     */
+    public static final TrajectorySequence regiao1 = buildTrajectory(new Pose2d())
             .strafeRight(55)
             .forward(42)
             .build();
 
-    public final TrajectorySequence regiao2 = buildTrajectory(new Pose2d())
+    public static final TrajectorySequence regiao2 = buildTrajectory(new Pose2d())
             .forward(42)
             .build();
 
-    public final TrajectorySequence regiao3 = buildTrajectory(new Pose2d())
+    public static final TrajectorySequence regiao3 = buildTrajectory(new Pose2d())
             .strafeLeft(55)
             .forward(42)
             .build();
