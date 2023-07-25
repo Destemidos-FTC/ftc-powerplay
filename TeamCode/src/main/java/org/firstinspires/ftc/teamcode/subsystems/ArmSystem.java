@@ -80,8 +80,8 @@ public final class ArmSystem implements Subsystem {
         );
 
         forearmController = new PDController(
-                RobotConstants.FOREARM_POSITION_PID.p,
-                RobotConstants.FOREARM_POSITION_PID.d
+                RobotConstants.ARM_POSITION_PID.p,
+                RobotConstants.ARM_POSITION_PID.d
         );
     }
 
@@ -97,15 +97,14 @@ public final class ArmSystem implements Subsystem {
         forearmPID = forearmController.calculate(forearmPosition, armTarget);
 
         armFeedforward = RobotConstants.ARM_POSITION_PID.f;
-        forearmFeedforward = RobotConstants.ARM_POSITION_PID.f;
 
         double armCommand = armPID + armFeedforward;
-        double forearmCommand = forearmPID + forearmFeedforward;
+        double forearmCommand = armPID + armFeedforward;
 
         double armCompensedPower = Range.clip(armCommand * (12 / robotVoltage),
                 -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.ARM_PID_MAX_POWER_LIMIT);
         double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage),
-                -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.FOREARM_PID_MAX_POWER_LIMIT);
+                -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.ARM_PID_MAX_POWER_LIMIT);
 
         //armA.setTargetPositionTolerance(RobotConstants.FOREARM_POSITION_TOLERANCE);
         armA.setTargetPosition(armTarget);
