@@ -59,8 +59,8 @@ public final class ArmSystem implements Subsystem {
      * @param hardwareMap presente em todo OpMode
      */
     public ArmSystem(HardwareMap hardwareMap) {
-        armA = hardwareMap.get(DcMotorEx.class, "arm"); // porta 0 - expansion
-        forearmMotor = hardwareMap.get(DcMotorEx.class, "forearm"); // porta 1 - expansion
+        armA = hardwareMap.get(DcMotorEx.class, "arm_right"); // porta 0 - expansion
+        forearmMotor = hardwareMap.get(DcMotorEx.class, "arm_left"); // porta 1 - expansion
 
         armA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -94,10 +94,10 @@ public final class ArmSystem implements Subsystem {
 
         // controle PID + feedforward do braço
         armPID = armController.calculate(armPosition, armTarget);
-        forearmPID = forearmController.calculate(forearmPosition, forearmTarget);
+        forearmPID = forearmController.calculate(forearmPosition, armTarget);
 
         armFeedforward = RobotConstants.ARM_POSITION_PID.f;
-        forearmFeedforward = RobotConstants.FOREARM_POSITION_PID.f;
+        forearmFeedforward = RobotConstants.ARM_POSITION_PID.f;
 
         double armCommand = armPID + armFeedforward;
         double forearmCommand = forearmPID + forearmFeedforward;
@@ -105,7 +105,7 @@ public final class ArmSystem implements Subsystem {
         double armCompensedPower = Range.clip(armCommand * (12 / robotVoltage),
                 -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.ARM_PID_MAX_POWER_LIMIT);
         double forearmCompensedPower = Range.clip(forearmCommand * (12 / robotVoltage),
-                -RobotConstants.FOREARM_PID_MIN_POWER_LIMIT, RobotConstants.FOREARM_PID_MAX_POWER_LIMIT);
+                -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.FOREARM_PID_MAX_POWER_LIMIT);
 
         //armA.setTargetPositionTolerance(RobotConstants.FOREARM_POSITION_TOLERANCE);
         armA.setTargetPosition(armTarget);
@@ -113,9 +113,9 @@ public final class ArmSystem implements Subsystem {
         armA.setPower(armCompensedPower);
 
         //forearmMotor.setTargetPositionTolerance(RobotConstants.ARM_POSITION_TOLERANCE);
-        forearmMotor.setTargetPosition(forearmTarget);
+        forearmMotor.setTargetPosition(armTarget);
         forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        forearmMotor.setPower(forearmCompensedPower);
+        forearmMotor.setPower(armCompensedPower);
     }
 
    /**
@@ -152,16 +152,16 @@ public final class ArmSystem implements Subsystem {
     public void setForearmPosition(ForearmStage position) {
         switch (position) {
             case CLOSED:
-                forearmTarget = RobotConstants.FOREARM_CLOSED_GOAL;
+                forearmTarget = RobotConstants.ARM_CLOSED_GOAL;
                 break;
             case LOW:
-                forearmTarget = RobotConstants.FOREARM_LOW_GOAL;
+                forearmTarget = RobotConstants.ARM_LOW_GOAL;
                 break;
             case MEDIUM:
-                forearmTarget = RobotConstants.FOREARM_MEDIUM_GOAL;
+                forearmTarget = RobotConstants.ARM_MEDIUM_GOAL;
                 break;
             case HIGH:
-                forearmTarget = RobotConstants.FOREARM_HIGH_GOAL;
+                forearmTarget = RobotConstants.ARM_HIGH_GOAL;
                 break;
         }
     }
