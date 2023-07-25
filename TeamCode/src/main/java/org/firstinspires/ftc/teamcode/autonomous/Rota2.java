@@ -72,6 +72,7 @@ public class Rota2 extends OpMode {
         CommandScheduler.getInstance().schedule(
                 new ArmToHighJunction(robot),
 
+
                 // desce o punho
                 new InstantCommand(
                         ()->robot.gripper.moveWrist(-0.5)
@@ -106,7 +107,20 @@ public class Rota2 extends OpMode {
 
                 }).build();
 
+        cone1 = driveAuto.trajectorySequenceBuilder(ajuste2.end())
+                .forward(70)
+                .turn(Math.toRadians(65))
+                /*.addDisplacementMarker(() -> {
+                    new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
+                    new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
+                    CommandScheduler.getInstance().run();
+                })
+                 */
+                .build();
+
+
         cone2 = driveAuto.trajectorySequenceBuilder(cone1.end())
+                .turn(Math.toRadians(-90))
                 .strafeRight(55)
                 .build();
 
@@ -229,6 +243,10 @@ public class Rota2 extends OpMode {
 
         camera.closeCameraDevice();
         driveAuto.followTrajectorySequence(cone1);
+<<<<<<< Updated upstream
+=======
+        driveAuto.followTrajectorySequence(cone2);
+>>>>>>> Stashed changes
 
 
 
