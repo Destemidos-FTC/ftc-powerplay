@@ -41,15 +41,12 @@ public class Rota2 extends OpMode {
     // configurando o hardware
     private AutonomoSystem driveAuto;
 
-<<<<<<< Updated upstream
-=======
     SimpleArm simpleArm = new SimpleArm(hardwareMap);
 
     TrajectorySequence ajuste;
 
     TrajectorySequence ajuste2;
 
->>>>>>> Stashed changes
     TrajectorySequence cone1;
 
     TrajectorySequence cone2;
@@ -118,7 +115,7 @@ public class Rota2 extends OpMode {
                 }).build();
 
         cone1 = driveAuto.trajectorySequenceBuilder(ajuste2.end())
-<<<<<<< Updated upstream
+
                 .forward(70)
                 .turn(Math.toRadians(65))
                 /*.addDisplacementMarker(() -> {
@@ -129,7 +126,6 @@ public class Rota2 extends OpMode {
                 .splineToLinearHeading(new Pose2d(68, 0, Math.toRadians(40)), 0)
                 .addDisplacementMarker(() -> {
                     simpleArm.goToPosition(RobotConstants.ARM_HIGH_GOAL);
->>>>>>> Stashed changes
                     CommandScheduler.getInstance().run();
                 })
                  */
@@ -257,10 +253,8 @@ public class Rota2 extends OpMode {
 
         camera.closeCameraDevice();
         driveAuto.followTrajectorySequence(cone1);
-<<<<<<< Updated upstream
-=======
         driveAuto.followTrajectorySequence(cone2);
->>>>>>> Stashed changes
+
 
 
 
