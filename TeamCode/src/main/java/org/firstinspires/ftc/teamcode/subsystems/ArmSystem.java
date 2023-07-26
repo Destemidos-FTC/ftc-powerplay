@@ -59,8 +59,8 @@ public final class ArmSystem implements Subsystem {
      * @param hardwareMap presente em todo OpMode
      */
     public ArmSystem(HardwareMap hardwareMap) {
-        armA = hardwareMap.get(DcMotorEx.class, "arm_right"); // porta 0 - expansion
-        forearmMotor = hardwareMap.get(DcMotorEx.class, "arm_left"); // porta 1 - expansion
+        armA = hardwareMap.get(DcMotorEx.class, "arm"); // porta 0 - expansion
+        forearmMotor = hardwareMap.get(DcMotorEx.class, "forearm"); // porta 1 - expansion
 
         armA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
