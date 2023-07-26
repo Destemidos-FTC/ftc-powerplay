@@ -25,7 +25,7 @@ public class AliançaVermelha extends CommandOpMode {
         player2 = new GamepadEx(gamepad2);
         CommandScheduler.getInstance().reset();
 
-        register(robot.gripper, robot.armSystem);
+        register(robot.gripper, robot.simpleArm);
 
         player2.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenActive(new InstantCommand(() -> robot.gripper.moveWrist(1)))

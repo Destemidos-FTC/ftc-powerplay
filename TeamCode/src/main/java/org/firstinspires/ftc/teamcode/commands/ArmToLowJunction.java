@@ -10,8 +10,9 @@ public class ArmToLowJunction extends SequentialCommandGroup {
 
     public ArmToLowJunction(DestemidosBot robot) {
         super(
-                new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.LOW)),
-                new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
+                //new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.LOW)),
+                //new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
+                new InstantCommand(()->robot.simpleArm.setArmPosition(ArmSystem.ArmStage.LOW))
 
         );
     }

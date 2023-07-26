@@ -59,8 +59,8 @@ public final class ArmSystem implements Subsystem {
      * @param hardwareMap presente em todo OpMode
      */
     public ArmSystem(HardwareMap hardwareMap) {
-        armA = hardwareMap.get(DcMotorEx.class, "arm"); // porta 0 - expansion
-        forearmMotor = hardwareMap.get(DcMotorEx.class, "forearm"); // porta 1 - expansion
+        armA = hardwareMap.get(DcMotorEx.class, "arm_right"); // porta 0 - expansion
+        forearmMotor = hardwareMap.get(DcMotorEx.class, "arm_left"); // porta 1 - expansion
 
         armA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -97,10 +97,9 @@ public final class ArmSystem implements Subsystem {
         forearmPID = forearmController.calculate(forearmPosition, forearmTarget);
 
         armFeedforward = RobotConstants.ARM_POSITION_PID.f;
-        forearmFeedforward = RobotConstants.FOREARM_POSITION_PID.f;
 
         double armCommand = armPID + armFeedforward;
-        double forearmCommand = forearmPID + forearmFeedforward;
+        double forearmCommand = armPID + armFeedforward;
 
         double armCompensedPower = Range.clip(armCommand * (12 / robotVoltage),
                 -RobotConstants.ARM_PID_MIN_POWER_LIMIT, RobotConstants.ARM_PID_MAX_POWER_LIMIT);
@@ -115,7 +114,7 @@ public final class ArmSystem implements Subsystem {
         //forearmMotor.setTargetPositionTolerance(RobotConstants.ARM_POSITION_TOLERANCE);
         forearmMotor.setTargetPosition(forearmTarget);
         forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        forearmMotor.setPower(forearmCompensedPower);
+        forearmMotor.setPower(armCompensedPower);
     }
 
    /**
@@ -173,10 +172,6 @@ public final class ArmSystem implements Subsystem {
         robotVoltage = voltage;
     }
 
-    //
-    public double getArmFeedforwardPower() {
-        return armFeedforward;
-    }
 
     //
     public double getArmPID() {

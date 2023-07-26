@@ -121,7 +121,6 @@ public class Rota2 extends OpMode {
                 /*.addDisplacementMarker(() -> {
                     new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
                     new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
-=======
                 .forward(62)
                 .splineToLinearHeading(new Pose2d(68, 0, Math.toRadians(40)), 0)
                 .addDisplacementMarker(() -> {
@@ -254,6 +253,7 @@ public class Rota2 extends OpMode {
         camera.closeCameraDevice();
         driveAuto.followTrajectorySequence(cone1);
         driveAuto.followTrajectorySequence(cone2);
+
 
 
 
