@@ -52,7 +52,7 @@ public class DriveConstants {
     /*
      * Coeficientes de PID
      */
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 10, 2.228);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0, 10, 2.228);
     public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0,0,0);
     public static PIDCoefficients LATERAL_PID = new PIDCoefficients(0,0,0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0,0,0);
@@ -82,10 +82,10 @@ public class DriveConstants {
 
     // essas constantes são medidas com os testes: MaxVelocityTuner e MaxAngularVeloTuner
     // usamos sempre os 85% da medidas "máximas"
-    public static double MAX_VEL = 264.72;
-    public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(60);
-    public static double MAX_ANG_ACCEL = Math.toRadians(60);
+    public static double MAX_VEL = 264.90;
+    public static double MAX_ACCEL = 40;
+    public static double MAX_ANG_VEL = 60;
+    public static double MAX_ANG_ACCEL = 60;
 
     public static double rpmToVelocity(double rpm) {
         return rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS / 60.0;
