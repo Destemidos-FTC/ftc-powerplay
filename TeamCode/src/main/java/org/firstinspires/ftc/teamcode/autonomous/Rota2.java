@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.Tr
 import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
+import org.firstinspires.ftc.teamcode.subsystems.SimpleArm;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -40,6 +41,15 @@ public class Rota2 extends OpMode {
     // configurando o hardware
     private AutonomoSystem driveAuto;
 
+<<<<<<< Updated upstream
+=======
+    SimpleArm simpleArm = new SimpleArm(hardwareMap);
+
+    TrajectorySequence ajuste;
+
+    TrajectorySequence ajuste2;
+
+>>>>>>> Stashed changes
     TrajectorySequence cone1;
 
     TrajectorySequence cone2;
@@ -108,11 +118,18 @@ public class Rota2 extends OpMode {
                 }).build();
 
         cone1 = driveAuto.trajectorySequenceBuilder(ajuste2.end())
+<<<<<<< Updated upstream
                 .forward(70)
                 .turn(Math.toRadians(65))
                 /*.addDisplacementMarker(() -> {
                     new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
                     new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.HIGH));
+=======
+                .forward(62)
+                .splineToLinearHeading(new Pose2d(68, 0, Math.toRadians(40)), 0)
+                .addDisplacementMarker(() -> {
+                    simpleArm.goToPosition(RobotConstants.ARM_HIGH_GOAL);
+>>>>>>> Stashed changes
                     CommandScheduler.getInstance().run();
                 })
                  */
@@ -236,9 +253,6 @@ public class Rota2 extends OpMode {
                 }
             }
             driveAuto.followTrajectorySequence(ajuste2);
-        }
-        else{
-            camera.closeCameraDevice();
         }
 
         camera.closeCameraDevice();
