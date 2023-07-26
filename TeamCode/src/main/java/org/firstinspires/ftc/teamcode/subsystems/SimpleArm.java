@@ -29,8 +29,8 @@ public class SimpleArm implements Subsystem {
 
         // mapeia os motores de acordo com os nomes no drivestatiom
         // TODO: defina a ID de cada motor
-        leftMotor = hardwareMap.get(DcMotorEx.class, "");
-        rightMotor = hardwareMap.get(DcMotorEx.class, "");
+        leftMotor = hardwareMap.get(DcMotorEx.class, "arm");
+        rightMotor = hardwareMap.get(DcMotorEx.class, "forearm");
 
         // reseta os encoders
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
