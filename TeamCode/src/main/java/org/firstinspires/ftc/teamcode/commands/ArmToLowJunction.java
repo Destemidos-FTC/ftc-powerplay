@@ -12,7 +12,7 @@ public class ArmToLowJunction extends SequentialCommandGroup {
         super(
                 //new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.LOW)),
                 //new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.LOW))
-                new InstantCommand(()->robot.simpleArm.setArmPosition(ArmSystem.ArmStage.LOW))
+                new InstantCommand(()->robot.simpleArm.goToPosition(ArmSystem.ArmStage.LOW))
 
         );
     }

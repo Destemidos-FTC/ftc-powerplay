@@ -11,7 +11,7 @@ public class ArmToMediumJunction extends SequentialCommandGroup {
         super(
                 //new InstantCommand(()->robot.armSystem.setArmPosition(ArmSystem.ArmStage.MEDIUM)),
                 //new InstantCommand(()->robot.armSystem.setForearmPosition(ArmSystem.ForearmStage.MEDIUM))
-                new InstantCommand(()->robot.simpleArm.setArmPosition(ArmSystem.ArmStage.MEDIUM))
+                new InstantCommand(()->robot.simpleArm.goToPosition(ArmSystem.ArmStage.MEDIUM))
         );
     }
 }
