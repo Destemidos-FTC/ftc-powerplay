@@ -29,7 +29,7 @@ public final class DestemidosBot {
     public final ArmSystem armSystem;
     public final SimpleArm simpleArm;
     // Sistema de garra
-    public final Gripper gripper;
+    public final Servo servo;
 
     // Sistema de localização do IMU
     public final LocalizationSystem localizationSystem;
@@ -55,7 +55,7 @@ public final class DestemidosBot {
         drivetrain = new Drivetrain(hardwareMap);
         armSystem = new ArmSystem(hardwareMap);
         simpleArm = new SimpleArm(hardwareMap);
-        gripper = new Gripper(hardwareMap);
+        servo = new Servo(hardwareMap);
         localizationSystem = new LocalizationSystem(hardwareMap, "sensorIMU");
     }
 

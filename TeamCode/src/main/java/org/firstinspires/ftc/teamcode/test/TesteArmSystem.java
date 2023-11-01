@@ -20,8 +20,8 @@ public class TesteArmSystem extends LinearOpMode {
         while (opModeIsActive()) {
             robot.armSystem.moveArmsManually(gamepad1.right_stick_y);
 
-            telemetry.addData("arm - position", robot.armSystem.armA.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("arm - position", robot.armSystem.armA.getCurrentPosition());
+            //telemetry.update();
         }
     }
 }

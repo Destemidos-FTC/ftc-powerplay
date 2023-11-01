@@ -66,8 +66,6 @@ public final class RobotConstants {
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);
-    public static int GRIPPER_OPEN_POSITION = -10;
-    public static int GRIPPER_CLOSED_POSITION = 25;
 
     // OpenCv
     public static final int IMAGEM_1 = 16;

@@ -5,19 +5,14 @@ import android.graphics.Color;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.commands.ArmToGround;
 import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
-import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.subsystems.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleArm;
@@ -73,7 +68,7 @@ public class Rota2 extends OpMode {
 
         // reseta o agendador de comandos
         CommandScheduler.getInstance().reset();
-        CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.gripper);
+        CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.servo);
 
         /*
         CommandScheduler.getInstance().schedule(

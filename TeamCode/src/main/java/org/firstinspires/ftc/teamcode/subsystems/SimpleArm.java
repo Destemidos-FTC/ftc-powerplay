@@ -107,7 +107,7 @@ public class SimpleArm implements Subsystem {
                 RobotConstants.ARM_PID_MAX_POWER_LIMIT);
     }
 
-    public void goToPositionAutonomo(int goal) {
+    public void goToPosition2(int goal) {
         goToPosition(goal);
 
         // durante o loop, mandamos as infromações pros motores e executamos
@@ -120,4 +120,7 @@ public class SimpleArm implements Subsystem {
         leftMotor.setPower(armCommand);
         rightMotor.setPower(armCommand);
     }
+
 }
+
+

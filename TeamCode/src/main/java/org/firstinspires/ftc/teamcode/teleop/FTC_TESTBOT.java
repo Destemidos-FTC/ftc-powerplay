@@ -10,11 +10,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.commands.ArmToGround;
-import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
-import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
-import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
 import org.firstinspires.ftc.teamcode.config.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleArm;
@@ -41,7 +36,7 @@ public class FTC_TESTBOT extends CommandOpMode {
         player2 = new GamepadEx(gamepad2);
 
         CommandScheduler.getInstance().reset();
-        register(robot.gripper, simpleArm);
+        register(robot.servo, simpleArm);
 
         /*
         player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
