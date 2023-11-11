@@ -75,7 +75,10 @@ public class Rota2 extends OpMode {
                 .build();
 
          esque = driveAuto.trajectorySequenceBuilder( very180.end())
-                .strafeLeft(40)
+                .turn(Math.toRadians(-180))
+                .back(28)
+                .turn(Math.toRadians(195))
+                .forward(80)
                 .build();
 
 
