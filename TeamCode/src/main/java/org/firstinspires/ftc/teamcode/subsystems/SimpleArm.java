@@ -72,7 +72,6 @@ public class SimpleArm implements Subsystem {
     // ela vai sempre checar pela posição do motor, e mandar pro controlador
     @Override
     public void periodic() {
-
         // durante o loop, mandamos as infromações pros motores e executamos
         leftMotor.setTargetPosition(target);
         rightMotor.setTargetPosition(target);
@@ -109,7 +108,6 @@ public class SimpleArm implements Subsystem {
 
     public void goToPosition2(int goal) {
         goToPosition(goal);
-
         // durante o loop, mandamos as infromações pros motores e executamos
         leftMotor.setTargetPosition(target);
         rightMotor.setTargetPosition(target);
@@ -119,6 +117,11 @@ public class SimpleArm implements Subsystem {
 
         leftMotor.setPower(armCommand);
         rightMotor.setPower(armCommand);
+    }
+
+    public void forceArm(double power) {
+        leftMotor.setPower(-power);
+        rightMotor.setPower(-power);
     }
 
 }

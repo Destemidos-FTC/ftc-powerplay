@@ -47,7 +47,7 @@ public final class RobotConstants {
     public static int ARM_LOW_GOAL = 90;
 
     public static int ARM_MEDIUM_GOAL = 170;
-    public static int ARM_HIGH_GOAL = 250;
+    public static int ARM_HIGH_GOAL = 240;
 
 
 
@@ -62,7 +62,7 @@ public final class RobotConstants {
     //public static int FOREARM_COLLECT_GOAL = -10;
     public static int FOREARM_LOW_GOAL = 90;
     public static int FOREARM_MEDIUM_GOAL = 170;
-    public static int FOREARM_HIGH_GOAL = 250;
+    public static int FOREARM_HIGH_GOAL = 240;
 
     // Servos
     public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);

@@ -7,10 +7,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.commands.ArmToGround;
-import org.firstinspires.ftc.teamcode.commands.ArmToHighJunction;
-import org.firstinspires.ftc.teamcode.commands.ArmToLowJunction;
-import org.firstinspires.ftc.teamcode.commands.ArmToMediumJunction;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 
@@ -43,13 +39,13 @@ AliançaVermelha extends CommandOpMode {
 
         player2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenActive(new InstantCommand(() -> robot.servo.moveWrist(1)))
-                .whenInactive(new InstantCommand(() -> robot.servo.moveWrist(0)));
+                .whenInactive(new InstantCommand(() -> robot.servo.turnOffWrist()));
 
         player2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenActive(new InstantCommand(() -> robot.servo.moveWrist(-1)))
-                .whenInactive(new InstantCommand(() -> robot.servo.moveWrist(0)));
+                .whenInactive(new InstantCommand(() -> robot.servo.turnOffWrist()));
 
-        player2.getGamepadButton(GamepadKeys.Button.A)
+        /*player2.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new ArmToGround(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.X)
@@ -59,7 +55,7 @@ AliançaVermelha extends CommandOpMode {
                 .whenPressed(new ArmToMediumJunction(robot));
 
         player2.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new ArmToHighJunction(robot));
+                .whenPressed(new ArmToHighJunction(robot));*/
 
     }
 
@@ -79,6 +75,7 @@ AliançaVermelha extends CommandOpMode {
 
 
             drivetrain.standardMecanumController(gamepad1);
+            robot.simpleArm.forceArm(gamepad2.right_stick_y);
         }
 
 

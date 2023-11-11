@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.openftc.apriltag.AprilTagDetection;
 
-@Autonomous(name = "Rota2")
-public class Rota2 extends OpMode {
+@Autonomous(name = "RotaFernanda")
+public class RotaFernanda extends OpMode {
     private AprilTagDetection tagOfInterest = null;
     private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -21,18 +21,12 @@ public class Rota2 extends OpMode {
 
     boolean tagFound = false;
 
-
     // configurando o hardware
     private AutonomoSystem driveAuto;
 
-    TrajectorySequence ajuste;
+    TrajectorySequence trajetoria;
     TrajectorySequence veryEsq;
     TrajectorySequence veryDir;
-    TrajectorySequence very180;
-    TrajectorySequence esque;
-
-
-
 
 
 
@@ -56,30 +50,19 @@ public class Rota2 extends OpMode {
 
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
 
-         ajuste = driveAuto.trajectorySequenceBuilder(new Pose2d())
+         trajetoria = driveAuto.trajectorySequenceBuilder(new Pose2d())
                  .forward(32)
+                 .turn(Math.toRadians(210))
+                 .forward(64)
+                 .turn(Math.toRadians(210))
+                 .forward(28)
+                 .turn(Math.toRadians(210))
+                 .forward(74)
                  .build();
 
-         veryEsq = driveAuto.trajectorySequenceBuilder( ajuste.end())
-                .turn(Math.toRadians(-180))
-                .build();
-
-         veryDir = driveAuto.trajectorySequenceBuilder( ajuste.end())
-                .turn(Math.toRadians(180))
-                .build();
-
-
-         very180 = driveAuto.trajectorySequenceBuilder( veryEsq.end())
-                .turn(Math.toRadians(360))
-                .turn(Math.toRadians(70))
-                .build();
-
-         esque = driveAuto.trajectorySequenceBuilder( very180.end())
-                .strafeLeft(40)
-                .build();
-
-
-
+         veryEsq = driveAuto.trajectorySequenceBuilder( trajetoria.end())
+                 .turn(Math.toRadians(220))
+                 .build();
 
 
         // configurando camera
@@ -126,16 +109,12 @@ public class Rota2 extends OpMode {
     @Override
     public void start() {
 
-        driveAuto.followTrajectorySequence(ajuste);
+        driveAuto.followTrajectorySequence(trajetoria);
         //while (true)
         // if (sensor color)
         //if (sensor color)
-
         driveAuto.followTrajectorySequence(veryEsq);
 
-        driveAuto.followTrajectorySequence(very180);
-
-        driveAuto.followTrajectorySequence(esque);
 
 
 
@@ -146,14 +125,7 @@ public class Rota2 extends OpMode {
 
 
 
-
-
-
-
-
-
-
-    }
+        }
 
     @Override
     public void loop() {
