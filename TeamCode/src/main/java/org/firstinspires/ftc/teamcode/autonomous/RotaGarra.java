@@ -10,16 +10,16 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
-import org.openftc.apriltag.AprilTagDetection;
 
-@Autonomous(name = "Rota2")
-public class Rota2 extends OpMode {
-    private AprilTagDetection tagOfInterest = null;
-    private AprilTagDetectionPipeline aprilTagDetectionPipeline;
+@Autonomous(name = "RotaGarra")
+public class RotaGarra extends OpMode {
+    //   private AprilTagDetection tagOfInterest = null;
+    // private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     private DestemidosBot robot;
 
     boolean tagFound = false;
+
 
 
     // configurando o hardware
@@ -27,10 +27,8 @@ public class Rota2 extends OpMode {
 
     TrajectorySequence ajuste;
     TrajectorySequence esque;
-    TrajectorySequence verifDir;
-
-
-
+    TrajectorySequence spikeMeio2;
+    TrajectorySequence spikeMeio;
 
 
 
@@ -65,16 +63,38 @@ public class Rota2 extends OpMode {
                 .strafeRight(30)
                 .build();
 
-         verifDir = driveAuto.trajectorySequenceBuilder( ajuste.end())
-                .back(12)
-                .turn(Math.toRadians(-60))
-                .waitSeconds(4)
+         spikeMeio2 = driveAuto.trajectorySequenceBuilder( esque.end())
                 .turn(Math.toRadians(60))
-                .back(21)
-                .turn(Math.toRadians(-225))
-                .back(120)
-                .strafeRight(30)
                 .build();
+
+         spikeMeio = driveAuto.trajectorySequenceBuilder( spikeMeio2.end())
+                .turn(Math.toRadians(-60))
+                .addDisplacementMarker(() -> {
+                    robot.servo.moveMonheca(-1);
+                })
+                .waitSeconds(2)
+                .addDisplacementMarker(() -> {
+                    robot.servo.turnOffMonheca();
+                })
+                .addDisplacementMarker(() -> {
+                    robot.servo.moveWrist(-1);
+                })
+                .waitSeconds(2)
+                .addDisplacementMarker(() -> {
+                    robot.servo.turnOffWrist();
+                })
+                .addDisplacementMarker(() -> {
+                    robot.servo.moveMonheca(1);
+                })
+                .waitSeconds(2)
+                .addDisplacementMarker(() -> {
+                    robot.servo.turnOffMonheca();
+                })
+                .build();
+
+        robot.servo.moveWrist(-1);
+
+        robot.servo.moveMonheca(1);
 
 
 
@@ -128,7 +148,17 @@ public class Rota2 extends OpMode {
         // if (sensor color)
         //if (sensor color)
 
-        driveAuto.followTrajectorySequence(verifDir);
+        driveAuto.followTrajectorySequence(spikeMeio);
+
+        driveAuto.followTrajectorySequence(spikeMeio2);
+
+        driveAuto.followTrajectorySequence(esque);
+
+
+
+
+
+
 
 
 
@@ -155,4 +185,5 @@ public class Rota2 extends OpMode {
 
     }
 
-}
+
+    }
