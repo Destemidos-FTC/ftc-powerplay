@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.controller.PDController;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
@@ -19,7 +16,7 @@ public final class ArmSystem implements Subsystem {
 
     // Motores
     //public final DcMotorEx armA;
-    public final DcMotorEx forearmMotor;
+    //public final DcMotorEx forearmMotor;
 
     //
     private double robotVoltage = 12.0;
@@ -60,19 +57,19 @@ public final class ArmSystem implements Subsystem {
      */
     public ArmSystem(HardwareMap hardwareMap) {
         //armA = hardwareMap.get(DcMotorEx.class, "arm_right"); // porta 0 - expansion
-        forearmMotor = hardwareMap.get(DcMotorEx.class, "arm_left"); // porta 1 - expansion
+        //forearmMotor = hardwareMap.get(DcMotorEx.class, "arm_left"); // porta 1 - expansion
 
         //armA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //forearmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //armA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        forearmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //forearmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //armA.setDirection(DcMotorSimple.Direction.FORWARD);
-        forearmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //forearmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //armA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        forearmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //forearmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armController = new PDController(
                 RobotConstants.ARM_POSITION_PID.p,
@@ -90,11 +87,11 @@ public final class ArmSystem implements Subsystem {
 
         // posição dos motores
         //int armPosition = armA.getCurrentPosition();
-        int forearmPosition = forearmMotor.getCurrentPosition();
+        //int forearmPosition = forearmMotor.getCurrentPosition();
 
         // controle PID + feedforward do braço
         //armPID = armController.calculate(armPosition, armTarget);
-        forearmPID = forearmController.calculate(forearmPosition, forearmTarget);
+        //forearmPID = forearmController.calculate(forearmPosition, forearmTarget);
 
         armFeedforward = RobotConstants.ARM_POSITION_PID.f;
 
@@ -112,9 +109,9 @@ public final class ArmSystem implements Subsystem {
         //armA.setPower(armCompensedPower);
 
         //forearmMotor.setTargetPositionTolerance(RobotConstants.ARM_POSITION_TOLERANCE);
-        forearmMotor.setTargetPosition(forearmTarget);
-        forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        forearmMotor.setPower(armCompensedPower);
+       // forearmMotor.setTargetPosition(forearmTarget);
+        //forearmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //forearmMotor.setPower(armCompensedPower);
     }
 
    /**
@@ -125,7 +122,7 @@ public final class ArmSystem implements Subsystem {
     public void moveArmsManually(double joystick) {
 
         double controlPower = joystick * RobotConstants.FOREARM_POWER_SCALE;
-        forearmMotor.setPower(controlPower);
+        //forearmMotor.setPower(controlPower);
         //armA.setPower(controlPower);
     }
 

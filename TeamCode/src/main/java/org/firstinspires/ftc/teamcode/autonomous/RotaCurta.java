@@ -10,28 +10,27 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
+import org.openftc.apriltag.AprilTagDetection;
 
-@Autonomous(name = "RotaGarra")
-public class RotaGarra extends OpMode {
-    //   private AprilTagDetection tagOfInterest = null;
-    // private AprilTagDetectionPipeline aprilTagDetectionPipeline;
+@Autonomous(name = "RotaC")
+public class RotaCurta extends OpMode {
+    private AprilTagDetection tagOfInterest = null;
+    private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
+
+    boolean aliancaVermelha = false;
+    int multiplicadorVermelho = 1;
     private DestemidosBot robot;
 
     boolean tagFound = false;
-
-
 
     // configurando o hardware
     private AutonomoSystem driveAuto;
 
     TrajectorySequence ajuste;
     TrajectorySequence esque;
-    TrajectorySequence spikeMeio2;
-    TrajectorySequence spikeMeio;
-    TrajectorySequence spikeMeio3;
-    TrajectorySequence meio;
-    TrajectorySequence meio2;
+    TrajectorySequence verifDir;
+
 
 
 
@@ -51,6 +50,13 @@ public class RotaGarra extends OpMode {
                 robot.localizationSystem,
                 robot.voltageSensor);
 
+        //Invertendo os valores para a rota da Aliança vermelha no lado
+        //esquerdo (visão de jogadores da aliança vermelha)
+
+        if (aliancaVermelha){
+            multiplicadorVermelho = -1;
+        }
+
         // reseta o agendador de comandos
         CommandScheduler.getInstance().reset();
         CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.servo);
@@ -62,46 +68,22 @@ public class RotaGarra extends OpMode {
                  .build();
 
          esque = driveAuto.trajectorySequenceBuilder( ajuste.end())
+                .back(28)
+                .turn(Math.toRadians(-220 * multiplicadorVermelho))
+                .back(60)
+                .strafeRight(30 * multiplicadorVermelho)
+                .build();
+
+         verifDir = driveAuto.trajectorySequenceBuilder( esque.end())
+                .back(12)
+                .turn(Math.toRadians(-60 * multiplicadorVermelho))
+                .waitSeconds(2)
+                .turn(Math.toRadians(60 * multiplicadorVermelho))
                 .back(21)
-                .turn(Math.toRadians(-220))
-                .back(110)
-                .strafeRight(30)
+                .turn(Math.toRadians(-225 * multiplicadorVermelho))
+                .back(60)
+                .strafeRight(30 * multiplicadorVermelho)
                 .build();
-
-         spikeMeio2 = driveAuto.trajectorySequenceBuilder( esque.end())
-                .turn(Math.toRadians(-45))
-                .build();
-
-         spikeMeio = driveAuto.trajectorySequenceBuilder( spikeMeio2.end())
-                .addDisplacementMarker(() -> {
-                    robot.servo.wristServoRotation(220);
-                })
-                .waitSeconds(3)
-                .addDisplacementMarker(() -> {
-                    robot.servo.monhecaServoRotation(80);
-                })
-                .waitSeconds(2)
-                .addDisplacementMarker(() -> {
-                    robot.servo.monhecaServoRotation(-200);
-                })
-                .waitSeconds(2)
-                .build();
-
-         spikeMeio3 = driveAuto.trajectorySequenceBuilder( spikeMeio.end())
-                 .back(28)
-                 .turn(Math.toRadians(-315))
-                 .back(110)
-                 .strafeRight(30)
-                 .build();
-
-         meio = driveAuto.trajectorySequenceBuilder(spikeMeio3.end())
-                 .turn(Math.toRadians(45))
-                 .forward(10)
-                 .build();
-
-         meio2 = driveAuto.trajectorySequenceBuilder(meio.end())
-                 .back(10)
-                 .build();
 
 
 
@@ -154,21 +136,8 @@ public class RotaGarra extends OpMode {
         //while (true)
         // if (sensor color)
         //if (sensor color)
-        driveAuto.followTrajectorySequence(meio);
 
-        driveAuto.followTrajectorySequence(spikeMeio);
-
-        driveAuto.followTrajectorySequence(meio2);
-
-        driveAuto.followTrajectorySequence(spikeMeio2);
-
-        driveAuto.followTrajectorySequence(spikeMeio3);
-
-
-
-
-
-
+        driveAuto.followTrajectorySequence(verifDir);
 
 
 
@@ -195,5 +164,4 @@ public class RotaGarra extends OpMode {
 
     }
 
-
-    }
+}

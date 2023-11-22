@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.openftc.apriltag.AprilTagDetection;
 
-@Autonomous(name = "RotaFernanda")
-public class RotaFernanda extends OpMode {
+@Autonomous(name = "Rota2")
+public class RotaAzulDireita extends OpMode {
     private AprilTagDetection tagOfInterest = null;
     private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -24,9 +24,12 @@ public class RotaFernanda extends OpMode {
     // configurando o hardware
     private AutonomoSystem driveAuto;
 
-    TrajectorySequence trajetoria;
-    TrajectorySequence veryEsq;
-    TrajectorySequence veryDir;
+    TrajectorySequence ajuste;
+    TrajectorySequence esque;
+    TrajectorySequence verifDir;
+
+
+
 
 
 
@@ -50,19 +53,29 @@ public class RotaFernanda extends OpMode {
 
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
 
-         trajetoria = driveAuto.trajectorySequenceBuilder(new Pose2d())
+         ajuste = driveAuto.trajectorySequenceBuilder(new Pose2d())
                  .forward(32)
-                 .turn(Math.toRadians(210))
-                 .forward(64)
-                 .turn(Math.toRadians(210))
-                 .forward(28)
-                 .turn(Math.toRadians(210))
-                 .forward(74)
                  .build();
 
-         veryEsq = driveAuto.trajectorySequenceBuilder( trajetoria.end())
-                 .turn(Math.toRadians(220))
-                 .build();
+         esque = driveAuto.trajectorySequenceBuilder( ajuste.end())
+                .back(28)
+                .turn(Math.toRadians(-220))
+                .back(110)
+                .strafeRight(30)
+                .build();
+
+         verifDir = driveAuto.trajectorySequenceBuilder( ajuste.end())
+                .back(12)
+                .turn(Math.toRadians(-60))
+                .waitSeconds(4)
+                .turn(Math.toRadians(60))
+                .back(21)
+                .turn(Math.toRadians(-225))
+                .back(120)
+                .strafeRight(30)
+                .build();
+
+
 
 
         // configurando camera
@@ -109,11 +122,12 @@ public class RotaFernanda extends OpMode {
     @Override
     public void start() {
 
-        driveAuto.followTrajectorySequence(trajetoria);
+        driveAuto.followTrajectorySequence(ajuste);
         //while (true)
         // if (sensor color)
         //if (sensor color)
-        driveAuto.followTrajectorySequence(veryEsq);
+
+        driveAuto.followTrajectorySequence(verifDir);
 
 
 
@@ -125,7 +139,15 @@ public class RotaFernanda extends OpMode {
 
 
 
-        }
+
+
+
+
+
+
+
+
+    }
 
     @Override
     public void loop() {

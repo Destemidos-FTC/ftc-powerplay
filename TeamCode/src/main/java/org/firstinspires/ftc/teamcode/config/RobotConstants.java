@@ -65,7 +65,7 @@ public final class RobotConstants {
     public static int FOREARM_HIGH_GOAL = 240;
 
     // Servos
-    public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(500, 2500, 18000);
+    public static final PwmControl.PwmRange MAX_SERVO_RANGE = new PwmControl.PwmRange(600, 2400, 18000);
 
     // OpenCv
     public static final int IMAGEM_1 = 16;

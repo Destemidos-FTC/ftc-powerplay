@@ -12,15 +12,17 @@ import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
 import org.firstinspires.ftc.teamcode.subsystems.DestemidosBot;
 import org.openftc.apriltag.AprilTagDetection;
 
-@Autonomous(name = "Rota2")
-public class Rota2 extends OpMode {
+@Autonomous(name = "RotaL")
+public class RotaLonga extends OpMode {
     private AprilTagDetection tagOfInterest = null;
     private AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
+
+    boolean aliancaVermelha = false;
+    int multiplicadorVermelho = 1;
     private DestemidosBot robot;
 
     boolean tagFound = false;
-
 
     // configurando o hardware
     private AutonomoSystem driveAuto;
@@ -48,6 +50,13 @@ public class Rota2 extends OpMode {
                 robot.localizationSystem,
                 robot.voltageSensor);
 
+        //Invertendo os valores para a rota da Aliança vermelha no lado
+        //esquerdo (visão de jogadores da aliança vermelha)
+
+        if (aliancaVermelha){
+            multiplicadorVermelho = -1;
+        }
+
         // reseta o agendador de comandos
         CommandScheduler.getInstance().reset();
         CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.servo);
@@ -60,22 +69,21 @@ public class Rota2 extends OpMode {
 
          esque = driveAuto.trajectorySequenceBuilder( ajuste.end())
                 .back(28)
-                .turn(Math.toRadians(-220))
+                .turn(Math.toRadians(-220 * multiplicadorVermelho))
                 .back(110)
-                .strafeRight(30)
+                .strafeRight(30 * multiplicadorVermelho)
                 .build();
 
-         verifDir = driveAuto.trajectorySequenceBuilder( ajuste.end())
+         verifDir = driveAuto.trajectorySequenceBuilder( esque.end())
                 .back(12)
-                .turn(Math.toRadians(-60))
-                .waitSeconds(4)
-                .turn(Math.toRadians(60))
+                .turn(Math.toRadians(-60 * multiplicadorVermelho))
+                .waitSeconds(2)
+                .turn(Math.toRadians(60 * multiplicadorVermelho))
                 .back(21)
-                .turn(Math.toRadians(-225))
+                .turn(Math.toRadians(-225 * multiplicadorVermelho))
                 .back(120)
-                .strafeRight(30)
+                .strafeRight(30 * multiplicadorVermelho)
                 .build();
-
 
 
 
@@ -129,24 +137,6 @@ public class Rota2 extends OpMode {
         //if (sensor color)
 
         driveAuto.followTrajectorySequence(verifDir);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 

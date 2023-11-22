@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.Subsystem;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.config.RobotConstants;
 
 /**
  * Subsistema responsável pelo mecanismo de coleta (Intake),
@@ -19,27 +16,21 @@ public class Servo implements Subsystem {
     public final CRServoImplEx wristServoB;
     public final CRServoImplEx wristServoC;
     public final CRServoImplEx wristServoD;
-
     private final ElapsedTime wristTimer;
+    private int multiplicador = -1;
 
     /**
      * Construtor padrão que configura os servos do sistema
      * @param hardwareMap presente em todo OpMode
      */
     public Servo(HardwareMap hardwareMap) {
-        wristServoA = (CRServoImplEx) hardwareMap.get(CRServo.class, "servo_d");
-        wristServoB = (CRServoImplEx) hardwareMap.get(CRServo.class, "servo_e");
-        wristServoC = (CRServoImplEx) hardwareMap.get(CRServo.class, "servoD");
-        wristServoD = (CRServoImplEx) hardwareMap.get(CRServo.class, "servoE");
+        wristServoA = (CRServoImplEx) hardwareMap.get(CRServoImplEx.class, "servo_d");
+        wristServoB = (CRServoImplEx) hardwareMap.get(CRServoImplEx.class, "servo_e");
+        wristServoC = (CRServoImplEx) hardwareMap.get(CRServoImplEx.class, "servoD");
+        wristServoD = (CRServoImplEx) hardwareMap.get(CRServoImplEx.class, "servoE");
 
         wristServoB.setDirection(DcMotorSimple.Direction.REVERSE);
         wristServoD.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-        wristServoA.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
-        wristServoB.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
-        wristServoC.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
-        wristServoD.setPwmRange(RobotConstants.MAX_SERVO_RANGE);
 
         wristTimer = new ElapsedTime();
         wristTimer.reset();
@@ -68,14 +59,65 @@ public class Servo implements Subsystem {
     public void turnOffWrist() {
         wristServoA.setPwmDisable();
         wristServoB.setPwmDisable();
+        wristTimer.reset();
 
     }
     public void turnOffMonheca() {
         wristServoC.setPwmDisable();
         wristServoD.setPwmDisable();
+        wristTimer.reset();
 
     }
 
+    public void wristServoRotation(double rotation) {
+        //reseta o temporizador
+        wristTimer.reset();
+
+        //define as variáveis que utilizaremos nesse void
+        int power = -1;
+        double timer = rotation / 225;
+
+        //verifica se as rotações estão negativas.
+        if(timer < 0) {
+            power = 1;
+            timer = timer * -1;
+        }
+
+        //loop para executar pela quantidade de tempo
+        while (wristTimer.seconds() < timer) {
+            wristServoA.setPower(power);
+            wristServoB.setPower(power);
+        }
+
+        turnOffWrist();
+        wristTimer.reset();
+    }
+
+    public void monhecaServoRotation(double rotation) {
+
+        //reseta o temporizador
+        wristTimer.reset();
+
+        //define as variáveis que utilizaremos nesse void
+        int power = -1;
+        double timer = rotation / 225;
+
+        //verifica se as rotações estão negativas.
+        if(timer < 0) {
+            power = 1;
+            timer = timer * -1;
+        }
+
+        //loop para executar pela quantidade de tempo
+        while (wristTimer.seconds() < timer) {
+            wristServoC.setPower(power);
+            wristServoD.setPower(power);
+        }
+
+        //desliga os servos e reinicia o temporizador
+        turnOffMonheca();
+        wristTimer.reset();
+    }
 
     }
 
