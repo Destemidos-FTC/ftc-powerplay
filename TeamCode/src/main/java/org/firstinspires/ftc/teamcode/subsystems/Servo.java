@@ -59,13 +59,11 @@ public class Servo implements Subsystem {
     public void turnOffWrist() {
         wristServoA.setPwmDisable();
         wristServoB.setPwmDisable();
-        wristTimer.reset();
 
     }
     public void turnOffMonheca() {
         wristServoC.setPwmDisable();
         wristServoD.setPwmDisable();
-        wristTimer.reset();
 
     }
 
@@ -88,7 +86,6 @@ public class Servo implements Subsystem {
             wristServoA.setPower(power);
             wristServoB.setPower(power);
         }
-
         turnOffWrist();
         wristTimer.reset();
     }

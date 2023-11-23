@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.roadruneerquickstart.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.AutonomoSystem;
@@ -33,6 +34,8 @@ public class RotaGarra extends OpMode {
     TrajectorySequence meio;
     TrajectorySequence meio2;
 
+    ElapsedTime timer;
+
 
 
 
@@ -45,6 +48,7 @@ public class RotaGarra extends OpMode {
         telemetry.setMsTransmissionInterval(50);
 
         // inicializa os sistemas
+        timer = new ElapsedTime();
         robot = new DestemidosBot(hardwareMap);
         driveAuto = new AutonomoSystem(
                 robot.drivetrain,
@@ -64,7 +68,7 @@ public class RotaGarra extends OpMode {
          esque = driveAuto.trajectorySequenceBuilder( ajuste.end())
                 .back(21)
                 .turn(Math.toRadians(-220))
-                .back(110)
+                .back(115)
                 .strafeRight(30)
                 .build();
 
@@ -74,17 +78,21 @@ public class RotaGarra extends OpMode {
 
          spikeMeio = driveAuto.trajectorySequenceBuilder( spikeMeio2.end())
                 .addDisplacementMarker(() -> {
-                    robot.servo.wristServoRotation(220);
-                })
-                .waitSeconds(3)
-                .addDisplacementMarker(() -> {
                     robot.servo.monhecaServoRotation(80);
+                })
+                .waitSeconds(2)
+                .addDisplacementMarker(() -> {
+                    timer.reset();
+                    while (timer.seconds() < 2) {
+                        robot.servo.wristServoA.setPower(-1);
+                        robot.servo.wristServoB.setPower(-1);
+                    }
                 })
                 .waitSeconds(2)
                 .addDisplacementMarker(() -> {
                     robot.servo.monhecaServoRotation(-200);
                 })
-                .waitSeconds(2)
+                .waitSeconds(1)
                 .build();
 
          spikeMeio3 = driveAuto.trajectorySequenceBuilder( spikeMeio.end())

@@ -73,7 +73,7 @@ AliançaVermelha extends CommandOpMode {
             robot.gripper.gripper.setPower(-player2.gamepad.left_trigger * 0.60);
         }*/
 
-            drivetrain.standardMecanumController(gamepad1);
+            robot.drivetrain.standardMecanumController(gamepad1);
             robot.simpleArm.forceArm(gamepad2.right_stick_y);
         }
 
