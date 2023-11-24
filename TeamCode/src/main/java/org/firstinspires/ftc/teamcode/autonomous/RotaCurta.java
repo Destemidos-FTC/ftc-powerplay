@@ -87,44 +87,6 @@ public class RotaCurta extends OpMode {
 
 
 
-
-        // configurando camera
-        /*
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "camera"), cameraMonitorViewId);
-
-        // configurando a pipeline
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(
-                RobotConstants.OPENCV_tagsize,
-                RobotConstants.OPENCV_fx,
-                RobotConstants.OPENCV_fy,
-                RobotConstants.OPENCV_cx,
-                RobotConstants.OPENCV_cy);
-
-        // começa a stream da câmera pro ftc-dashboard
-        FtcDashboard.getInstance().startCameraStream(camera, 60);
-
-        // define o pipeline e inicia a câmera
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(
-                        RobotConstants.resolutionWidth,
-                        RobotConstants.resolutionHeight,
-                        OpenCvCameraRotation.UPRIGHT);
-            }
-
-            @Override
-            public void onError(int errorCode)
-            {
-
-            }
-        });
-         */
-
         // definindo a posição inicial como (0,0,0) pro roadrunner
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }

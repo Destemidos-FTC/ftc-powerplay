@@ -52,7 +52,7 @@ public class DriveConstants {
     /*
      * Coeficientes de PID
      */
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0, 10, 2.228);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(40, 0, 10, 2.28);
     public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0,0,0);
     public static PIDCoefficients LATERAL_PID = new PIDCoefficients(0,0,0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0,0,0);

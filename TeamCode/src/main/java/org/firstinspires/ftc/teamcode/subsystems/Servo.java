@@ -17,6 +17,7 @@ public class Servo implements Subsystem {
     public final CRServoImplEx wristServoC;
     public final CRServoImplEx wristServoD;
     private final ElapsedTime wristTimer;
+    private final ElapsedTime fistTimer;
     private int multiplicador = -1;
 
     /**
@@ -33,7 +34,9 @@ public class Servo implements Subsystem {
         wristServoD.setDirection(DcMotorSimple.Direction.REVERSE);
 
         wristTimer = new ElapsedTime();
+        fistTimer = new ElapsedTime();
         wristTimer.reset();
+        fistTimer.reset();
     }
 
     /**
@@ -67,6 +70,7 @@ public class Servo implements Subsystem {
 
     }
 
+
     public void wristServoRotation(double rotation) {
         //reseta o temporizador
         wristTimer.reset();
@@ -90,10 +94,11 @@ public class Servo implements Subsystem {
         wristTimer.reset();
     }
 
-    public void monhecaServoRotation(double rotation) {
+
+    public void fistServoRotation(double rotation) {
 
         //reseta o temporizador
-        wristTimer.reset();
+        fistTimer.reset();
 
         //define as variáveis que utilizaremos nesse void
         int power = -1;
@@ -106,14 +111,14 @@ public class Servo implements Subsystem {
         }
 
         //loop para executar pela quantidade de tempo
-        while (wristTimer.seconds() < timer) {
+        while (fistTimer.seconds() < timer) {
             wristServoC.setPower(power);
             wristServoD.setPower(power);
         }
 
         //desliga os servos e reinicia o temporizador
         turnOffMonheca();
-        wristTimer.reset();
+        fistTimer.reset();
     }
 
     }

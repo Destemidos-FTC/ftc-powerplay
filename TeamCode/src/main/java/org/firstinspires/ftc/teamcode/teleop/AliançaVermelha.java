@@ -74,7 +74,7 @@ AliançaVermelha extends CommandOpMode {
         }*/
 
             robot.drivetrain.standardMecanumController(gamepad1);
-            robot.simpleArm.forceArm(gamepad2.right_stick_y);
+            robot.simpleArm.forceArm(player2.gamepad.right_stick_y);
         }
 
 

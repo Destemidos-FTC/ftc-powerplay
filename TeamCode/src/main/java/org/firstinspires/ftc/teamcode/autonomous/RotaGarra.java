@@ -19,9 +19,15 @@ public class RotaGarra extends OpMode {
 
     private DestemidosBot robot;
 
-    boolean tagFound = false;
+    boolean tagFound = true;
 
+    boolean aliancaVermelha = true;
 
+    int mult = 1;
+
+    boolean curta = true;
+
+    int voltar = 0;
 
     // configurando o hardware
     private AutonomoSystem driveAuto;
@@ -31,6 +37,7 @@ public class RotaGarra extends OpMode {
     TrajectorySequence spikeMeio2;
     TrajectorySequence spikeMeio;
     TrajectorySequence spikeMeio3;
+    TrajectorySequence spikeMeio4;
     TrajectorySequence meio;
     TrajectorySequence meio2;
 
@@ -55,62 +62,62 @@ public class RotaGarra extends OpMode {
                 robot.localizationSystem,
                 robot.voltageSensor);
 
+        if (aliancaVermelha){
+            mult = -1;
+        }
+
+        if (curta){
+            voltar = 50;
+        }
+
         // reseta o agendador de comandos
         CommandScheduler.getInstance().reset();
         CommandScheduler.getInstance().registerSubsystem(robot.armSystem, robot.servo);
 
         driveAuto.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
 
-         ajuste = driveAuto.trajectorySequenceBuilder(new Pose2d())
+        ajuste = driveAuto.trajectorySequenceBuilder(new Pose2d())
                  .forward(32)
                  .build();
 
-         esque = driveAuto.trajectorySequenceBuilder( ajuste.end())
-                .back(21)
-                .turn(Math.toRadians(-220))
-                .back(115)
-                .strafeRight(30)
+        meio = driveAuto.trajectorySequenceBuilder(ajuste.end())
+                .turn(Math.toRadians(35 * mult))
+                .forward(8)
                 .build();
 
-         spikeMeio2 = driveAuto.trajectorySequenceBuilder( esque.end())
-                .turn(Math.toRadians(-45))
+        spikeMeio = driveAuto.trajectorySequenceBuilder( meio.end())
+                .waitSeconds(0.5)
+                .addDisplacementMarker(() -> {
+                    robot.servo.fistServoRotation(400);
+                })
                 .build();
 
-         spikeMeio = driveAuto.trajectorySequenceBuilder( spikeMeio2.end())
+        spikeMeio2 = driveAuto.trajectorySequenceBuilder( spikeMeio.end())
+                .waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
-                    robot.servo.monhecaServoRotation(80);
+                    robot.servo.wristServoRotation(-300);
                 })
-                .waitSeconds(2)
+                .waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
-                    timer.reset();
-                    while (timer.seconds() < 2) {
-                        robot.servo.wristServoA.setPower(-1);
-                        robot.servo.wristServoB.setPower(-1);
-                    }
-                })
-                .waitSeconds(2)
-                .addDisplacementMarker(() -> {
-                    robot.servo.monhecaServoRotation(-200);
+                    robot.servo.fistServoRotation(-350);
                 })
                 .waitSeconds(1)
                 .build();
 
-         spikeMeio3 = driveAuto.trajectorySequenceBuilder( spikeMeio.end())
-                 .back(28)
-                 .turn(Math.toRadians(-315))
-                 .back(110)
-                 .strafeRight(30)
-                 .build();
+        meio2 = driveAuto.trajectorySequenceBuilder(spikeMeio2.end())
+                .back(8)
+                .build();
 
-         meio = driveAuto.trajectorySequenceBuilder(spikeMeio3.end())
-                 .turn(Math.toRadians(45))
-                 .forward(10)
-                 .build();
+        spikeMeio3 = driveAuto.trajectorySequenceBuilder( meio2.end())
+                .turn(Math.toRadians(-35 * mult))
+                .build();
 
-         meio2 = driveAuto.trajectorySequenceBuilder(meio.end())
-                 .back(10)
-                 .build();
-
+        spikeMeio4 = driveAuto.trajectorySequenceBuilder( spikeMeio3.end())
+                .back(24)
+                .turn(Math.toRadians(-230 * mult))
+                .back(110 - voltar)
+                .strafeRight(30 * mult)
+                .build();
 
 
 
@@ -166,11 +173,13 @@ public class RotaGarra extends OpMode {
 
         driveAuto.followTrajectorySequence(spikeMeio);
 
-        driveAuto.followTrajectorySequence(meio2);
-
         driveAuto.followTrajectorySequence(spikeMeio2);
 
+        driveAuto.followTrajectorySequence(meio2);
+
         driveAuto.followTrajectorySequence(spikeMeio3);
+
+        driveAuto.followTrajectorySequence(spikeMeio4);
 
 
 

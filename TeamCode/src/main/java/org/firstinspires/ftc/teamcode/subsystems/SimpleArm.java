@@ -31,7 +31,7 @@ public class SimpleArm implements Subsystem {
       
         // TODO: defina a ID de cada motor
 
-        leftMotor = hardwareMap.get(DcMotorEx.class, "arm");
+        leftMotor = hardwareMap.get(DcMotorEx.class, "fore");
         rightMotor = hardwareMap.get(DcMotorEx.class, "forearm");
 
         // reseta os encoders
@@ -120,8 +120,8 @@ public class SimpleArm implements Subsystem {
     }
 
     public void forceArm(double power) {
-        leftMotor.setPower(-power);
-        rightMotor.setPower(-power);
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
     }
 
 
