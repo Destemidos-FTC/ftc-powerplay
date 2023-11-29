@@ -24,7 +24,6 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
 
     private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
     private final Object detectionsUpdateSync = new Object();
-
     Mat cameraMatrix;
 
     Scalar blue = new Scalar(7,197,235,255);

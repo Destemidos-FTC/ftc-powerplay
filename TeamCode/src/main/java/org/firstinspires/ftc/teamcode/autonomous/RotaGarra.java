@@ -119,8 +119,6 @@ public class RotaGarra extends OpMode {
                 .strafeRight(30 * mult)
                 .build();
 
-
-
         // configurando camera
         /*
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
